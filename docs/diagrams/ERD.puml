@@ -50,8 +50,11 @@ Entity Price {
 
 Entity Cart {
  * id : integer <<generated>>
- --
- bookIds : list <<FK>>
+}
+
+Entity BookCart {
+ * bookId : integer <<FK>>
+ * cartId : integer <<FK>>
 }
 
 Entity Order {
@@ -80,6 +83,7 @@ Entity Review {
  * id : integer <<generated>>
  --
  * rating : short
+ * text : text
  * userId : integer <<FK>>
  * bookId : integer <<FK>>
 }
@@ -90,7 +94,8 @@ Publisher ||..o{ Book
 Author ||..o{ BookAuthor
 Book ||..o{ BookAuthor
 Book ||..|{ Price
-Cart }o..o{ Book
+Book ||..o{ BookCart
+Cart ||..o{ BookCart
 Order |o..|| Cart
 User |o..o{ Order
 User ||..o{ Review

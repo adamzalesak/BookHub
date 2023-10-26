@@ -106,6 +106,8 @@ $RECYCLE.BIN/
 
 # VS Code directories
 .vscode/
+/.vs
+.vs/
 
 # Windows Installer files
 *.cab
@@ -119,4 +121,4 @@ $RECYCLE.BIN/
 # JetBrains Rider
 .idea/
 *.vsidx
-/.vs/slnx.sqlite
+
