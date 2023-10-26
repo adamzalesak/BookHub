@@ -11,6 +11,10 @@ public static class DataInitializer
         var publishers = PreparePublisherModels();
         var books = PrepareBookModels();
         var authorBooks = PrepareAuthorBookModels();
+        var users = PrepareUserModels();
+        var reviews = PrepareReviewModels();
+        var genres = PrepareGenreModels();
+        var bookGenres = PrepareBookGenreModels();
 
         modelBuilder.Entity<Author>()
             .HasData(authors);
@@ -20,6 +24,14 @@ public static class DataInitializer
             .HasData(books);
         modelBuilder.Entity<AuthorBook>()
             .HasData(authorBooks);
+        modelBuilder.Entity<User>()
+            .HasData(users);
+        modelBuilder.Entity<Review>()
+            .HasData(reviews);
+        modelBuilder.Entity<Genre>()
+            .HasData(genres);
+        modelBuilder.Entity<BookGenre>()
+            .HasData(bookGenres);
     }
 
     private static List<Author> PrepareAuthorModels()
@@ -135,6 +147,170 @@ public static class DataInitializer
             {
                 AuthorId = 5,
                 BookId = 2,
+            },
+        };
+    }
+
+    private static List<User> PrepareUserModels()
+    {
+        return new List<User>
+        {
+            new User()
+            {
+                Id = 1,
+                Name = "Pavel Novák",
+                Username = "bookworm",
+                Email = "pavel.novak@seznam.cz",
+                IsAdministrator = false,
+            },
+            new User()
+            {
+                Id = 2,
+                Name = "Karolína Svobodová",
+                Username = "kaja2000",
+                Email = "karolina.svobodova@email.cz",
+                IsAdministrator = false,
+            },
+            new User()
+            {
+                Id = 3,
+                Name = "Prokop Dlouhý",
+                Username = "pageturner",
+                Email = "prokop.dlouhy@gmail.com",
+                IsAdministrator = false,
+            },
+            new User()
+            {
+                Id = 4,
+                Name = "Tereza Jeřábková",
+                Username = "booknerd",
+                Email = "jerabkova.tereza@outlook.com",
+                IsAdministrator = false,
+            },
+            new User()
+            {
+                Id = 5,
+                Name = "Jan Jelínek",
+                Username = "honza",
+                Email = "honza.jelinek@seznam.cz",
+                IsAdministrator = true,
+            },
+        };
+    }
+
+    private static List<Review> PrepareReviewModels()
+    {
+        return new List<Review>
+        {
+            new Review()
+            {
+                Id = 1,
+                Rating = 4,
+                Text = "Kniha je opravdu praktická, každopádně se nejedná o lék na prokrastinaci. " +
+                       "To už je spíše práce samotného čtenáře.",
+                BookId = 1,
+                UserId = 1,
+            },
+            new Review()
+            {
+                Id = 2,
+                Rating = 4,
+                Text = "Kniha se zabývá faktografickými údaji, které jsou ale podány velmi hezkou a čtivou formou. " +
+                       "Neznalost těchto faktů nám však zásadním způsobem deformuje pohled na svět, na to, " +
+                       "jak svět vnímáme a vyhodnocujeme.",
+                BookId = 2,
+                UserId = 2,
+            },
+            new Review()
+            {
+                Id = 3,
+                Rating = 5,
+                Text = "Nejvíce optimistická kniha, ač realistická kniha, kterou jsem v poslední době četl. " +
+                       "Úchvatné! :)",
+                BookId = 2,
+                UserId = 3,
+            },
+            new Review()
+            {
+                Id = 4,
+                Rating = 5,
+                Text = "První díl působí jako dětská knížka. Myslím si, že je krásně a výstižně popsané chování " +
+                       "hlavních postav úměrně jejich věku. V porovnání s filmem je kniha trefnější. Myslím si, " +
+                       "že je to výborná kniha na začátek celé série. Líbí se mi drobnosti, " +
+                       "které jsou důležité v pozdějších dílech.",
+                BookId = 3,
+                UserId = 2,
+            },
+            new Review()
+            {
+                Id = 5,
+                Rating = 4,
+                Text = "Na Harrym Potterovi jsem doslova vyrůstala, takže jsem jako dítě tuto knihu naprosto " +
+                       "zbožňovala. I dnes si ji ráda přečtu, ale doporučím ji hlavně mladším.",
+                BookId = 3,
+                UserId = 4,
+            },
+            new Review()
+            {
+                Id = 6,
+                Rating = 1,
+                Text = "Pohádka o ničem, výmysl moderní doby.",
+                BookId = 3,
+                UserId = 3,
+            },
+        };
+    }
+
+    private static List<Genre> PrepareGenreModels()
+    {
+        return new List<Genre>
+        {
+            new Genre()
+            {
+                Id = 1,
+                Name = "Fantasy",
+            },
+            new Genre()
+            {
+                Id = 2,
+                Name = "Sci-fi",
+            },
+            new Genre()
+            {
+                Id = 3,
+                Name = "Osobní rozvoj",
+            },
+            new Genre()
+            {
+                Id = 4,
+                Name = "Detektivka",
+            },
+            new Genre()
+            {
+                Id = 5,
+                Name = "Odborná literatura",
+            }
+        };
+    }
+
+    private static List<BookGenre> PrepareBookGenreModels()
+    {
+        return new List<BookGenre>
+        {
+            new BookGenre()
+            {
+                BookId = 1,
+                GenreId = 3,
+            },
+            new BookGenre()
+            {
+                BookId = 2,
+                GenreId = 3,
+            },
+            new BookGenre()
+            {
+                BookId = 3,
+                GenreId = 1,
             },
         };
     }

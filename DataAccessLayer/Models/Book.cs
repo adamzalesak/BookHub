@@ -9,4 +9,6 @@ public class Book : BaseEntity
     public ICollection<Author> Authors { get; set; } = new List<Author>();
     public int PublisherId { get; set; }
     public Publisher Publisher { get; set; }
+    public ICollection<Review> Reviews { get; set; }
+    public ICollection<Genre> Genres { get; set; } = new List<Genre>();
 }
