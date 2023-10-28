@@ -8,6 +8,9 @@ public class BookHubBdContext : DbContext
     public DbSet<Book> Books { get; set; }
     public DbSet<Author> Authors { get; set; }
     public DbSet<Publisher> Publishers { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<Price> Prices { get; set; }
+    public DbSet<Cart> Carts { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Genre> Genres { get; set; }
@@ -16,7 +19,7 @@ public class BookHubBdContext : DbContext
     {
         const Environment.SpecialFolder folder = Environment.SpecialFolder.LocalApplicationData;
         var dbPath = Path.Join(Environment.GetFolderPath(folder), "bookHub.db");
-
+        optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder
             .UseSqlite($"Data Source={dbPath}");
     }
@@ -37,7 +40,12 @@ public class BookHubBdContext : DbContext
             .HasMany(b => b.Genres)
             .WithMany(g => g.Books)
             .UsingEntity<BookGenre>();
-        
+
+        modelBuilder.Entity<Cart>()
+            .HasMany(c => c.Books)
+            .WithMany()
+            .UsingEntity<BookCart>();
+
         modelBuilder.Seed();
 
         base.OnModelCreating(modelBuilder);

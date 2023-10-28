@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace DataAccessLayer.Data;
 
@@ -15,6 +16,10 @@ public static class DataInitializer
         var reviews = PrepareReviewModels();
         var genres = PrepareGenreModels();
         var bookGenres = PrepareBookGenreModels();
+        var prices = PreparePriceModels();
+        var carts = PrepareCartModel();
+        var bookCarts = PrepareBookCartModel();
+        var orders = PrepareOrderModel();
 
         modelBuilder.Entity<Author>()
             .HasData(authors);
@@ -32,6 +37,14 @@ public static class DataInitializer
             .HasData(genres);
         modelBuilder.Entity<BookGenre>()
             .HasData(bookGenres);
+        modelBuilder.Entity<Price>()
+            .HasData(prices);
+        modelBuilder.Entity<Cart>()
+            .HasData(carts);
+        modelBuilder.Entity<Order>()
+            .HasData(orders);
+        modelBuilder.Entity<BookCart>()
+            .HasData(bookCarts);
     }
 
     private static List<Author> PrepareAuthorModels()
@@ -95,7 +108,6 @@ public static class DataInitializer
                 Name = "Konec prokrastinace",
                 Description = "Konec prokrastinace je kniha, která vám pomůže překonat sklony k odkládání věcí na později.",
                 Isbn = "978-80-87270-51-6",
-                Price = 24.90m,
                 PublisherId = 2,
             },
             new()
@@ -104,7 +116,6 @@ public static class DataInitializer
                 Name = "Faktomluva",
                 Description = "Faktomluva je kniha, která vás naučí, jak pracovat s fakty.",
                 Isbn = "978-80-7555-056-9",
-                Price = 29.90m,
                 PublisherId = 2,
             },
             new()
@@ -113,7 +124,6 @@ public static class DataInitializer
                 Name = "Harry Potter a Kámen mudrců",
                 Description = "Harry Potter a Kámen mudrců je první díl ze série knih o Harrym Potterovi.",
                 Isbn = "978-80-0006-758-2",
-                Price = 49,
                 PublisherId = 1,
             },
         };
@@ -312,6 +322,154 @@ public static class DataInitializer
                 BookId = 3,
                 GenreId = 1,
             },
+        };
+    }
+
+    private static List<Price> PreparePriceModels()
+    {
+        return new List<Price>
+        {
+            new Price
+            {
+                Id = 1,
+                BookPrice = 9.99m,
+                ValidFrom = new DateTime(2021, 1, 1),
+                BookId = 1
+            },
+            new Price
+            {
+                Id = 2,
+                BookPrice = 14.99m,
+                ValidFrom = new DateTime(2021, 7, 4),
+                BookId = 2
+            },
+            new Price
+            {
+                Id = 3,
+                BookPrice = 9.99m,
+                ValidFrom = new DateTime(2021, 11, 12),
+                BookId = 2
+            },
+            new Price
+            {
+                Id = 4,
+                BookPrice = 12.49m,
+                ValidFrom = new DateTime(2021, 1, 1),
+                BookId = 3
+            },
+            new Price
+            {
+                Id = 5,
+                BookPrice = 7.99m,
+                ValidFrom = new DateTime(2023, 1, 1),
+                BookId = 3
+            }
+        };
+    }
+
+    private static List<Cart> PrepareCartModel()
+    {
+        return new List<Cart>
+        {
+            new Cart { Id = 1,},
+            new Cart { Id = 2,},
+            new Cart { Id = 3,},
+            new Cart { Id = 4,},
+            new Cart { Id = 5,},
+        };
+    }
+    
+    private static List<BookCart> PrepareBookCartModel()
+    {
+        return new List<BookCart>
+        {
+            new BookCart {
+                CartId = 1,
+                BookId = 2,
+            },
+            new BookCart
+            {
+                CartId = 2,
+                BookId = 3,
+            },
+            new BookCart
+            {
+                CartId = 2,
+                BookId = 1,
+            },
+            new BookCart
+            {
+                CartId  = 3,
+                BookId = 1,
+            },
+            new BookCart
+            {
+                CartId = 3,
+                BookId = 3,
+            },
+            new BookCart
+            {
+                CartId = 4,
+                BookId = 1,
+            },
+            new BookCart
+            {
+                CartId = 5,
+                BookId = 3,
+            }
+        };
+    }
+
+    private static List<Order> PrepareOrderModel()
+    {
+        return new List<Order>
+        {
+            new Order
+            {
+                Id = 1,
+                Email = "poppar12@gmail.com",
+                Address = "Hlavná 132, 84545, Bratislava",
+                Phone = 421958655988,
+                TotalPrice = 9.99m,
+                State = OrderState.Created,
+                Timestamp = new DateTime(2023, 1, 5),
+                CartId = 1
+            },
+            new Order
+            {
+                Id = 2,
+                Email = "emmisek@zoznam.sk",
+                Address = "Bukov 72, 02201, Cadca",
+                Phone = 421942333659,
+                TotalPrice = 34.97m,
+                State = OrderState.Payed,
+                Timestamp = new DateTime(2022, 1, 10),
+                CartId = 2
+            },
+            new Order
+            {
+                Id = 3,
+                Email = "prokop.dlouhy@gmail.com",
+                Address = "Botanická 68a, 60200, Brno",
+                Phone = 420856999824,
+                TotalPrice = 17.98m,
+                State = OrderState.Delivered,
+                Timestamp = new DateTime(2023, 7, 15),
+                CartId = 3,
+                UserId = 3
+            },
+            new Order
+            {
+                Id = 4,
+                Email = "jerabkova.tereza@outlook.com",
+                Address = "Školská 56, 73401, Karviná",
+                Phone = 420744856932,
+                TotalPrice = 9.99m,
+                State = OrderState.Created,
+                Timestamp = new DateTime(2023, 10, 10),
+                CartId = 4,
+                UserId = 4
+            }
         };
     }
 }
