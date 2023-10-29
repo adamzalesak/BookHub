@@ -1,13 +1,13 @@
-﻿using WebAPI.Models.DTO;
-
-namespace WebAPI.Models;
+﻿namespace WebAPI.Models.Book;
 
 public class EditBookModel
 {
-    public int Id { get; set; }
     public string? Isbn { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
+    public int? Count { get; set; }
+    public decimal? Price { get; set; }
     public ICollection<int>? AuthorIds { get; set; }
+    public ICollection<int>? GenreIds { get; set; }
     public int? PublisherId { get; set; }
 }

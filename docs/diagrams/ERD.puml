@@ -23,11 +23,11 @@ Entity Book {
  * id : integer <<generated>>
  --
  * ISBN : text
- * title : text
- * published : date
- detail : text
+ * name : text
+ * description : text
  * count : integer
  * publisherId : integer <<FK>>
+ * isDeleted : boolean
 }
 
 Entity BookGenre {
@@ -92,7 +92,7 @@ Genre ||..o{ BookGenre
 Book ||..o{ BookGenre
 Publisher ||..o{ Book
 Author ||..o{ BookAuthor
-Book ||..o{ BookAuthor
+Book ||..|{ BookAuthor
 Book ||..|{ Price
 Book ||..o{ BookCart
 Cart ||..o{ BookCart

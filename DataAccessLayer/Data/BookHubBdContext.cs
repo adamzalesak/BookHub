@@ -30,6 +30,13 @@ public class BookHubBdContext : DbContext
         {
             relationship.DeleteBehavior = DeleteBehavior.Restrict;
         }
+        
+        modelBuilder.Entity<Book>()
+            .HasQueryFilter(b => !b.IsDeleted);
+        modelBuilder.Entity<Price>()
+            .HasQueryFilter(p => !p.Book.IsDeleted);
+        modelBuilder.Entity<Review>()
+            .HasQueryFilter(r => !r.Book.IsDeleted);
 
         modelBuilder.Entity<Book>()
             .HasMany(b => b.Authors)

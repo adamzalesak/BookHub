@@ -2,7 +2,7 @@ using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebAPI.Models;
+using WebAPI.Models.User;
 
 namespace WebAPI.Controllers;
 
@@ -17,6 +17,9 @@ public class UsersController : ControllerBase
         _dbContext = dbContext;
     }
 
+    /// <summary>
+    /// Get all users
+    /// </summary>
     [HttpGet]
     public async Task<ICollection<UserModel>> GetUsers()
     {
@@ -35,8 +38,11 @@ public class UsersController : ControllerBase
         return users;
     }
     
-    [HttpGet("{id}")]
-    public async Task<ActionResult<UserModel>> GetUser(int id)
+    /// <summary>
+    /// Get user by id
+    /// </summary>
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<UserModel>> GetUser([FromRoute] int id)
     {
         var user = await _dbContext.Users
             .Where(u => u.Id == id)
@@ -57,6 +63,9 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
+    /// <summary>
+    /// Create user
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult> CreateUser(CreateUserModel createData)
     {
@@ -84,10 +93,13 @@ public class UsersController : ControllerBase
         return Created($"/users/{dataToSend.Id}", dataToSend);
     }
 
-    [HttpPut]
-    public async Task<ActionResult> EditUser(EditUserModel editData)
+    /// <summary>
+    /// Edit user
+    /// </summary>
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult> EditUser([FromRoute] int id, EditUserModel editData)
     {
-        var user = await _dbContext.Users.FindAsync(editData.Id);
+        var user = await _dbContext.Users.FindAsync(id);
         if (user == null)
         {
             return NotFound("User not found.");
@@ -102,8 +114,11 @@ public class UsersController : ControllerBase
         return Ok();
     }
     
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteUser(int id)
+    /// <summary>
+    /// Delete user
+    /// </summary>
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteUser([FromRoute] int id)
     {
         var user = await _dbContext.Users.FindAsync(id);
         if (user == null)

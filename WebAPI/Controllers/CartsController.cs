@@ -10,18 +10,21 @@ namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CartController : ControllerBase
+    public class CartsController : ControllerBase
     {
         private readonly BookHubBdContext _context;
         private readonly Mapper _mapper;
 
-        public CartController(BookHubBdContext context)
+        public CartsController(BookHubBdContext context)
         {
             _context = context;
             _mapper = MapperConfig.InitializeAutomapper();
         }
 
-        [HttpGet]
+        /// <summary>
+        /// Get cart by id
+        /// </summary>
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<CartModel>> GetCart(int id)
         {
             var cart = await _context.Carts
@@ -35,8 +38,10 @@ namespace WebAPI.Controllers
             return Ok(_mapper.Map<CartModel>(cart));
         }
 
+        /// <summary>
+        /// Get all carts
+        /// </summary>
         [HttpGet]
-        [Route("/Carts")]
         public async Task<ActionResult<List<CartModel>>> GetAllCarts()
         {
             var carts = await _context.Carts
@@ -46,6 +51,9 @@ namespace WebAPI.Controllers
             return Ok(_mapper.Map<List<CartModel>>(carts));
         }
 
+        /// <summary>
+        /// Create cart
+        /// </summary>
         [HttpPut]
         public async Task<ActionResult<CartModel>> CreateCart(ICollection<int> bookIds, int? orderId)
         {
@@ -59,16 +67,19 @@ namespace WebAPI.Controllers
             return Ok(_mapper.Map<CartModel>(cart));
         }
 
-        [HttpPost]
-        public async Task<ActionResult<CartModel>> EditCart(int cartId, ICollection<int> bookIds, int? orderId)
+        /// <summary>
+        /// Edit cart
+        /// </summary>
+        [HttpPost("{id:int}")]
+        public async Task<ActionResult<CartModel>> EditCart([FromRoute] int id, ICollection<int> bookIds, int? orderId)
         {
             var cart = await _context.Carts
                 .Include(c => c.Books)
                 .Include(c => c.Order)
-                .FirstOrDefaultAsync(c => c.Id == cartId);
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (cart == null)
             {
-                return BadRequest($"Cart with id {cartId} not found");
+                return BadRequest($"Cart with id {id} not found");
             }
             cart.Books = await _context.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync();
             cart.Order = await _context.Orders.SingleOrDefaultAsync(c => c.Id == orderId);
@@ -77,8 +88,11 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteCart(int id)
+        /// <summary>
+        /// Delete cart
+        /// </summary>
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteCart([FromRoute] int id)
         {
             var cart = await _context.Carts.FindAsync(id);
             if (cart == null)

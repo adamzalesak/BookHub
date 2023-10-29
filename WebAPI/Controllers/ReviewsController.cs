@@ -17,6 +17,9 @@ public class ReviewsController : ControllerBase
         _dbContext = dbContext;
     }
 
+    /// <summary>
+    /// Get all reviews
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<ICollection<ReviewModel>>> GetReviews([FromQuery] int? bookId)
     {
@@ -45,8 +48,11 @@ public class ReviewsController : ControllerBase
         return reviews;
     }
     
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ReviewModel>> GetReview(int id)
+    /// <summary>
+    /// Get review by id
+    /// </summary>
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<ReviewModel>> GetReview([FromRoute] int id)
     {
         var review = await _dbContext.Reviews
             .Where(r => r.Id == id)
@@ -67,6 +73,9 @@ public class ReviewsController : ControllerBase
         return Ok(review);
     }
 
+    /// <summary>
+    /// Create review
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult> CreateReview(CreateReviewModel createData)
     {
@@ -107,10 +116,13 @@ public class ReviewsController : ControllerBase
         return Created($"/reviews/{dataToSend.Id}", dataToSend);
     }
 
-    [HttpPut]
-    public async Task<ActionResult> EditReview(EditReviewModel editData)
+    /// <summary>
+    /// Edit review
+    /// </summary>
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult> EditReview([FromRoute] int id, EditReviewModel editData)
     {
-        var review = await _dbContext.Reviews.FindAsync(editData.Id);
+        var review = await _dbContext.Reviews.FindAsync(id);
         if (review == null)
         {
             return NotFound("Review not found.");
@@ -122,8 +134,11 @@ public class ReviewsController : ControllerBase
         return Ok();
     }
     
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteReview(int id)
+    /// <summary>
+    /// Delete review
+    /// </summary>
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteReview([FromRoute] int id)
     {
         var review = await _dbContext.Reviews.FindAsync(id);
         if (review == null)

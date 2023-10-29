@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace DataAccessLayer.Models;
 
-namespace DataAccessLayer.Models
+public enum OrderState
 {
-    public enum OrderState
-    {
-        Created,
-        Ordered,
-        Payed,
-        Delivered
-    }
+    Created,
+    Ordered,
+    Payed,
+    Delivered
 }

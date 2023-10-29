@@ -1,11 +1,8 @@
-﻿using DataAccessLayer.Models;
+﻿namespace WebAPI.Models.Ordering;
 
-namespace WebAPI.Models.Ordering
+public class CartModel
 {
-    public class CartModel
-    {
-        public int Id { get; set; }
-        public List<int> BookIds { get; set; }
-        public int? OrderId { get; set; }
-    }
+    public int Id { get; set; }
+    public List<int> BookIds { get; set; }
+    public int? OrderId { get; set; }
 }
