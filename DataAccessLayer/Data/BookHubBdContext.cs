@@ -15,13 +15,8 @@ public class BookHubBdContext : DbContext
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Genre> Genres { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public BookHubBdContext(DbContextOptions<BookHubBdContext> options) : base(options)
     {
-        const Environment.SpecialFolder folder = Environment.SpecialFolder.LocalApplicationData;
-        var dbPath = Path.Join(Environment.GetFolderPath(folder), "bookHub.db");
-        optionsBuilder.EnableSensitiveDataLogging();
-        optionsBuilder
-            .UseSqlite($"Data Source={dbPath}");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

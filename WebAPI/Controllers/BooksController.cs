@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Linq.Expressions;
+using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,12 @@ namespace WebAPI.Controllers;
 public class BooksController : ControllerBase
 {
     private readonly BookHubBdContext _dbContext;
+    private readonly IBooksService _booksService;
 
-    public BooksController(BookHubBdContext dbContext)
+    public BooksController(BookHubBdContext dbContext, IBooksService booksService)
     {
         _dbContext = dbContext;
+        _booksService = booksService;
     }
 
     /// <summary>
@@ -338,14 +341,13 @@ public class BooksController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteBook(int id)
     {
-        var book = await _dbContext.Books.FindAsync(id);
-        if (book == null || book.IsDeleted)
+        var result = await _booksService.DeleteBookAsync(id);
+        if (!result)
         {
             return NotFound("Book not found.");
         }
 
-        book.IsDeleted = true;
-        await _dbContext.SaveChangesAsync();
+        await _booksService.SaveAsync();
 
         return Ok();
     }

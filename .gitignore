@@ -122,3 +122,5 @@ $RECYCLE.BIN/
 .idea/
 *.vsidx
 
+# Personal Configuration
+appsettings.Development.json

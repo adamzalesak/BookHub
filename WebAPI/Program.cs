@@ -43,7 +43,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddConfiguration();
+builder.Services.AddConfiguration(builder.Configuration.GetConnectionString("PostgresConnectionString") ??
+                                  throw new InvalidOperationException("PostgresConnectionString is null"));
 
 var app = builder.Build();
 
