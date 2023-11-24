@@ -25,84 +25,71 @@ public class BooksController : ControllerBase
     /// </summary>
     [HttpGet]
     public async Task<ActionResult<ICollection<BookModel>>> GetBooks(
-        [FromQuery] string? name,
-        [FromQuery] string? description,
-        [FromQuery] int? authorId,
-        [FromQuery] string? authorName,
-        [FromQuery] int? publisherId,
-        [FromQuery] string? publisherName,
-        [FromQuery] int? genreId,
-        [FromQuery] string? genreName,
-        [FromQuery] decimal? minPrice,
-        [FromQuery] decimal? maxPrice,
-        [FromQuery] int? page,
-        [FromQuery] int? pageSize,
-        [FromQuery] string? orderBy,
-        [FromQuery] bool? orderDesc
+        [FromQuery] GetBookParamsModel parameters
     )
     {
-        if (authorId is not null)
+        if (parameters.AuthorId is not null)
         {
-            var author = await _dbContext.Authors.FindAsync(authorId);
+            var author = await _dbContext.Authors.FindAsync(parameters.AuthorId);
             if (author == null)
             {
                 return NotFound("Author not found.");
             }
         }
 
-        if (publisherId is not null)
+        if (parameters.PublisherId is not null)
         {
-            var publisher = await _dbContext.Publishers.FindAsync(publisherId);
+            var publisher = await _dbContext.Publishers.FindAsync(parameters.PublisherId);
             if (publisher == null)
             {
                 return NotFound("Publisher not found.");
             }
         }
 
-        if (genreId is not null)
+        if (parameters.GenreId is not null)
         {
-            var genre = await _dbContext.Genres.FindAsync(genreId);
+            var genre = await _dbContext.Genres.FindAsync(parameters.GenreId);
             if (genre == null)
             {
                 return NotFound("Genre not found.");
             }
         }
 
-        Expression<Func<Book, bool>> namePredicate = string.IsNullOrWhiteSpace(name)
+        Expression<Func<Book, bool>> namePredicate = string.IsNullOrWhiteSpace(parameters.Name)
             ? book => true
-            : book => book.Name.ToLower().Contains(name.ToLower());
+            : book => book.Name.ToLower().Contains(parameters.Name.ToLower());
 
-        Expression<Func<Book, bool>> descriptionPredicate = string.IsNullOrWhiteSpace(description)
+        Expression<Func<Book, bool>> descriptionPredicate = string.IsNullOrWhiteSpace(parameters.Description)
             ? book => true
-            : book => book.Description.ToLower().Contains(description.ToLower());
+            : book => book.Description.ToLower().Contains(parameters.Description.ToLower());
 
-        Expression<Func<Book, bool>> authorIdPredicate = authorId == null
+        Expression<Func<Book, bool>> authorIdPredicate = parameters.AuthorId == null
             ? book => true
-            : book => book.Authors.Any(a => a.Id == authorId);
+            : book => book.Authors.Any(a => a.Id == parameters.AuthorId);
 
-        Expression<Func<Book, bool>> authorNamePredicate = string.IsNullOrWhiteSpace(authorName)
+        Expression<Func<Book, bool>> authorNamePredicate = string.IsNullOrWhiteSpace(parameters.AuthorName)
             ? book => true
-            : book => book.Authors.Any(a => a.Name.ToLower().Contains(authorName.ToLower()));
+            : book => book.Authors.Any(a => a.Name.ToLower().Contains(parameters.AuthorName.ToLower()));
 
-        Expression<Func<Book, bool>> publisherIdPredicate = publisherId == null
+        Expression<Func<Book, bool>> publisherIdPredicate = parameters.PublisherId == null
             ? book => true
-            : book => book.Publisher.Id == publisherId;
+            : book => book.Publisher.Id == parameters.PublisherId;
 
-        Expression<Func<Book, bool>> publisherNamePredicate = string.IsNullOrWhiteSpace(publisherName)
+        Expression<Func<Book, bool>> publisherNamePredicate = string.IsNullOrWhiteSpace(parameters.PublisherName)
             ? book => true
-            : book => book.Publisher.Name.ToLower().Contains(publisherName.ToLower());
+            : book => book.Publisher.Name.ToLower().Contains(parameters.PublisherName.ToLower());
 
-        Expression<Func<Book, bool>> genreIdPredicate = genreId == null
+        Expression<Func<Book, bool>> genreIdPredicate = parameters.GenreId == null
             ? book => true
-            : book => book.Genres.Any(g => g.Id == genreId);
+            : book => book.Genres.Any(g => g.Id == parameters.GenreId);
 
-        Expression<Func<Book, bool>> genreNamePredicate = string.IsNullOrWhiteSpace(genreName)
+        Expression<Func<Book, bool>> genreNamePredicate = string.IsNullOrWhiteSpace(parameters.GenreName)
             ? book => true
-            : book => book.Genres.Any(g => g.Name.ToLower().Contains(genreName.ToLower()));
+            : book => book.Genres.Any(g => g.Name.ToLower().Contains(parameters.GenreName.ToLower()));
 
         Expression<Func<Book, bool>> pricePredicate = book =>
-            (minPrice == null || book.Prices.OrderByDescending(p => p.ValidFrom).First().BookPrice >= minPrice) &&
-            (maxPrice == null || book.Prices.OrderByDescending(p => p.ValidFrom).First().BookPrice <= maxPrice);
+            (parameters.MinPrice == null || book.Prices.OrderByDescending(p => p.ValidFrom).First().BookPrice >= parameters.MinPrice) &&
+            (parameters.MaxPrice == null || book.Prices.OrderByDescending(p => p.ValidFrom).First().BookPrice <= parameters.MaxPrice);
 
         var booksQuery = _dbContext.Books
             .Where(namePredicate)
@@ -115,16 +102,16 @@ public class BooksController : ControllerBase
             .Where(genreNamePredicate)
             .Where(pricePredicate);
 
-        if (!string.IsNullOrWhiteSpace(orderBy))
+        if (!string.IsNullOrWhiteSpace(parameters.OrderBy))
         {
             Expression<Func<Book, string?>> orderFunction = book =>
-                orderBy == "name" ? book.Name :
-                orderBy == "description" ? book.Description :
-                orderBy == "price" ? book.Prices.OrderByDescending(p => p.ValidFrom).First().BookPrice
+                parameters.OrderBy == "name" ? book.Name :
+                parameters.OrderBy == "description" ? book.Description :
+                parameters.OrderBy == "price" ? book.Prices.OrderByDescending(p => p.ValidFrom).First().BookPrice
                     .ToString(CultureInfo.InvariantCulture) :
-                orderBy == "publisher" ? book.Publisher.Name : book.Name;
+                parameters.OrderBy == "publisher" ? book.Publisher.Name : book.Name;
 
-            if (orderDesc == true)
+            if (parameters.OrderDesc == true)
             {
                 booksQuery = booksQuery
                     .OrderByDescending(orderFunction);
@@ -137,8 +124,8 @@ public class BooksController : ControllerBase
         }
 
         var books = await booksQuery
-            .Skip((page ?? 0) * (pageSize ?? 10))
-            .Take(pageSize ?? 10)
+            .Skip((parameters.Page ?? 0) * (parameters.PageSize ?? 10))
+            .Take(parameters.PageSize ?? 10)
             .Include(b => b.Publisher)
             .Include(b => b.Authors)
             .Include(b => b.Prices)

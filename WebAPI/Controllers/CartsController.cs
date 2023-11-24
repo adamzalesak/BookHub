@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
         /// <summary>
         /// Create cart
         /// </summary>
-        [HttpPut]
+        [HttpPost]
         public async Task<ActionResult<CartModel>> CreateCart(ICollection<int> bookIds, int? orderId)
         {
             var newCart = new Cart
@@ -70,7 +70,7 @@ namespace WebAPI.Controllers
         /// <summary>
         /// Edit cart
         /// </summary>
-        [HttpPost("{id:int}")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult<CartModel>> EditCart([FromRoute] int id, ICollection<int> bookIds, int? orderId)
         {
             var cart = await _context.Carts
