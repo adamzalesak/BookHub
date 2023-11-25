@@ -1,4 +1,4 @@
-﻿namespace WebAPI.Models;
+﻿namespace BusinessLayer.Models.Book;
 
 public class BookModel
 {

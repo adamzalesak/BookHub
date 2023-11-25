@@ -1,4 +1,4 @@
-namespace WebAPI.Models.Genre;
+namespace BusinessLayer.Models.Genre;
 
 public class GenreModel
 {

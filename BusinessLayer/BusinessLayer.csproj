@@ -10,4 +10,8 @@
       <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Riok.Mapperly" Version="3.3.0-next.4" />
+    </ItemGroup>
+
 </Project>

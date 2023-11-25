@@ -1,6 +1,12 @@
-﻿namespace BusinessLayer.Services.Abstraction;
+﻿using BusinessLayer.Models.Book;
+
+namespace BusinessLayer.Services.Abstraction;
 
 public interface IBooksService : IBaseService
 {
-    public Task<bool> DeleteBookAsync(int bookId);
+    public Task<ICollection<BookModel>> GetBooksAsync(GetBooksModel parameters);
+    public Task<BookModel?> GetBookAsync(int bookId);
+    public Task<BookModel> CreateBookAsync(CreateBookModel model);
+    public Task EditBookAsync(int bookId, EditBookModel model);
+    public Task DeleteBookAsync(int bookId);
 }

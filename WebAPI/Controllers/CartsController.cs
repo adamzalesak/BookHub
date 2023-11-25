@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using BusinessLayer.Models.Ordering;
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Config;
-using WebAPI.Models.Ordering;
 
 namespace WebAPI.Controllers
 {

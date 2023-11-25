@@ -1,4 +1,4 @@
-namespace WebAPI.Models.User;
+namespace BusinessLayer.Models.User;
 
 public class CreateUserModel
 {

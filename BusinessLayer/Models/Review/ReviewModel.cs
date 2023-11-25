@@ -1,4 +1,4 @@
-namespace WebAPI.Models.Review;
+namespace BusinessLayer.Models.Review;
 
 public class ReviewModel
 {

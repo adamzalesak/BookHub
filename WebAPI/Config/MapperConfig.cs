@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
+using BusinessLayer.Models.Ordering;
 using DataAccessLayer.Models;
-using WebAPI.Models;
-using WebAPI.Models.Ordering;
 
 namespace WebAPI.Config
 {

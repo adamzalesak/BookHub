@@ -1,8 +1,8 @@
+using BusinessLayer.Models.User;
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebAPI.Models.User;
 
 namespace WebAPI.Controllers;
 

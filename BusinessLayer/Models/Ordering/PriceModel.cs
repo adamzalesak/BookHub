@@ -1,4 +1,4 @@
-﻿namespace WebAPI.Models.Ordering;
+﻿namespace BusinessLayer.Models.Ordering;
 
 public class PriceModel
 {
