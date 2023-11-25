@@ -1,8 +1,6 @@
+using BusinessLayer.Services.Abstraction;
 using BusinessLayer.Models.Genre;
-using DataAccessLayer.Data;
-using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers;
 
@@ -10,11 +8,11 @@ namespace WebAPI.Controllers;
 [Route("[controller]")]
 public class GenresController : ControllerBase
 {
-    private readonly BookHubBdContext _dbContext;
+    private readonly IGenreService _genreService;
 
-    public GenresController(BookHubBdContext dbContext)
+    public GenresController(IGenreService genreService)
     {
-        _dbContext = dbContext;
+        _genreService = genreService;
     }
 
     /// <summary>
@@ -22,16 +20,8 @@ public class GenresController : ControllerBase
     /// </summary>
     [HttpGet]
     public async Task<ICollection<GenreModel>> GetGenres()
-    {
-        var genres = await _dbContext.Genres
-            .Select(genre => new GenreModel
-            {
-                Id = genre.Id,
-                Name = genre.Name,
-            })
-            .ToListAsync();
-
-        return genres;
+    { 
+        return await _genreService.GetGenresAsync();
     }
     
     /// <summary>
@@ -40,17 +30,11 @@ public class GenresController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<GenreModel>> GetGenre([FromRoute] int id)
     {
-        var genre = await _dbContext.Genres
-            .Where(g => g.Id == id)
-            .Select(genre => new GenreModel
-            {
-                Id = genre.Id,
-                Name = genre.Name,
-            }).FirstOrDefaultAsync();
+        var genre = await _genreService.GetGenreByIdAsync(id);
 
         if (genre == null)
         {
-            return NotFound("Genre not found.");
+            return NotFound($"Genre with id {id} not found.");
         }
         return Ok(genre);
     }
@@ -59,40 +43,26 @@ public class GenresController : ControllerBase
     /// Create genre
     /// </summary>
     [HttpPost]
-    public async Task<ActionResult> CreateGenre(CreateGenreModel createData)
+    public async Task<ActionResult> CreateGenre(CreateGenreModel model)
     {
-        var newGenre = new Genre
-        {
-            Name = createData.Name,
-        };
-
-        await _dbContext.Genres.AddAsync(newGenre);
-        await _dbContext.SaveChangesAsync();
-
-        var dataToSend = new GenreModel
-        {
-            Id = newGenre.Id,
-            Name = newGenre.Name,
-        };
+        var genre = await _genreService.CreateGenreAsync(model);
         
-        return Created($"/genres/{dataToSend.Id}", dataToSend);
+        return Created($"/genres/{genre.Id}", genre);
     }
 
     /// <summary>
     /// Edit genre
     /// </summary>
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> EditGenre([FromRoute] int id, EditGenreModel editData)
+    public async Task<ActionResult> EditGenre([FromRoute] int id, EditGenreModel model)
     {
-        var genre = await _dbContext.Genres.FindAsync(id);
+        var genre = await _genreService.EditGenreAsync(id, model);
         if (genre == null)
         {
-            return NotFound("Genre not found.");
+            return NotFound($"Genre with id {id} not found.");
         }
-
-        genre.Name = editData.Name;
-        await _dbContext.SaveChangesAsync();
-        return Ok();
+        
+        return Ok(genre);
     }
     
     /// <summary>
@@ -101,14 +71,12 @@ public class GenresController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteGenre([FromRoute] int id)
     {
-        var genre = await _dbContext.Genres.FindAsync(id);
-        if (genre == null)
+        var wasDeleted = await _genreService.DeleteGenreAsync(id);
+        if (!wasDeleted)
         {
-            return NotFound("Genre not found.");
+            return NotFound($"Genre with id {id} not found.");
         }
-        
-        _dbContext.Genres.Remove(genre);
-        await _dbContext.SaveChangesAsync();
+
         return Ok();
     }
 }

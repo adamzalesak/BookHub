@@ -1,8 +1,6 @@
+using BusinessLayer.Services.Abstraction;
 using BusinessLayer.Models.User;
-using DataAccessLayer.Data;
-using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers;
 
@@ -10,11 +8,11 @@ namespace WebAPI.Controllers;
 [Route("[controller]")]
 public class UsersController : ControllerBase
 {
-    private readonly BookHubBdContext _dbContext;
+    private readonly IUserService _userService;
 
-    public UsersController(BookHubBdContext dbContext)
+    public UsersController(IUserService userService)
     {
-        _dbContext = dbContext;
+        _userService = userService;
     }
 
     /// <summary>
@@ -23,19 +21,7 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<ICollection<UserModel>> GetUsers()
     {
-        var users = await _dbContext.Users
-            .Include(u => u.Orders)
-            .Select(user => new UserModel
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Username = user.Username,
-                Email = user.Email,
-                OrderIds = user.Orders.Select(o => o.Id).ToList(),
-            })
-            .ToListAsync();
-
-        return users;
+        return await _userService.GetUsersAsync();
     }
     
     /// <summary>
@@ -44,21 +30,10 @@ public class UsersController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<UserModel>> GetUser([FromRoute] int id)
     {
-        var user = await _dbContext.Users
-            .Where(u => u.Id == id)
-            .Include(u => u.Orders)
-            .Select(user => new UserModel
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Username = user.Username,
-                Email = user.Email,
-                OrderIds = user.Orders.Select(o => o.Id).ToList(),
-            }).FirstOrDefaultAsync();
-
+        var user = await _userService.GetUserByIdAsync(id);
         if (user == null)
         {
-            return NotFound("User not found.");
+            return NotFound($"User with id {id} not found.");
         }
         return Ok(user);
     }
@@ -67,51 +42,24 @@ public class UsersController : ControllerBase
     /// Create user
     /// </summary>
     [HttpPost]
-    public async Task<ActionResult> CreateUser(CreateUserModel createData)
+    public async Task<ActionResult<UserModel>> CreateUser(CreateUserModel model)
     {
-        var newUser = new User
-        {
-            Name = createData.Name,
-            Username = createData.Username,
-            Email = createData.Email,
-            IsAdministrator = createData.IsAdministrator,
-            Orders = new List<Order>(),
-        };
-
-        await _dbContext.Users.AddAsync(newUser);
-        await _dbContext.SaveChangesAsync();
-
-        var dataToSend = new UserModel
-        {
-            Id = newUser.Id,
-            Name = newUser.Name,
-            Username = newUser.Username,
-            Email = newUser.Email,
-            OrderIds = new List<int>(),
-        };
-        
-        return Created($"/users/{dataToSend.Id}", dataToSend);
+        var user = await _userService.CreateUserAsync(model);
+        return Created($"/users/{user.Id}", user);
     }
 
     /// <summary>
     /// Edit user
     /// </summary>
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> EditUser([FromRoute] int id, EditUserModel editData)
+    public async Task<ActionResult<UserModel>> EditUser([FromRoute] int id, EditUserModel model)
     {
-        var user = await _dbContext.Users.FindAsync(id);
+        var user = await _userService.EditUserAsync(id, model);
         if (user == null)
         {
-            return NotFound("User not found.");
+            return NotFound($"User with id {id} not found.");
         }
-
-        user.Name = editData.Name ?? user.Name;
-        user.Username = editData.Username ?? user.Username;
-        user.Email = editData.Email ?? user.Email;
-        user.IsAdministrator = editData.IsAdministrator ?? user.IsAdministrator;
-
-        await _dbContext.SaveChangesAsync();
-        return Ok();
+        return Ok(user);
     }
     
     /// <summary>
@@ -120,15 +68,11 @@ public class UsersController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteUser([FromRoute] int id)
     {
-        var user = await _dbContext.Users.FindAsync(id);
-        if (user == null)
+        var wasDeleted = await _userService.DeleteUserAsync(id);
+        if (!wasDeleted)
         {
-            return NotFound("User not found.");
+            return NotFound($"User with id {id} not found.");
         }
-        
-        _dbContext.Users.Remove(user);
-        await _dbContext.SaveChangesAsync();
-        
         return Ok();
     }
 }

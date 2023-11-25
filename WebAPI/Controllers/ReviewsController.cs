@@ -1,8 +1,6 @@
+using BusinessLayer.Services.Abstraction;
 using BusinessLayer.Models.Review;
-using DataAccessLayer.Data;
-using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers;
 
@@ -10,11 +8,11 @@ namespace WebAPI.Controllers;
 [Route("[controller]")]
 public class ReviewsController : ControllerBase
 {
-    private readonly BookHubBdContext _dbContext;
+    private readonly IReviewService _reviewService;
 
-    public ReviewsController(BookHubBdContext dbContext)
+    public ReviewsController(IReviewService reviewService)
     {
-        _dbContext = dbContext;
+        _reviewService = reviewService;
     }
 
     /// <summary>
@@ -23,29 +21,18 @@ public class ReviewsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<ICollection<ReviewModel>>> GetReviews([FromQuery] int? bookId)
     {
-        if (bookId != null)
+        if (bookId == null)
         {
-            var book = await _dbContext.Books.FindAsync(bookId);
-            if (book == null)
-            {
-                return NotFound("Book not found.");
-            } 
+            return Ok(await _reviewService.GetReviewsAsync());
         }
         
-        var reviews = await _dbContext.Reviews
-            .Where(r => r.BookId == (bookId ?? r.BookId))
-            .Include(r => r.User)
-            .Select(review => new ReviewModel
-            {
-                Id = review.Id,
-                Rating = review.Rating,
-                Text = review.Text,
-                BookId = review.BookId,
-                Username = review.User.Username,
-            })
-            .ToListAsync();
+        var reviews = await _reviewService.GetReviewsOfBookAsync(bookId ?? 0);
+        if (reviews == null)
+        {
+            return NotFound($"Book with id {bookId} not found.");
+        }
 
-        return reviews;
+        return Ok(reviews);
     }
     
     /// <summary>
@@ -54,22 +41,12 @@ public class ReviewsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ReviewModel>> GetReview([FromRoute] int id)
     {
-        var review = await _dbContext.Reviews
-            .Where(r => r.Id == id)
-            .Include(r => r.User)
-            .Select(review => new ReviewModel
-            {
-                Id = review.Id,
-                Rating = review.Rating,
-                Text = review.Text,
-                BookId = review.BookId,
-                Username = review.User.Username,
-            }).FirstOrDefaultAsync();
-
+        var review = await _reviewService.GetReviewByIdAsync(id);
         if (review == null)
         {
-            return NotFound("Review not found.");
+            return NotFound($"Review with id {id} not found.");
         }
+        
         return Ok(review);
     }
 
@@ -77,61 +54,30 @@ public class ReviewsController : ControllerBase
     /// Create review
     /// </summary>
     [HttpPost]
-    public async Task<ActionResult> CreateReview(CreateReviewModel createData)
+    public async Task<ActionResult> CreateReview(CreateReviewModel model)
     {
-        var user = await _dbContext.Users.FindAsync(createData.UserId);
-        if (user == null)
+        var review = await _reviewService.CreateReviewAsync(model);
+        if (review == null)
         {
-            return NotFound("User not found");
-        }
-
-        var book = await _dbContext.Books.FindAsync(createData.BookId);
-        if (book == null)
-        {
-            return NotFound("Book not found");
+            return NotFound($"User with id {model.UserId} or book with id {model.BookId} not found.");
         }
         
-        var newReview = new Review
-        {
-            Rating = createData.Rating,
-            Text = createData.Text,
-            UserId = createData.UserId,
-            User = user,
-            BookId = createData.UserId,
-            Book = book,
-        };
-
-        await _dbContext.Reviews.AddAsync(newReview);
-        await _dbContext.SaveChangesAsync();
-
-        var dataToSend = new ReviewModel
-        {
-            Id = newReview.Id,
-            Rating = newReview.Rating,
-            Text = newReview.Text,
-            BookId = newReview.BookId,
-            Username = newReview.User.Username,
-        };
-        
-        return Created($"/reviews/{dataToSend.Id}", dataToSend);
+        return Created($"/reviews/{review.Id}", review);
     }
 
     /// <summary>
     /// Edit review
     /// </summary>
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> EditReview([FromRoute] int id, EditReviewModel editData)
+    public async Task<ActionResult> EditReview([FromRoute] int id, EditReviewModel model)
     {
-        var review = await _dbContext.Reviews.FindAsync(id);
+        var review = await _reviewService.EditReviewAsync(id, model);
         if (review == null)
         {
-            return NotFound("Review not found.");
+            return NotFound($"Review with id {id} not found.");
         }
-
-        review.Rating = editData.Rating ?? review.Rating;
-        review.Text = editData.Text ?? review.Text;
-        await _dbContext.SaveChangesAsync();
-        return Ok();
+        
+        return Ok(review);
     }
     
     /// <summary>
@@ -140,14 +86,12 @@ public class ReviewsController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteReview([FromRoute] int id)
     {
-        var review = await _dbContext.Reviews.FindAsync(id);
-        if (review == null)
+        var wasDeleted = await _reviewService.DeleteReviewAsync(id);
+        if (!wasDeleted)
         {
-            return NotFound("Review not found.");
+            return NotFound($"Review with id {id} not found.");
         }
         
-        _dbContext.Reviews.Remove(review);
-        await _dbContext.SaveChangesAsync();
         return Ok();
     }
 }

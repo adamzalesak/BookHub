@@ -13,6 +13,9 @@ public static class Configuration
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         services.AddScoped<IBooksService, BooksService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IReviewService, ReviewService>();
+        services.AddScoped<IGenreService, GenreService>();
 
         return services;
     }

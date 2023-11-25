@@ -6,6 +6,6 @@ public class User : BaseEntity
     public string Username { get; set; }
     public string Email { get; set; }
     public bool IsAdministrator { get; set; }
-    public ICollection<Review> Reviews { get; set; }
-    public ICollection<Order> Orders { get; set; }
+    public ICollection<Review> Reviews { get; set; } = new List<Review>();
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
 }

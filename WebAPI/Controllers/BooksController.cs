@@ -2,6 +2,8 @@ using BusinessLayer.Exceptions;
 using BusinessLayer.Models.Book;
 using BusinessLayer.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using BusinessLayer.Models.Book;
 
 namespace WebAPI.Controllers;
 
