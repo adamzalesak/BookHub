@@ -57,6 +57,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<LoggingMiddleware>();
 app.UseMiddleware<AuthenticationMiddleware>();
+app.UseMiddleware<JsonToXmlMiddleware>();
 
 app.UseHttpsRedirection();
 
