@@ -18,7 +18,7 @@ namespace BusinessLayer.Services
 
         public async Task<OrderModel?> CreateOrder(CreateOrderModel orderDto)
         {
-            var cart = await _dbContext.Carts.SingleAsync(c => c.Id == orderDto.CartId);
+            var cart = await _dbContext.Carts.FindAsync(orderDto.CartId);
             if (cart == null)
             {
                 return null;
