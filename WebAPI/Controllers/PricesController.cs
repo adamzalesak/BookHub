@@ -1,11 +1,6 @@
-﻿using AutoMapper;
-using BusinessLayer.Models.Price;
+﻿using BusinessLayer.Models.Price;
 using BusinessLayer.Services.Abstraction;
-using DataAccessLayer.Data;
-using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace WebAPI.Controllers;
 

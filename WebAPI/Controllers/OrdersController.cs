@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using BusinessLayer.Models.Order;
+﻿using BusinessLayer.Models.Order;
 using BusinessLayer.Services.Abstraction;
-using DataAccessLayer.Data;
-using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers;
 

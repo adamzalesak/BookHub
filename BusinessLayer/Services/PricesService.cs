@@ -4,11 +4,6 @@ using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Services
 {
@@ -28,11 +23,11 @@ namespace BusinessLayer.Services
             {
                 return null;
             }
-            var price = priceDto.MapCreatePriceModelToPrice();
+            var price = priceDto.MapToPrice();
             price.Book = book;
             var newPrice = await _dbContext.Prices.AddAsync(price);
             await SaveAsync();
-            return newPrice.Entity.MapPriceToPriceModel();
+            return newPrice.Entity.MapToPriceModel();
         }
 
         public async Task<bool> DeletePrice(int id)
@@ -59,7 +54,7 @@ namespace BusinessLayer.Services
             }
 
             await SaveAsync();
-            return prices.MapPriceListToPriceModelList();
+            return prices.MapToPriceModelList();
         }
 
         public async Task<List<PriceModel>> GetAllPrices()
@@ -67,7 +62,7 @@ namespace BusinessLayer.Services
             var prices = await _dbContext.Prices
             .Include(p => p.Book)
             .ToListAsync();
-            return prices.MapPriceListToPriceModelList();
+            return prices.MapToPriceModelList();
         }
 
         public async Task<PriceModel?> GetPrice(int id)
@@ -77,7 +72,7 @@ namespace BusinessLayer.Services
             {
                 return null;
             }
-            return price.MapPriceToPriceModel();
+            return price.MapToPriceModel();
         }
 
         private async Task<Price?> GetPriceObject(int id)

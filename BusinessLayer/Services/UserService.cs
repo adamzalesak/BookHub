@@ -1,8 +1,8 @@
 using BusinessLayer.Mappers;
+using BusinessLayer.Models.User;
 using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
-using BusinessLayer.Models.User;
 
 namespace BusinessLayer.Services;
 
@@ -17,12 +17,12 @@ public class UserService : IUserService
 
     public async Task<UserModel> CreateUserAsync(CreateUserModel model)
     {
-        var newUser = model.MapCreateUserModelToUser();
+        var newUser = model.MapToUser();
 
         await _dbContext.Users.AddAsync(newUser);
         await SaveAsync();
 
-        return newUser.MapUserToUserModel();
+        return newUser.MapToUserModel();
     }
 
     public async Task<UserModel?> EditUserAsync(int userId, EditUserModel model)
@@ -40,7 +40,7 @@ public class UserService : IUserService
 
         await SaveAsync();
         
-        return user.MapUserToUserModel();
+        return user.MapToUserModel();
     }
 
     public async Task<UserModel?> GetUserByIdAsync(int userId)
@@ -48,7 +48,7 @@ public class UserService : IUserService
         var userModel = await _dbContext.Users
             .Where(u => u.Id == userId)
             .Include(u => u.Orders)
-            .Select(u => u.MapUserToUserModel())
+            .Select(u => u.MapToUserModel())
             .FirstOrDefaultAsync();
 
         return userModel;
@@ -58,7 +58,7 @@ public class UserService : IUserService
     {
         var userModels = await _dbContext.Users
             .Include(u => u.Orders)
-            .Select(u => u.MapUserToUserModel())
+            .Select(u => u.MapToUserModel())
             .ToListAsync();
         
         return userModels;

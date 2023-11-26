@@ -4,11 +4,6 @@ using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Services
 {
@@ -30,7 +25,7 @@ namespace BusinessLayer.Services
             };
             var cart = await _dbContext.Carts.AddAsync(newCart);
             await SaveAsync();
-            return cart.Entity.MapCartToCartModel();
+            return cart.Entity.MapToCartModel();
         }
 
         public async Task<bool> DeleteCart(int id)
@@ -65,7 +60,7 @@ namespace BusinessLayer.Services
                 .Include(c => c.Books)
                 .Include(c => c.Order)
                 .ToListAsync();
-            return carts.MapCartListToCartModelList();
+            return carts.MapToCartModelList();
         }
 
         public async Task<CartModel?> GetCart(int id)
@@ -75,7 +70,7 @@ namespace BusinessLayer.Services
             {
                 return null;
             }
-            return cart.MapCartToCartModel();
+            return cart.MapToCartModel();
         }
 
         public async Task SaveAsync()

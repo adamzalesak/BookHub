@@ -29,12 +29,12 @@ public class ReviewService : IReviewService
             return null;
         }
 
-        var newReview = model.MapCreateReviewModelToReview();
+        var newReview = model.MapToReview();
 
         await _dbContext.Reviews.AddAsync(newReview);
         await SaveAsync();
 
-        return newReview.MapReviewToReviewModel();
+        return newReview.MapToReviewModel();
     }
 
     public async Task<ReviewModel?> EditReviewAsync(int reviewId, EditReviewModel model)
@@ -54,7 +54,7 @@ public class ReviewService : IReviewService
         
         await SaveAsync();
 
-        return review.MapReviewToReviewModel();
+        return review.MapToReviewModel();
     }
 
     public async Task<ReviewModel?> GetReviewByIdAsync(int reviewId)
@@ -62,7 +62,7 @@ public class ReviewService : IReviewService
         var reviewModel = await _dbContext.Reviews
             .Where(r => r.Id == reviewId)
             .Include(r => r.User)
-            .Select(r => r.MapReviewToReviewModel())
+            .Select(r => r.MapToReviewModel())
             .FirstOrDefaultAsync();
 
         return reviewModel;
@@ -72,7 +72,7 @@ public class ReviewService : IReviewService
     {
         var reviewModels = await _dbContext.Reviews
             .Include(r => r.User)
-            .Select(r => r.MapReviewToReviewModel())
+            .Select(r => r.MapToReviewModel())
             .ToListAsync();
 
         return reviewModels;
@@ -89,7 +89,7 @@ public class ReviewService : IReviewService
         var reviewModels = await _dbContext.Reviews
             .Where(r => r.BookId == bookId)
             .Include(r => r.User)
-            .Select(r => r.MapReviewToReviewModel())
+            .Select(r => r.MapToReviewModel())
             .ToListAsync();
 
         return reviewModels;

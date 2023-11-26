@@ -1,11 +1,6 @@
-﻿using AutoMapper;
-using BusinessLayer.Models.Cart;
-using BusinessLayer.Services;
+﻿using BusinessLayer.Models.Cart;
 using BusinessLayer.Services.Abstraction;
-using DataAccessLayer.Data;
-using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers
 {

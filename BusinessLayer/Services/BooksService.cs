@@ -143,7 +143,7 @@ public class BooksService : IBooksService
             throw new NotFoundException("Genre not found.");
         }
 
-        var newBook = model.MapCreateBookModelToBook();
+        var newBook = model.MapToBook();
         newBook.Authors = authors;
         newBook.Genres = genres;
 
@@ -156,7 +156,7 @@ public class BooksService : IBooksService
 
         _dbContext.Books.Add(newBook);
 
-        return newBook.MapBookToBookModel();   
+        return newBook.MapToBookModel();   
     }
 
     public async Task EditBookAsync(int id, EditBookModel model)

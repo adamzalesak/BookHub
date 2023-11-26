@@ -17,12 +17,12 @@ public class GenreService : IGenreService
 
     public async Task<GenreModel> CreateGenreAsync(CreateGenreModel model)
     {
-        var newGenre = model.MapCreateGenreModelToGenre();
+        var newGenre = model.MapToGenre();
 
         await _dbContext.Genres.AddAsync(newGenre);
         await SaveAsync();
 
-        return newGenre.MapGenreToGenreModel();
+        return newGenre.MapToGenreModel();
     }
 
     public async Task<GenreModel?> EditGenreAsync(int genreId, EditGenreModel model)
@@ -36,13 +36,13 @@ public class GenreService : IGenreService
         genre.Name = model.Name;
         await SaveAsync();
 
-        return genre.MapGenreToGenreModel();
+        return genre.MapToGenreModel();
     }
 
     public async Task<List<GenreModel>> GetGenresAsync()
     {
         var genreModels = await _dbContext.Genres
-            .Select(g => g.MapGenreToGenreModel())
+            .Select(g => g.MapToGenreModel())
             .ToListAsync();
 
         return genreModels;
@@ -52,7 +52,7 @@ public class GenreService : IGenreService
     {
         var genreModel = await _dbContext.Genres
             .Where(g => g.Id == genreId)
-            .Select(g => g.MapGenreToGenreModel())
+            .Select(g => g.MapToGenreModel())
             .FirstOrDefaultAsync();
 
         return genreModel;

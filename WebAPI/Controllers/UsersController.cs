@@ -1,5 +1,5 @@
-using BusinessLayer.Services.Abstraction;
 using BusinessLayer.Models.User;
+using BusinessLayer.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;

@@ -1,4 +1,3 @@
-using DataAccessLayer.Models;
 using BusinessLayer.Models.User;
 
 namespace BusinessLayer.Services.Abstraction;

@@ -4,11 +4,6 @@ using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Services
 {
@@ -28,7 +23,7 @@ namespace BusinessLayer.Services
             {
                 return null;
             }
-            var order = orderDto.MapCreateOrderModelToOrder();
+            var order = orderDto.MapToOrder();
             order.Timestamp = DateTime.Now;
             order.Cart = cart;
             
@@ -40,7 +35,7 @@ namespace BusinessLayer.Services
 
             var newOrder = await _dbContext.Orders.AddAsync(order);
             await SaveAsync();
-            return newOrder.Entity.MapOrderToOrderModel();
+            return newOrder.Entity.MapToOrderModel();
         }
 
         public async Task<bool> DeleteOrder(int id)
@@ -69,7 +64,7 @@ namespace BusinessLayer.Services
             {
                 return false;
             }
-            order = orderDto.MapCreateOrderModelToOrder();
+            order = orderDto.MapToOrder();
             order.Cart = cart;
             if (orderDto.UserId != null)
             {
@@ -88,7 +83,7 @@ namespace BusinessLayer.Services
             .Include(o => o.Cart)
             .Include(o => o.User)
             .Where(o => o.Timestamp > from && o.Timestamp < to).ToListAsync();
-            return orders.MapOrderListToOrderModelList();
+            return orders.MapToOrderModelList();
         }
 
         public async Task<List<OrderModel>> GetAllOrders()
@@ -97,7 +92,7 @@ namespace BusinessLayer.Services
             .Include(o => o.Cart)
             .Include(o => o.User)
             .ToListAsync();
-            return orders.MapOrderListToOrderModelList();
+            return orders.MapToOrderModelList();
         }
 
         public async Task<OrderModel?> GetOrder(int id)
@@ -107,7 +102,7 @@ namespace BusinessLayer.Services
             {
                 return null;
             }
-            return order.MapOrderToOrderModel();
+            return order.MapToOrderModel();
         }
 
         private async Task<Order?> GetOrderObject(int id)
