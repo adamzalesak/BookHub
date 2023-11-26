@@ -78,7 +78,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("AuthorBook");
+                    b.ToTable("AuthorBooks");
 
                     b.HasData(
                         new
@@ -240,7 +240,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("BookGenre");
+                    b.ToTable("BookGenres");
 
                     b.HasData(
                         new

@@ -139,7 +139,7 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AuthorBook",
+                name: "AuthorBooks",
                 columns: table => new
                 {
                     AuthorId = table.Column<int>(type: "integer", nullable: false),
@@ -147,15 +147,15 @@ namespace DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuthorBook", x => new { x.AuthorId, x.BookId });
+                    table.PrimaryKey("PK_AuthorBooks", x => new { x.AuthorId, x.BookId });
                     table.ForeignKey(
-                        name: "FK_AuthorBook_Authors_AuthorId",
+                        name: "FK_AuthorBooks_Authors_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuthorBook_Books_BookId",
+                        name: "FK_AuthorBooks_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
@@ -187,7 +187,7 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookGenre",
+                name: "BookGenres",
                 columns: table => new
                 {
                     BookId = table.Column<int>(type: "integer", nullable: false),
@@ -195,15 +195,15 @@ namespace DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookGenre", x => new { x.BookId, x.GenreId });
+                    table.PrimaryKey("PK_BookGenres", x => new { x.BookId, x.GenreId });
                     table.ForeignKey(
-                        name: "FK_BookGenre_Books_BookId",
+                        name: "FK_BookGenres_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookGenre_Genres_GenreId",
+                        name: "FK_BookGenres_Genres_GenreId",
                         column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "Id",
@@ -338,7 +338,7 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AuthorBook",
+                table: "AuthorBooks",
                 columns: new[] { "AuthorId", "BookId" },
                 values: new object[,]
                 {
@@ -364,7 +364,7 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "BookGenre",
+                table: "BookGenres",
                 columns: new[] { "BookId", "GenreId" },
                 values: new object[,]
                 {
@@ -399,8 +399,8 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorBook_BookId",
-                table: "AuthorBook",
+                name: "IX_AuthorBooks_BookId",
+                table: "AuthorBooks",
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
@@ -409,8 +409,8 @@ namespace DataAccessLayer.Migrations
                 column: "CartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookGenre_GenreId",
-                table: "BookGenre",
+                name: "IX_BookGenres_GenreId",
+                table: "BookGenres",
                 column: "GenreId");
 
             migrationBuilder.CreateIndex(
@@ -449,13 +449,13 @@ namespace DataAccessLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AuthorBook");
+                name: "AuthorBooks");
 
             migrationBuilder.DropTable(
                 name: "BookCart");
 
             migrationBuilder.DropTable(
-                name: "BookGenre");
+                name: "BookGenres");
 
             migrationBuilder.DropTable(
                 name: "Orders");

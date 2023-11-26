@@ -33,7 +33,7 @@ public class BooksService : IBooksService
             .Include(b => b.Publisher)
             .Include(b => b.Authors)
             .Include(b => b.Prices)
-            .ProjectToModel()
+            .Select(b => b.MapToBookModel())
             .ToListAsync();
 
         return books;
@@ -119,7 +119,7 @@ public class BooksService : IBooksService
             .Include(b => b.Authors)
             .Include(b => b.Genres)
             .Include(b => b.Prices)
-            .ProjectToModel()
+            .Select(b => b.MapToBookModel())
             .FirstOrDefaultAsync();
     }
     

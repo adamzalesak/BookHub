@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(BookHubDbContext))]
-    [Migration("20231116100853_Initial")]
+    [Migration("20231126211449_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -81,7 +81,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("AuthorBook");
+                    b.ToTable("AuthorBooks");
 
                     b.HasData(
                         new
@@ -243,7 +243,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("BookGenre");
+                    b.ToTable("BookGenres");
 
                     b.HasData(
                         new

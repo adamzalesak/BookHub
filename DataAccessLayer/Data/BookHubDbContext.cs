@@ -7,6 +7,7 @@ public class BookHubDbContext : DbContext
 {
     public virtual DbSet<Book> Books { get; set; }
     public virtual DbSet<Author> Authors { get; set; }
+    public virtual DbSet<AuthorBook> AuthorBooks { get; set; }
     public virtual DbSet<Publisher> Publishers { get; set; }
     public virtual DbSet<Order> Orders { get; set; }
     public virtual DbSet<Price> Prices { get; set; }
@@ -14,6 +15,7 @@ public class BookHubDbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<Review> Reviews { get; set; }
     public virtual DbSet<Genre> Genres { get; set; }
+    public virtual DbSet<BookGenre> BookGenres { get; set; }
 
     public BookHubDbContext(DbContextOptions<BookHubDbContext> options) : base(options)
     {

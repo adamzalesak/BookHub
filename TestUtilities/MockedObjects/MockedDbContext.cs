@@ -34,7 +34,13 @@ public static class MockedDbContext
 
     private static void PrepareData(BookHubDbContext dbContext)
     {
+        dbContext.Authors.AddRange(TestDataHelper.GetFakeAuthors());
+        dbContext.Publishers.AddRange(TestDataHelper.GetFakePublishers());
+        dbContext.Genres.AddRange(TestDataHelper.GetFakeGenres());
+        dbContext.Prices.AddRange(TestDataHelper.GetFakePrices());
         dbContext.Books.AddRange(TestDataHelper.GetFakeBooks());
+        dbContext.AuthorBooks.AddRange(TestDataHelper.GetFakeAuthorBooks());
+        dbContext.BookGenres.AddRange(TestDataHelper.GetFakeBookGenres());
         dbContext.Users.AddRange(TestDataHelper.GetFakeUsers());
         dbContext.Carts.AddRange(TestDataHelper.GetFakeCarts());
         dbContext.Orders.AddRange(TestDataHelper.GetFakeOrders());
