@@ -1,4 +1,4 @@
-﻿namespace BusinessLayer.Models.Ordering;
+﻿namespace BusinessLayer.Models.Cart;
 
 public class CartModel
 {

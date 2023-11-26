@@ -32,6 +32,7 @@ public class ReviewService : IReviewService
         var newReview = model.MapCreateReviewModelToReview();
 
         await _dbContext.Reviews.AddAsync(newReview);
+        await SaveAsync();
 
         return newReview.MapReviewToReviewModel();
     }

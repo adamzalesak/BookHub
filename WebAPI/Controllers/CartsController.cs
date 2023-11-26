@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using BusinessLayer.Models.Ordering;
+using BusinessLayer.Models.Cart;
+using BusinessLayer.Services;
+using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebAPI.Config;
-using BusinessLayer.Models.Ordering;
 
 namespace WebAPI.Controllers
 {
@@ -13,13 +13,11 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class CartsController : ControllerBase
     {
-        private readonly BookHubBdContext _context;
-        private readonly Mapper _mapper;
+        private readonly ICartsService _cartService;
 
-        public CartsController(BookHubBdContext context)
+        public CartsController(ICartsService cartService)
         {
-            _context = context;
-            _mapper = MapperConfig.InitializeAutomapper();
+            _cartService = cartService;
         }
 
         /// <summary>
@@ -28,15 +26,12 @@ namespace WebAPI.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<CartModel>> GetCart(int id)
         {
-            var cart = await _context.Carts
-                .Include(c => c.Books)
-                .Include(c => c.Order)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var cart = await _cartService.GetCart(id);
             if (cart == null)
             {
-                return BadRequest($"Cart with id {id} not found");
+                return NotFound($"Cart with id {id} not found");
             }
-            return Ok(_mapper.Map<CartModel>(cart));
+            return Ok(cart);
         }
 
         /// <summary>
@@ -45,27 +40,18 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<CartModel>>> GetAllCarts()
         {
-            var carts = await _context.Carts
-                .Include(c => c.Books)
-                .Include(c => c.Order)
-                .ToListAsync();
-            return Ok(_mapper.Map<List<CartModel>>(carts));
+            var carts = await _cartService.GetAllCarts();
+            return Ok(carts);
         }
 
         /// <summary>
         /// Create cart
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult<CartModel>> CreateCart(ICollection<int> bookIds, int? orderId)
+        public async Task<ActionResult<CartModel>> CreateCart(CreateCartModel createCartModel)
         {
-            var newCart = new Cart
-            {
-                Books = await _context.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync(),
-                Order = await _context.Orders.SingleOrDefaultAsync(c => c.Id == orderId),
-            };
-            var cart = await _context.Carts.AddAsync(newCart);
-            await _context.SaveChangesAsync();
-            return Ok(_mapper.Map<CartModel>(cart));
+            var cart = await _cartService.CreateCart(createCartModel);
+            return Ok(cart);
         }
 
         /// <summary>
@@ -74,18 +60,11 @@ namespace WebAPI.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult<CartModel>> EditCart([FromRoute] int id, ICollection<int> bookIds, int? orderId)
         {
-            var cart = await _context.Carts
-                .Include(c => c.Books)
-                .Include(c => c.Order)
-                .FirstOrDefaultAsync(c => c.Id == id);
-            if (cart == null)
+            if ((await _cartService.EditCart(id, bookIds, orderId)).Equals(false))
             {
-                return BadRequest($"Cart with id {id} not found");
+                return NotFound($"Cart with id {id} not found");
             }
-            cart.Books = await _context.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync();
-            cart.Order = await _context.Orders.SingleOrDefaultAsync(c => c.Id == orderId);
-            await _context.SaveChangesAsync();
-            return Ok(_mapper.Map<CartModel>(cart));
+            return Ok();
         }
 
 
@@ -95,13 +74,10 @@ namespace WebAPI.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteCart([FromRoute] int id)
         {
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart == null)
+            if ((await _cartService.DeleteCart(id)).Equals(false))
             {
-                return BadRequest($"Cart with id {id} not found");
+                return NotFound($"Cart with id {id} not found");
             }
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
             return Ok();
         }
     }

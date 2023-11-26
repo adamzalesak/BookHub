@@ -20,6 +20,7 @@ public class UserService : IUserService
         var newUser = model.MapCreateUserModelToUser();
 
         await _dbContext.Users.AddAsync(newUser);
+        await SaveAsync();
 
         return newUser.MapUserToUserModel();
     }

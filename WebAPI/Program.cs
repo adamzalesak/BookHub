@@ -1,14 +1,9 @@
 using System.Reflection;
-using BusinessLayer.Services;
-using BusinessLayer.Services.Abstraction;
-using DataAccessLayer.Models;
 using Microsoft.OpenApi.Models;
 using WebAPI;
 using WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -48,7 +43,6 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddConfiguration(builder.Configuration.GetConnectionString("PostgresConnectionString") ??
                                   throw new InvalidOperationException("PostgresConnectionString is null"));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

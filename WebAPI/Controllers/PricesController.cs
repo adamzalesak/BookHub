@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using BusinessLayer.Models.Ordering;
+using BusinessLayer.Models.Price;
+using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using WebAPI.Config;
-using BusinessLayer.Models.Ordering;
 
 namespace WebAPI.Controllers;
 
@@ -14,13 +13,11 @@ namespace WebAPI.Controllers;
 [Route("[controller]")]
 public class PricesController : ControllerBase
 {
-    private readonly BookHubBdContext _context;
-    private readonly Mapper _mapper;
+    private readonly IPricesService _priceService;
 
-    public PricesController(BookHubBdContext context)
+    public PricesController(IPricesService priceService)
     {
-        _context = context;
-        _mapper = MapperConfig.InitializeAutomapper();
+        _priceService = priceService;
     }
 
     /// <summary>
@@ -29,15 +26,12 @@ public class PricesController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<PriceModel>> GetPrice([FromRoute] int id)
     {
-        var prices = await _context.Prices
-            .Include(p => p.Book)
-            .FirstOrDefaultAsync(p => p.Id == id);
-        if (prices == null)
+        var price = await _priceService.GetPrice(id);
+        if (price == null)
         {
-            return BadRequest($"Price with id {id} not found");
+            return NotFound($"Price with id {id} not found");
         }
-
-        return Ok(_mapper.Map<PriceModel>(prices));
+        return Ok(price);
     }
 
     /// <summary>
@@ -46,29 +40,22 @@ public class PricesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<PriceModel>>> GetAllPrices()
     {
-        var prices = await _context.Prices
-            .Include(p => p.Book)
-            .ToListAsync();
-        return Ok(_mapper.Map<List<PriceModel>>(prices));
+        var prices = await _priceService.GetAllPrices();
+        return Ok(prices);
     }
 
     /// <summary>
     /// Create price
     /// </summary>
-    [HttpPut]
-    public async Task<ActionResult<PriceModel>> CreatePrice(PriceModel priceDto)
+    [HttpPost]
+    public async Task<ActionResult<PriceModel>> CreatePrice(CreatePriceModel priceDto)
     {
-        var price = _mapper.Map<Price>(priceDto);
-        var book = await _context.Books.FindAsync(priceDto.BookId);
-        if (book == null)
+        var price = await _priceService.CreatePrice(priceDto);
+        if (price == null)
         {
-            return BadRequest($"Book with id {priceDto.BookId} does not exists");
+            return NotFound($"Book with id {priceDto.BookId} does not exists");
         }
-
-        price.Book = book;
-        var newPrice = await _context.Prices.AddAsync(price);
-        await _context.SaveChangesAsync();
-        return Ok(_mapper.Map<PriceModel>(newPrice));
+        return Ok(price);
     }
 
     /// <summary>
@@ -77,14 +64,10 @@ public class PricesController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<ActionResult<PriceModel>> DeletePrice([FromRoute] int id)
     {
-        var price = await _context.Prices.FindAsync(id);
-        if (price == null)
+        if ((await _priceService.DeletePrice(id)).Equals(false))
         {
-            return BadRequest($"Price with id {id} not found");
+            return NotFound($"Price with id {id} not found");
         }
-
-        _context.Prices.Remove(price);
-        await _context.SaveChangesAsync();
         return Ok();
     }
 
@@ -92,17 +75,13 @@ public class PricesController : ControllerBase
     /// Get price history
     /// </summary>
     [HttpGet("history")]
-    public async Task<ActionResult<List<PriceModel>>> FindBookHistoryPrices(int id)
+    public async Task<ActionResult<List<PriceModel>>> FindBookHistoryPrices(int bookId)
     {
-        var prices = await _context.Prices
-            .Include(p => p.Book)
-            .Where(p => p.BookId == id).ToListAsync();
-        if (prices.IsNullOrEmpty())
+        var prices = await _priceService.FindBookHistoryPrices(bookId);
+        if (prices == null || prices.Count == 0)
         {
-            return BadRequest($"Price refered to BookId {id} not found");
+            return NotFound($"Prices refered to BookId {bookId} not found");
         }
-
-        await _context.SaveChangesAsync();
-        return Ok(_mapper.Map<List<PriceModel>>(prices));
+        return Ok(prices);
     }
 }

@@ -20,6 +20,7 @@ public class GenreService : IGenreService
         var newGenre = model.MapCreateGenreModelToGenre();
 
         await _dbContext.Genres.AddAsync(newGenre);
+        await SaveAsync();
 
         return newGenre.MapGenreToGenreModel();
     }

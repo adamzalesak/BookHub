@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.Models;
 
-namespace BusinessLayer.Models.Ordering;
+namespace BusinessLayer.Models.Order;
 
 public class OrderModel
 {
