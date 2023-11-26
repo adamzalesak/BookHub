@@ -7,22 +7,22 @@ namespace TestUtilities.MockedObjects;
 
 public static class MockedDbContext
 {
-    public static string RandomDBName => Guid.NewGuid().ToString();
+    private static string RandomDbName => Guid.NewGuid().ToString();
 
-    public static DbContextOptions<BookHubBdContext> GenerateNewInMemoryDbContextOptions()
+    public static DbContextOptions<BookHubDbContext> GenerateNewInMemoryDbContextOptions()
     {
-        var dbContextOptions = new DbContextOptionsBuilder<BookHubBdContext>()
-            .UseInMemoryDatabase(RandomDBName)
+        var dbContextOptions = new DbContextOptionsBuilder<BookHubDbContext>()
+            .UseInMemoryDatabase(RandomDbName)
             .Options;
 
         return dbContextOptions;
     }
 
-    public static BookHubBdContext CreateFromOptions(DbContextOptions<BookHubBdContext> options)
+    public static BookHubDbContext CreateFromOptions(DbContextOptions<BookHubDbContext> options)
     {
-        var dbContextToMock = new BookHubBdContext(options);
+        var dbContextToMock = new BookHubDbContext(options);
 
-        var dbContext = new MockedDbContextBuilder<BookHubBdContext>()
+        var dbContext = new MockedDbContextBuilder<BookHubDbContext>()
             .UseDbContext(dbContextToMock)
             .UseConstructorWithParameters(options)
             .MockedDbContext;
@@ -32,10 +32,11 @@ public static class MockedDbContext
         return dbContext;
     }
 
-    public static void PrepareData(BookHubBdContext dbContext)
+    private static void PrepareData(BookHubDbContext dbContext)
     {
         dbContext.Books.AddRange(TestDataHelper.GetFakeBooks());
         dbContext.Users.AddRange(TestDataHelper.GetFakeUsers());
+        dbContext.Carts.AddRange(TestDataHelper.GetFakeCarts());
         dbContext.Orders.AddRange(TestDataHelper.GetFakeOrders());
         
         dbContext.SaveChanges();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Data;
 
-public class BookHubBdContext : DbContext
+public class BookHubDbContext : DbContext
 {
     public virtual DbSet<Book> Books { get; set; }
     public virtual DbSet<Author> Authors { get; set; }
@@ -15,7 +15,7 @@ public class BookHubBdContext : DbContext
     public virtual DbSet<Review> Reviews { get; set; }
     public virtual DbSet<Genre> Genres { get; set; }
 
-    public BookHubBdContext(DbContextOptions<BookHubBdContext> options) : base(options)
+    public BookHubDbContext(DbContextOptions<BookHubDbContext> options) : base(options)
     {
     }
 

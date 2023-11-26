@@ -6,8 +6,8 @@ namespace BusinessLayer.Tests.Services;
 
 public class BooksServiceTests
 {
-    private DbContextOptions<BookHubBdContext> _dbContextOptions;
-    private BookHubBdContext _dbContext;
+    private DbContextOptions<BookHubDbContext> _dbContextOptions;
+    private BookHubDbContext _dbContext;
     private BooksService _booksService;
 
     public BooksServiceTests()

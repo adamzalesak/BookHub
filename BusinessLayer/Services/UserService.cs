@@ -8,9 +8,9 @@ namespace BusinessLayer.Services;
 
 public class UserService : IUserService
 {
-    private readonly BookHubBdContext _dbContext;
+    private readonly BookHubDbContext _dbContext;
 
-    public UserService(BookHubBdContext dbContext)
+    public UserService(BookHubDbContext dbContext)
     {
         _dbContext = dbContext;
     }

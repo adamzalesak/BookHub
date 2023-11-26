@@ -9,9 +9,9 @@ namespace BusinessLayer.Services
 {
     public class CartsService : ICartsService
     {
-        private readonly BookHubBdContext _dbContext;
+        private readonly BookHubDbContext _dbContext;
 
-        public CartsService(BookHubBdContext dbContext)
+        public CartsService(BookHubDbContext dbContext)
         {
             _dbContext = dbContext;
         }

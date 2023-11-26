@@ -9,9 +9,9 @@ namespace BusinessLayer.Services
 {
     public class OrdersService : IOrdersService
     {
-        private readonly BookHubBdContext _dbContext;
+        private readonly BookHubDbContext _dbContext;
 
-        public OrdersService(BookHubBdContext dbContext)
+        public OrdersService(BookHubDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -59,18 +59,20 @@ namespace BusinessLayer.Services
                 return false;
             }
 
-            var cart = await _dbContext.Carts.SingleAsync(c => c.Id == orderDto.CartId);
+            var cart = await _dbContext.Carts.SingleOrDefaultAsync(c => c.Id == orderDto.CartId);
             if (cart == null)
             {
                 return false;
             }
-            order = orderDto.MapToOrder();
-            order.Cart = cart;
-            if (orderDto.UserId != null)
-            {
-                order.UserId = orderDto.UserId;
-                order.User = await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == orderDto.UserId);
-            }
+
+            order.CartId = orderDto.CartId;
+            order.Email = orderDto.Email;
+            order.Address = orderDto.Address;
+            order.Phone = orderDto.Phone;
+            order.TotalPrice = orderDto.TotalPrice;
+            order.State = orderDto.State;
+            order.Timestamp = DateTime.Now;
+            order.UserId = orderDto.UserId;
 
             _dbContext.Orders.Update(order);
             await SaveAsync();

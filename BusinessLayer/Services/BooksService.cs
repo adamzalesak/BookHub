@@ -12,9 +12,9 @@ namespace BusinessLayer.Services;
 
 public class BooksService : IBooksService
 {
-    private readonly BookHubBdContext _dbContext;
+    private readonly BookHubDbContext _dbContext;
 
-    public BooksService(BookHubBdContext dbContext)
+    public BooksService(BookHubDbContext dbContext)
     {
         _dbContext = dbContext;
     }

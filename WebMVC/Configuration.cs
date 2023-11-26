@@ -1,7 +1,6 @@
 ﻿using BusinessLayer.Services;
 using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebMVC
@@ -10,7 +9,7 @@ namespace WebMVC
     {
         internal static IServiceCollection AddConfiguration(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContextFactory<BookHubBdContext>(options => options.UseNpgsql(connectionString));
+            services.AddDbContextFactory<BookHubDbContext>(options => options.UseNpgsql(connectionString));
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             services.AddScoped<IBooksService, BooksService>();

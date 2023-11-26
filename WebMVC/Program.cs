@@ -10,7 +10,7 @@ builder.Services.AddConfiguration(builder.Configuration.GetConnectionString("Pos
                                   throw new InvalidOperationException("PostgresConnectionString is null"));
 
 builder.Services.AddIdentity<LocalIdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<BookHubBdContext>()
+    .AddEntityFrameworkStores<BookHubDbContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>

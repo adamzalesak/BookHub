@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DataAccessLayer.Migrations
 {
-    [DbContext(typeof(BookHubBdContext))]
+    [DbContext(typeof(BookHubDbContext))]
     [Migration("20231116100853_Initial")]
     partial class Initial
     {

@@ -8,9 +8,9 @@ namespace BusinessLayer.Services;
 
 public class ReviewService : IReviewService
 {
-    private readonly BookHubBdContext _dbContext;
+    private readonly BookHubDbContext _dbContext;
 
-    public ReviewService(BookHubBdContext dbContext)
+    public ReviewService(BookHubDbContext dbContext)
     {
         _dbContext = dbContext;
     }

@@ -8,9 +8,9 @@ namespace BusinessLayer.Services;
 
 public class GenreService : IGenreService
 {
-    private readonly BookHubBdContext _dbContext;
+    private readonly BookHubDbContext _dbContext;
 
-    public GenreService(BookHubBdContext dbContext)
+    public GenreService(BookHubDbContext dbContext)
     {
         _dbContext = dbContext;
     }

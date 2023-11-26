@@ -9,9 +9,9 @@ namespace BusinessLayer.Services
 {
     public class PricesService : IPricesService
     {
-        private readonly BookHubBdContext _dbContext;
+        private readonly BookHubDbContext _dbContext;
 
-        public PricesService(BookHubBdContext dbContext)
+        public PricesService(BookHubDbContext dbContext)
         {
             _dbContext = dbContext;
         }                
