@@ -30,7 +30,7 @@ namespace BusinessLayer.Services
             if (orderDto.UserId != null)
             {
                 order.UserId = orderDto.UserId;
-                order.User = await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == orderDto.UserId);
+                order.User = await _dbContext.AppUsers.SingleOrDefaultAsync(u => u.Id == orderDto.UserId);
             }
 
             var newOrder = await _dbContext.Orders.AddAsync(order);

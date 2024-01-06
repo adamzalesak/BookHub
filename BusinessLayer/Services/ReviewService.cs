@@ -17,7 +17,7 @@ public class ReviewService : IReviewService
 
     public async Task<ReviewModel?> CreateReviewAsync(CreateReviewModel model)
     {
-        var user = await _dbContext.Users.FindAsync(model.UserId);
+        var user = await _dbContext.AppUsers.FindAsync(model.UserId);
         if (user == null)
         {
             return null;

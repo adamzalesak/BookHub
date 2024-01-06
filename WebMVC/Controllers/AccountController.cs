@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebMVC.Models.Identity;
+using WebMVC.Models.Account;
 
 namespace WebMVC.Controllers
 {
@@ -26,12 +26,20 @@ namespace WebMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new LocalIdentityUser { UserName = model.Email, Email = model.Email, User = new() { Username = model.Email } };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var identityUser = new LocalIdentityUser { 
+                    UserName = model.Email, 
+                    Email = model.Email, 
+                    User = new() { 
+                        Name = model.Name, 
+                        Username = model.Username,
+                        Email = model.Email
+                    } 
+                };
+                var result = await _userManager.CreateAsync(identityUser, model.Password);
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _signInManager.SignInAsync(identityUser, isPersistent: false);
                     return RedirectToAction("Login", "Account");
                 }
 

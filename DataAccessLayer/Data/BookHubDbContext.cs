@@ -1,9 +1,10 @@
 ﻿using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Data;
 
-public class BookHubDbContext : DbContext
+public class BookHubDbContext : IdentityDbContext
 {
     public virtual DbSet<Book> Books { get; set; }
     public virtual DbSet<Author> Authors { get; set; }
@@ -12,10 +13,12 @@ public class BookHubDbContext : DbContext
     public virtual DbSet<Order> Orders { get; set; }
     public virtual DbSet<Price> Prices { get; set; }
     public virtual DbSet<Cart> Carts { get; set; }
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<User> AppUsers { get; set; }
     public virtual DbSet<Review> Reviews { get; set; }
     public virtual DbSet<Genre> Genres { get; set; }
     public virtual DbSet<BookGenre> BookGenres { get; set; }
+
+    public virtual DbSet<LocalIdentityUser> IdentityUsers { get; set; }
 
     public BookHubDbContext(DbContextOptions<BookHubDbContext> options) : base(options)
     {

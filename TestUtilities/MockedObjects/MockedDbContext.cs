@@ -41,7 +41,7 @@ public static class MockedDbContext
         dbContext.Books.AddRange(TestDataHelper.GetFakeBooks());
         dbContext.AuthorBooks.AddRange(TestDataHelper.GetFakeAuthorBooks());
         dbContext.BookGenres.AddRange(TestDataHelper.GetFakeBookGenres());
-        dbContext.Users.AddRange(TestDataHelper.GetFakeUsers());
+        dbContext.AppUsers.AddRange(TestDataHelper.GetFakeUsers());
         dbContext.Carts.AddRange(TestDataHelper.GetFakeCarts());
         dbContext.Orders.AddRange(TestDataHelper.GetFakeOrders());
         

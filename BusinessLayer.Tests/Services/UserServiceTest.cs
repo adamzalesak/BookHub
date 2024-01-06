@@ -89,8 +89,8 @@ namespace BusinessLayer.Tests.Services
         {
             var user = TestDataHelperUser.GetUser2();
             var user2 = TestDataHelperUser.GetUser3();
-            await _dbContext.Users.AddAsync(user);
-            await _dbContext.Users.AddAsync(user2);
+            await _dbContext.AppUsers.AddAsync(user);
+            await _dbContext.AppUsers.AddAsync(user2);
             await _dbContext.SaveChangesAsync();
 
             var foundUser = await _userService.GetUserByIdAsync(user.Id);
@@ -110,7 +110,7 @@ namespace BusinessLayer.Tests.Services
             var user3 = TestDataHelperUser.GetUser2();
 
             var foundUsers = await _userService.GetUsersAsync();
-            var storedUsers = await _dbContext.Users.ToListAsync();
+            var storedUsers = await _dbContext.AppUsers.ToListAsync();
 
             Assert.NotNull(foundUsers);
             Assert.NotNull(storedUsers);
@@ -122,7 +122,7 @@ namespace BusinessLayer.Tests.Services
         public async Task DeleteUserAsync_BadUserId()
         {
             var user = TestDataHelperUser.GetUser3();
-            await _dbContext.Users.AddAsync(user);
+            await _dbContext.AppUsers.AddAsync(user);
             await _dbContext.SaveChangesAsync();
 
             var deleteResult = await _userService.DeleteUserAsync(4);
@@ -133,7 +133,7 @@ namespace BusinessLayer.Tests.Services
         public async Task DeleteUserAsync_Success()
         {
             var user = TestDataHelperUser.GetUser3();
-            await _dbContext.Users.AddAsync(user);
+            await _dbContext.AppUsers.AddAsync(user);
             await _dbContext.SaveChangesAsync();
 
             var deleteResult = await _userService.DeleteUserAsync(user.Id);

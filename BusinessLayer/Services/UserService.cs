@@ -19,7 +19,7 @@ public class UserService : IUserService
     {
         var newUser = model.MapToUser();
 
-        await _dbContext.Users.AddAsync(newUser);
+        await _dbContext.AppUsers.AddAsync(newUser);
         await SaveAsync();
 
         return newUser.MapToUserModel();
@@ -27,7 +27,7 @@ public class UserService : IUserService
 
     public async Task<UserModel?> EditUserAsync(int userId, EditUserModel model)
     {
-        var user = await _dbContext.Users.FindAsync(userId);
+        var user = await _dbContext.AppUsers.FindAsync(userId);
         if (user == null)
         {
             return null;
@@ -45,7 +45,7 @@ public class UserService : IUserService
 
     public async Task<UserModel?> GetUserByIdAsync(int userId)
     {
-        var userModel = await _dbContext.Users
+        var userModel = await _dbContext.AppUsers
             .Where(u => u.Id == userId)
             .Include(u => u.Orders)
             .Select(u => u.MapToUserModel())
@@ -56,7 +56,7 @@ public class UserService : IUserService
 
     public async Task<List<UserModel>> GetUsersAsync()
     {
-        var userModels = await _dbContext.Users
+        var userModels = await _dbContext.AppUsers
             .Include(u => u.Orders)
             .Select(u => u.MapToUserModel())
             .ToListAsync();
@@ -66,13 +66,13 @@ public class UserService : IUserService
 
     public async Task<bool> DeleteUserAsync(int userId)
     {
-        var user = await _dbContext.Users.FindAsync(userId);
+        var user = await _dbContext.AppUsers.FindAsync(userId);
         if (user == null)
         {
             return false;
         }
         
-        _dbContext.Users.Remove(user);
+        _dbContext.AppUsers.Remove(user);
         await SaveAsync();
 
         return true;
