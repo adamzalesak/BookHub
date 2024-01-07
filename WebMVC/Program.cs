@@ -1,14 +1,14 @@
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Utilities.Middleware;
 using WebMVC;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddConfiguration(builder.Configuration.GetConnectionString("PostgresConnectionString") ??
-                                  throw new InvalidOperationException("PostgresConnectionString is null"));
+builder.Services.AddConfiguration(builder.Configuration.GetConnectionString("SqliteConnectionString") ??
+                                  throw new InvalidOperationException("SqliteConnectionString is null"));
 
 builder.Services.AddIdentity<LocalIdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<BookHubDbContext>()
@@ -40,6 +40,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+app.UseMiddleware<LoggingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

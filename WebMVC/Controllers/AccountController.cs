@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models;
+﻿using System.Security.Claims;
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebMVC.Models.Account;
@@ -27,7 +28,7 @@ namespace WebMVC.Controllers
             if (ModelState.IsValid)
             {
                 var identityUser = new LocalIdentityUser { 
-                    UserName = model.Email, 
+                    UserName = model.Username,
                     Email = model.Email, 
                     User = new() { 
                         Name = model.Name, 
@@ -63,6 +64,21 @@ namespace WebMVC.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                var claims = await _userManager.GetClaimsAsync(user);
+
+                if (!claims.Any(c => c.Type == "Name"))
+                {
+                    // Assuming user.User is the property that may be null
+                    var fullName = user.User?.Name;
+
+                    if (!string.IsNullOrEmpty(fullName))
+                    {
+                        claims.Add(new Claim("Name", fullName));
+                        await _userManager.ReplaceClaimAsync(user, claims.SingleOrDefault(c => c.Type == "Name"), new Claim("Name", fullName));
+                    }
+                }
 
                 if (result.Succeeded)
                 {

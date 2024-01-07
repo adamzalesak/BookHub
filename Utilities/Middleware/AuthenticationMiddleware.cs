@@ -1,4 +1,6 @@
-﻿namespace WebAPI.Middleware;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Utilities.Middleware;
 
 public class AuthenticationMiddleware
 {

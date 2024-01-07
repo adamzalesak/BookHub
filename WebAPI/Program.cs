@@ -1,7 +1,9 @@
 using System.Reflection;
 using Microsoft.OpenApi.Models;
+using Utilities.Middleware;
 using WebAPI;
-using WebAPI.Middleware;
+using AuthenticationMiddleware = Microsoft.AspNetCore.Authentication.AuthenticationMiddleware;
+using LoggingMiddleware = Utilities.Middleware.LoggingMiddleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,8 +43,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddConfiguration(builder.Configuration.GetConnectionString("PostgresConnectionString") ??
-                                  throw new InvalidOperationException("PostgresConnectionString is null"));
+builder.Services.AddConfiguration(builder.Configuration.GetConnectionString("SqliteConnectionString") ??
+                                  throw new InvalidOperationException("SqliteConnectionString is null"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

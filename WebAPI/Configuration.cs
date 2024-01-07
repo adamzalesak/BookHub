@@ -9,8 +9,7 @@ public static class Configuration
 {
     internal static IServiceCollection AddConfiguration(this IServiceCollection services, string connectionString)
     {
-        services.AddDbContextFactory<BookHubDbContext>(options => options.UseNpgsql(connectionString));
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        services.AddDbContextFactory<BookHubDbContext>(options => options.UseSqlite(connectionString));
 
         services.AddScoped<IBooksService, BooksService>();
         services.AddScoped<IUserService, UserService>();
