@@ -15,6 +15,7 @@ public static class Configuration
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IReviewService, ReviewService>();
         services.AddScoped<IGenreService, GenreService>();
+        services.AddScoped<IPublishersService, PublishersService>();
         services.AddScoped<ICartsService, CartsService>();
         services.AddScoped<IPricesService, PricesService>();
         services.AddScoped<IOrdersService, OrdersService>();

@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Sidebar\Index.cshtml" />
+  </ItemGroup>
+
 </Project>

@@ -3,16 +3,19 @@ using BusinessLayer.Models.Genre;
 using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BusinessLayer.Services;
 
 public class GenreService : IGenreService
 {
     private readonly BookHubDbContext _dbContext;
+    private readonly IMemoryCache _memoryCache;
 
-    public GenreService(BookHubDbContext dbContext)
+    public GenreService(BookHubDbContext dbContext, IMemoryCache memoryCache)
     {
         _dbContext = dbContext;
+        _memoryCache = memoryCache;
     }
 
     public async Task<GenreModel> CreateGenreAsync(CreateGenreModel model)
@@ -41,11 +44,19 @@ public class GenreService : IGenreService
 
     public async Task<List<GenreModel>> GetGenresAsync()
     {
-        var genreModels = await _dbContext.Genres
+        if (_memoryCache.TryGetValue(Constants.GetGenresCacheKey, out List<GenreModel>? genres) && genres != null)
+        {
+            return genres;
+        }
+
+        var genresFromDb = await _dbContext.Genres
             .Select(g => g.MapToGenreModel())
             .ToListAsync();
 
-        return genreModels;
+        _memoryCache.Set(Constants.GetGenresCacheKey, genresFromDb,
+            new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)));
+
+        return genresFromDb;
     }
 
     public async Task<GenreModel?> GetGenreByIdAsync(int genreId)

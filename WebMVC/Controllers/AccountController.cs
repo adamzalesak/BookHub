@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using WebMVC.Models.Account;
 
 namespace WebMVC.Controllers
@@ -63,10 +65,18 @@ namespace WebMVC.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
-            {                
+            {
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
+                    var user = await _userManager.FindByNameAsync(model.UserName);
+
+                    if (user is { IsAdministrator: true })
+                    {
+                        await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Admin"));
+                    }
+
                     return RedirectToAction("LoginSuccess", "Account");
                 }
 
