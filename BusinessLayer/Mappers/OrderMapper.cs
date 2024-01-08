@@ -11,4 +11,5 @@ namespace BusinessLayer.Mappers
         public static partial List<OrderModel> MapToOrderModelList(this ICollection<Order> order);
         public static partial Order MapToOrder(this CreateOrderModel createPriceModel);
     }
+
 }

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Models.Order;
+using BusinessLayer.Services;
 using BusinessLayer.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
@@ -83,5 +84,12 @@ public class OrdersController : ControllerBase
     public async Task<ActionResult<List<OrderModel>>> GetOrdersInInterval(DateTime from, DateTime to)
     {
         return Ok(await _ordersService.GetOrdersInInterval(from, to));
+    }
+
+    [HttpGet("userOrders")]
+    public async Task<ActionResult<List<UserOrdersModel>>> GetUserOrders(String userId)
+    {
+        var orders = await _ordersService.GetOrdersByUserId(userId);
+        return Ok(orders);
     }
 }

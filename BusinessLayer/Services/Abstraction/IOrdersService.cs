@@ -10,5 +10,6 @@ namespace BusinessLayer.Services.Abstraction
         public Task<bool> EditOrder(int id, CreateOrderModel orderDto);
         public Task<bool> DeleteOrder(int id);
         public Task<List<OrderModel>?> GetOrdersInInterval(DateTime from, DateTime to);
+        public Task<List<UserOrdersModel>?> GetOrdersByUserId(String userId);
     }
 }
