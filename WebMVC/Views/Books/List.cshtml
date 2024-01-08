@@ -1,0 +1,23 @@
+@model System.Collections.Generic.IEnumerable<WebMVC.Models.BookViewModel>
+
+@{
+    ViewBag.Title = "Books";
+    Layout = "_Layout";
+}
+
+<h2>Books</h2>
+
+@foreach (var book in Model)
+{
+    <div class="card m-2">
+        <div class="card-body d-flex justify-content-between">
+            <div>
+                <b class="card-title">@book.Name</b>
+                <p class="card-text">@book.Description</p>
+                <a href="books/@book.Id" class="btn btn-primary">Detail</a>
+            </div>
+            <b class="card-text">@book.Price €</b>
+        </div>
+
+    </div>
+}

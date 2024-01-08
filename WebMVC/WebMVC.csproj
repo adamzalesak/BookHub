@@ -29,4 +29,8 @@
     <_ContentIncludedByDefault Remove="Views\Sidebar\Index.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Controllers\HomeController.cs" />
+  </ItemGroup>
+
 </Project>

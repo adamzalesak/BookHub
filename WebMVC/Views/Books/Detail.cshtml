@@ -1,0 +1,66 @@
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "_Layout";
+}
+
+<h2>📘 @Model.Name</h2>
+<div class="d-flex">
+    <div class="d-flex flex-column gap-3">
+        <div>
+            <b>Authors:</b>
+            <ul>
+                @{
+                    foreach (var author in Model.Authors)
+                    {
+                        <li>@author</li>
+                    }
+                }
+            </ul>
+        </div>
+
+        <div>
+            <b>Primary Genre:</b> @Model.PrimaryGenre
+        </div>
+
+        <div>
+            <b>Genres:</b>
+            <ul>
+                @{
+                    foreach (var genre in Model.Genres)
+                    {
+                        <li>@genre</li>
+                    }
+                }
+            </ul>
+        </div>
+
+
+        <div>
+            <b>Publisher:</b> @Model.Publisher
+        </div>
+
+        <div>
+            <b>ISBN:</b> @Model.Isbn
+        </div>
+
+        <div>
+            <b>Description:</b>
+            <p>
+                @Model.Description
+            </p>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column gap-3">
+        <div>
+            <b>Price:</b> @Model.Price €
+        </div>
+
+
+        <div>
+            <b>In Stock:</b> @Model.Count
+        </div>
+
+        <button class="btn btn-primary">Add to Cart</button>
+    </div>
+</div>
