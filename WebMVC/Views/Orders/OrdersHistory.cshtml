@@ -1,7 +1,12 @@
 ﻿@using WebMVC.Models.Orders
 @model List<OrdersHistoryViewModel>
 
-<h2>My orders history</h2>
+@{
+    ViewBag.Title = "My Orders";
+    Layout = "_Layout";
+}
+
+<h2>My Orders</h2>
 <style>
 table, td, th {
   border: 1px solid black;

@@ -61,6 +61,8 @@ public class PublishersService : IPublishersService
         publisher.Description = model.Description ?? publisher.Description;
         
         await SaveAsync();
+        
+        ClearCache();
 
         return publisher.MapToPublisherModel();
     }
@@ -68,5 +70,10 @@ public class PublishersService : IPublishersService
     public Task SaveAsync()
     {
         return _dbContext.SaveChangesAsync();
+    }
+    
+    private void ClearCache()
+    {
+        _memoryCache.Remove(Constants.GetPublishersCacheKey);
     }
 }

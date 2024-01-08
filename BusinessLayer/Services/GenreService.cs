@@ -24,6 +24,8 @@ public class GenreService : IGenreService
 
         await _dbContext.Genres.AddAsync(newGenre);
         await SaveAsync();
+        
+        ClearCache();
 
         return newGenre.MapToGenreModel();
     }
@@ -38,6 +40,8 @@ public class GenreService : IGenreService
 
         genre.Name = model.Name;
         await SaveAsync();
+    
+        ClearCache();
 
         return genre.MapToGenreModel();
     }
@@ -81,7 +85,9 @@ public class GenreService : IGenreService
         }
         
         _dbContext.Genres.Remove(genre);
-        await _dbContext.SaveChangesAsync();
+        await SaveAsync();
+
+        ClearCache();
         
         return true;
     }
@@ -89,5 +95,10 @@ public class GenreService : IGenreService
     public async Task SaveAsync()
     {
         await _dbContext.SaveChangesAsync();
+    }
+    
+    private void ClearCache()
+    {
+        _memoryCache.Remove(Constants.GetGenresCacheKey);
     }
 }
