@@ -18,18 +18,21 @@ public class PublishersService : IPublishersService
         _memoryCache = memoryCache;
     }
 
-    public async Task<ICollection<PublisherModel>> GetPublishersAsync()
+    public async Task<ICollection<PublisherModel>> GetPublishersAsync(string? filterName = null)
     {
-        if (_memoryCache.TryGetValue(Constants.GetPublishersCacheKey, out List<PublisherModel>? publishers) && publishers != null)
+        var filterNameString = filterName?.ToLower() ?? "";
+        
+        if (_memoryCache.TryGetValue(Constants.GetPublishersCacheKey + filterNameString, out List<PublisherModel>? publishers) && publishers != null)
         {
             return publishers;
         }
 
         var publishersFromDb = await _dbContext.Publishers
+            .Where(p => p.Name.ToLower().Contains(filterNameString))
             .Select(p => p.MapToPublisherModel())
             .ToListAsync();
 
-        _memoryCache.Set(Constants.GetPublishersCacheKey, publishersFromDb,
+        _memoryCache.Set(Constants.GetPublishersCacheKey + filterNameString, publishersFromDb,
             new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)));
 
         return publishersFromDb;

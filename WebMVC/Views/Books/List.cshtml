@@ -1,8 +1,30 @@
-@model WebMVC.Models.ListBooksViewModel
+@model WebMVC.Models.Books.ListBooksViewModel
 
 @{
     ViewBag.Title = "Books";
     Layout = "_Layout";
+}
+
+@if (Model.FoundGenres?.Count > 0)
+{
+    <div class="d-flex flex-wrap">
+        <h2>Genres</h2>
+        @foreach (var genre in Model.FoundGenres)
+        {
+            <a class="btn btn-outline-primary m-1" asp-controller="Books" asp-action="List" asp-route-genreId="@genre.Id">@genre.Name</a>
+        }
+    </div>
+}
+
+@if (Model.FoundPublishers?.Count > 0)
+{
+    <div class="d-flex flex-wrap">
+        <h2>Publishers</h2>
+        @foreach (var publisher in Model.FoundPublishers)
+        {
+            <a class="btn btn-outline-primary m-1" asp-controller="Books" asp-action="List" asp-route-publisherId="@publisher.Id">@publisher.Name</a>
+        }
+    </div>
 }
 
 <h2>Books</h2>
@@ -30,4 +52,9 @@
         </div>
 
     </div>
+}
+
+@if(Model.Books.Count == 0)
+{
+    <p>No books found</p>
 }

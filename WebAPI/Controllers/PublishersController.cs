@@ -14,12 +14,12 @@ public class PublishersController : Controller
     }
     
     /// <summary>
-    /// Get all publishers
+    /// Get publishers
     /// </summary>
     [HttpGet]
-    public async Task<ActionResult<List<PublisherModel>>> GetAllPublishers()
+    public async Task<ActionResult<List<PublisherModel>>> GetAllPublishers([FromQuery] string? filterName = null)
     {
-        var publishers = await _publishersService.GetPublishersAsync();
+        var publishers = await _publishersService.GetPublishersAsync(filterName);
         return Ok(publishers);
     }
 }

@@ -18,6 +18,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <form class="d-flex gap-1" asp-action="List" asp-controller="Books" method="get">
+                    <input type="text" placeholder="Search" name="searchString" /> 
+                    <button type="submit" class="btn btn-outline-primary">🔍</button>
+                </form>
                 <ul class="navbar-nav ms-auto">
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {

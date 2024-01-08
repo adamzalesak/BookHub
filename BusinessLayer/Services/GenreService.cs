@@ -42,18 +42,21 @@ public class GenreService : IGenreService
         return genre.MapToGenreModel();
     }
 
-    public async Task<List<GenreModel>> GetGenresAsync()
+    public async Task<List<GenreModel>> GetGenresAsync(string? filterName = null)
     {
-        if (_memoryCache.TryGetValue(Constants.GetGenresCacheKey, out List<GenreModel>? genres) && genres != null)
+        var filterNameString = filterName?.ToLower() ?? "";
+        
+        if (_memoryCache.TryGetValue(Constants.GetGenresCacheKey + filterNameString, out List<GenreModel>? genres) && genres != null)
         {
             return genres;
         }
 
         var genresFromDb = await _dbContext.Genres
+            .Where(g => g.Name.ToLower().Contains(filterNameString))
             .Select(g => g.MapToGenreModel())
             .ToListAsync();
 
-        _memoryCache.Set(Constants.GetGenresCacheKey, genresFromDb,
+        _memoryCache.Set(Constants.GetGenresCacheKey + filterNameString, genresFromDb,
             new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)));
 
         return genresFromDb;

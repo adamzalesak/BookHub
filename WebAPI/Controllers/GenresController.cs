@@ -16,12 +16,12 @@ public class GenresController : ControllerBase
     }
 
     /// <summary>
-    /// Get all genres
+    /// Get genres
     /// </summary>
     [HttpGet]
-    public async Task<ICollection<GenreModel>> GetGenres()
+    public async Task<ICollection<GenreModel>> GetGenres(string? filterName = null)
     { 
-        return await _genreService.GetGenresAsync();
+        return await _genreService.GetGenresAsync(filterName);
     }
     
     /// <summary>
