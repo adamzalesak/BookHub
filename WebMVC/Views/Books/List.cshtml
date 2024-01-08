@@ -44,7 +44,13 @@
     <div class="card m-2">
         <div class="card-body d-flex justify-content-between">
             <div>
-                <b class="card-title">@book.Name</b>
+                <div>
+                    <b class="card-title">@book.Name</b>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a href="/books/@book.Id/edit">✏️</a>
+                    }
+                </div>
                 <p class="card-text">@book.Description</p>
                 <a href="books/@book.Id" class="btn btn-primary">Detail</a>
             </div>

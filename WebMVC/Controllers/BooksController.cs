@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using BusinessLayer.Models.Book;
 using BusinessLayer.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
+using WebMVC.Mappers;
 using WebMVC.Models;
 using WebMVC.Models.Books;
 using BookMapper = WebMVC.Mappers.BookMapper;
@@ -77,5 +78,50 @@ public class BooksController : Controller
         var model = BookMapper.MapToBookViewModel(book);
 
         return View(model);
+    }
+    
+    [HttpGet("books/{bookId:int}/edit")]
+    public async Task<IActionResult> EditBook(int bookId)
+    {
+        if (!User.IsInRole("Admin"))
+        {
+            return Unauthorized();
+        }
+        
+        var bookModel = await _booksService.GetBookAsync(bookId);
+
+        if (bookModel == null)
+        {
+            return BadRequest($"Book with id {bookId} does not exist");
+        }
+        
+        return View(bookModel.MapToEditBookViewModel());
+    }
+    
+    [HttpPost("books/{bookId:int}/edit")]
+    public async Task<IActionResult> EditBook(int bookId, EditBookViewModel model)
+    {
+        if (!User.IsInRole("Admin"))
+        {
+            return Unauthorized();
+        }
+        
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        
+        var editBookModel = model.MapToEditBookModel();
+
+        try
+        {
+            await _booksService.EditBookAsync(bookId, editBookModel);
+        }
+        catch (Exception exception)
+        {
+            return BadRequest(exception.Message);
+        }
+
+        return Redirect("~/");
     }
 }

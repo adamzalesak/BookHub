@@ -175,6 +175,7 @@ public class BooksService : IBooksService
         newBook.Prices.Add(newPrice);
 
         _dbContext.Books.Add(newBook);
+        await SaveAsync();
 
         return newBook.MapToBookModel();   
     }
@@ -277,6 +278,8 @@ public class BooksService : IBooksService
 
             book.Prices.Add(newPrice);
         }
+
+        await SaveAsync();
     }
 
     public async Task DeleteBookAsync(int bookId)
@@ -288,6 +291,8 @@ public class BooksService : IBooksService
         }
 
         book.IsDeleted = true;
+        
+        await SaveAsync();
     }
 
     public async Task SaveAsync()

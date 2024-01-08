@@ -52,7 +52,6 @@ public class BooksController : ControllerBase
         try
         {
             var newBookModel = await _booksService.CreateBookAsync(model);
-            await _booksService.SaveAsync();
             return Created($"/books/{newBookModel.Id}", newBookModel);
         }
         catch (NotFoundException e)
@@ -74,7 +73,6 @@ public class BooksController : ControllerBase
         try
         {
             await _booksService.EditBookAsync(id, model);
-            await _booksService.SaveAsync();
             return Ok();
         }
         catch (NotFoundException e)
@@ -96,7 +94,6 @@ public class BooksController : ControllerBase
         try
         {
             await _booksService.DeleteBookAsync(id);
-            await _booksService.SaveAsync();
             return Ok();
         }
         catch (NotFoundException e)

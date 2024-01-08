@@ -95,14 +95,11 @@ public class OrdersServiceTests
     {
         // Arrange
         var orderId = 1;
-        var updateModel = new CreateOrderModel
+        var updateModel = new EditOrderModel()
         {
-            UserId = "1",
-            CartId = 1,
             Address = "New Address",
             Email = "new.email@email.com",
             Phone = 420605654321,
-            TotalPrice = 12.45m,
         };
 
         // Act
@@ -112,28 +109,9 @@ public class OrdersServiceTests
         // Assert
         Assert.True(result);
         Assert.NotNull(editedOrder);
-        Assert.Equal(updateModel.UserId, editedOrder.UserId);
-        Assert.Equal(updateModel.CartId, editedOrder.CartId);
         Assert.Equal(updateModel.Address, editedOrder.Address);
         Assert.Equal(updateModel.Email, editedOrder.Email);
         Assert.Equal(updateModel.Phone, editedOrder.Phone);
-    }
-
-    [Fact]
-    public async Task EditOrder_InvalidInput_ReturnsFalse()
-    {
-        // Arrange
-        var orderId = 1;
-        var orderDto = new CreateOrderModel
-        {
-            Email = "test@test.com",
-        };
-
-        // Act
-        var result = await _ordersService.EditOrder(orderId, orderDto);
-
-        // Assert
-        Assert.False(result);
     }
 
     [Fact]

@@ -45,6 +45,25 @@ public class PublishersService : IPublishersService
         
         return publisher?.MapToPublisherModel();
     }
+    
+    public async Task<PublisherModel?> EditPublisherAsync(int reviewId, EditPublisherModel model)
+    {
+        var publisher = await _dbContext.Publishers
+            .Where(r => r.Id == reviewId)
+            .FirstOrDefaultAsync();
+        
+        if (publisher == null)
+        {
+            return null;
+        }
+
+        publisher.Name = model.Name ?? publisher.Name;
+        publisher.Description = model.Description ?? publisher.Description;
+        
+        await SaveAsync();
+
+        return publisher.MapToPublisherModel();
+    }
 
     public Task SaveAsync()
     {

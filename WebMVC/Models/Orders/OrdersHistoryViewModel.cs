@@ -1,5 +1,4 @@
-﻿using BusinessLayer.Models.Order;
-using DataAccessLayer.Models;
+﻿using DataAccessLayer.Models;
 
 namespace WebMVC.Models.Orders
 {

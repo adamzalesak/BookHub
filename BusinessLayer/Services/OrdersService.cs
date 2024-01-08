@@ -51,31 +51,24 @@ namespace BusinessLayer.Services
             return true;
         }
 
-        public async Task<bool> EditOrder(int id, CreateOrderModel orderDto)
+        public async Task<bool> EditOrder(int id, EditOrderModel orderDto)
         {
-            var order = await GetOrderObject(id);
+            var order = await _dbContext.Orders
+                .Where(o => o.Id == id)
+                .FirstOrDefaultAsync();
+        
             if (order == null)
             {
                 return false;
             }
 
-            var cart = await _dbContext.Carts.SingleOrDefaultAsync(c => c.Id == orderDto.CartId);
-            if (cart == null)
-            {
-                return false;
-            }
-
-            order.CartId = orderDto.CartId;
-            order.Email = orderDto.Email;
-            order.Address = orderDto.Address;
-            order.Phone = orderDto.Phone;
-            order.TotalPrice = orderDto.TotalPrice;
-            order.State = orderDto.State;
-            order.Timestamp = DateTime.Now;
-            order.UserId = orderDto.UserId;
-
-            _dbContext.Orders.Update(order);
+            order.Email = orderDto.Email ?? order.Email;
+            order.Address = orderDto.Address ?? order.Address;
+            order.Phone = orderDto.Phone ?? order.Phone;
+            order.State = orderDto.State ?? order.State;
+        
             await SaveAsync();
+
             return true;
         }
 

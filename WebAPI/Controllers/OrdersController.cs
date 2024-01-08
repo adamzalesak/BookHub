@@ -55,7 +55,7 @@ public class OrdersController : ControllerBase
     /// Edit order
     /// </summary>
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> EditOrder([FromRoute] int id, CreateOrderModel orderDto)
+    public async Task<ActionResult> EditOrder([FromRoute] int id, EditOrderModel orderDto)
     {
         if ((await _ordersService.EditOrder(id, orderDto)).Equals(false))
         {
