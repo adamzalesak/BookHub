@@ -6,7 +6,7 @@
         @foreach (var genre in Model.Genres)
         {
             <li>
-                <a href="/genres/@genre.Id">@genre.Name</a>
+                <a asp-action="List" asp-controller="Books" asp-route-genreId="@genre.Id">@genre.Name</a>
                 @if (User.IsInRole("Admin"))
                 {
                     <a href="/genres/@genre.Id/edit">✏️</a>
@@ -20,7 +20,7 @@
         @foreach (var publisher in Model.Publishers)
         {
             <li>
-                <a href="/publishers/@publisher.Id">@publisher.Name</a>
+                <a asp-action="List" asp-controller="Books" asp-route-publisherId="@publisher.Id">@publisher.Name</a>
                 @if (User.IsInRole("Admin"))
                 {
                     <a href="/publishers/@publisher.Id/edit">✏️</a>

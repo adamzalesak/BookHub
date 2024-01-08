@@ -34,6 +34,14 @@ public class PublishersService : IPublishersService
 
         return publishersFromDb;
     }
+    
+    public async Task<PublisherModel?> GetPublisherByIdAsync(int id)
+    {
+        var publisher = await _dbContext.Publishers
+            .FirstOrDefaultAsync(p => p.Id == id);
+        
+        return publisher?.MapToPublisherModel();
+    }
 
     public Task SaveAsync()
     {

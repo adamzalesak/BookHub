@@ -10,18 +10,39 @@ namespace WebMVC.Controllers;
 public class BooksController : Controller
 {
     private readonly IBooksService _booksService;
+    private readonly IGenreService _genresService;
+    private readonly IPublishersService _publishersService;
 
-    public BooksController(IBooksService booksService)
+    public BooksController(IBooksService booksService,
+        IGenreService genresService,
+        IPublishersService publishersService)
     {
         _booksService = booksService;
+        _genresService = genresService;
+        _publishersService = publishersService;
     }
+
 
     [Route("")]
     [Route("books")]
-    public async Task<ActionResult> List()
+    public async Task<ActionResult> List([FromQuery] int? genreId, [FromQuery] int? publisherId)
     {
-        var books = await _booksService.GetBooksAsync(new GetBooksModel());
-        var model = books.Select(BookMapper.MapToBookViewModel);
+        var books = await _booksService.GetBooksAsync(new GetBooksModel
+        {
+            GenreId = genreId,
+            PublisherId = publisherId,
+        });
+        var bookModels = books.Select(BookMapper.MapToBookViewModel).ToList();
+
+        var genre = genreId is null ? null : await _genresService.GetGenreByIdAsync(genreId.Value);
+        var publisher = publisherId is null ? null : await _publishersService.GetPublisherByIdAsync(publisherId.Value);
+        
+        var model = new ListBooksViewModel
+        {
+            FilteredGenreName = genre?.Name,
+            FilteredPublisherName = publisher?.Name,
+            Books = bookModels,
+        };
 
         return View(model);
     }

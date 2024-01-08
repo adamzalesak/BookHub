@@ -1,4 +1,4 @@
-@model System.Collections.Generic.IEnumerable<WebMVC.Models.BookViewModel>
+@model WebMVC.Models.ListBooksViewModel
 
 @{
     ViewBag.Title = "Books";
@@ -7,7 +7,17 @@
 
 <h2>Books</h2>
 
-@foreach (var book in Model)
+@if (Model.FilteredGenreName != null)
+{
+    <h3>Genre: @Model.FilteredGenreName</h3>
+}
+
+@if (Model.FilteredPublisherName != null)
+{
+    <h3>Publisher: @Model.FilteredPublisherName</h3>
+}
+
+@foreach (var book in Model.Books)
 {
     <div class="card m-2">
         <div class="card-body d-flex justify-content-between">

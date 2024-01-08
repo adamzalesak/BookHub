@@ -1,9 +1,7 @@
-﻿using BusinessLayer.Services;
-using BusinessLayer.Services.Abstraction;
+﻿using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WebMVC.Models.Orders;
 
 namespace WebMVC.Controllers
@@ -23,7 +21,7 @@ namespace WebMVC.Controllers
         [HttpGet]
         public IActionResult OrdersHistory()
         {
-            var userId = _userManager.FindByNameAsync(User.Identity?.Name).Result.Id;
+            var userId = _userManager.FindByNameAsync(User.Identity?.Name).Result?.Id;
             var orders = _orderService.GetOrdersByUserId(userId);
             List<OrdersHistoryViewModel> ordersHistory = orders.Result.Select(order => new OrdersHistoryViewModel()
             {
