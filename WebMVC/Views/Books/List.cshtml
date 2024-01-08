@@ -50,7 +50,6 @@
             </div>
             <b class="card-text">@book.Price €</b>
         </div>
-
     </div>
 }
 
@@ -58,3 +57,19 @@
 {
     <p>No books found</p>
 }
+else {
+    <div class="pagination">
+    @for (int i = 1; i <= Model.PageCount; i++)
+    {
+        <a asp-action="List"
+        asp-controller="Books"
+        asp-route-genreId="@Model.GenreId"
+        asp-route-publisherId="@Model.PublisherId"
+        asp-route-searchString="@Model.SearchString"
+        asp-route-pageIndex="@i"
+        asp-route-pageSize="@Model.PageSize"
+        class="@(i == Model.PageIndex ? "active" : "")">@($" {i}, ")</a>
+    }
+</div>
+}
+

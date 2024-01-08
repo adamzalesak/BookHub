@@ -91,7 +91,7 @@ public class BooksServiceTests
         
         // assert
         Assert.NotNull(result);
-        Assert.All(result, bookModel => 
+        Assert.All(result.Books, bookModel => 
             Assert.True(bookModel.Price >= parameters.MinPrice && bookModel.Price <= parameters.MaxPrice)
         );
     }
@@ -142,8 +142,8 @@ public class BooksServiceTests
         
         // assert
         Assert.NotNull(result);
-        Assert.Equal(bookIds.Count, result.Count);
-        Assert.All(result, bookModel => Assert.Contains(bookModel.Id, bookIds));
+        Assert.Equal(bookIds.Count, result.Books.Count);
+        Assert.All(result.Books, bookModel => Assert.Contains(bookModel.Id, bookIds));
     }
     
     [Fact]

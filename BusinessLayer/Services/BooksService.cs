@@ -19,7 +19,7 @@ public class BooksService : IBooksService
         _dbContext = dbContext;
     }
 
-    public async Task<ICollection<BookModel>> GetBooksAsync(GetBooksModel parameters)
+    public async Task<BookPaginationModel> GetBooksAsync(GetBooksModel parameters)
     {
         var booksQuery = _dbContext.Books.AsQueryable();
 
@@ -37,7 +37,20 @@ public class BooksService : IBooksService
             .Select(b => b.MapToBookModel())
             .ToListAsync();
 
-        return books;
+        var totalCount = await booksQuery
+            .Where(x => x.IsDeleted == false)
+            .Include(b => b.Publisher)
+            .Include(b => b.Authors)
+            .Include(b => b.Prices)
+            .Include(b => b.Genres)
+            .CountAsync();
+
+        return new BookPaginationModel()
+        {
+            Books = books,
+            TotalCount = totalCount,
+            PageIndex = parameters.Page ?? 0
+        };
     }
 
     private static IQueryable<Book> ApplyFilters(GetBooksModel parameters, IQueryable<Book> booksQuery)

@@ -125,3 +125,5 @@ $RECYCLE.BIN/
 # Personal Configuration
 appsettings.Development.json
 /WebMVC/EmailSender/EmailConfig.txt
+/bookHub.db-shm
+/bookHub.db-wal

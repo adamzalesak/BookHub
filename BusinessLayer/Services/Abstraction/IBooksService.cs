@@ -4,7 +4,7 @@ namespace BusinessLayer.Services.Abstraction;
 
 public interface IBooksService : IBaseService
 {
-    public Task<ICollection<BookModel>> GetBooksAsync(GetBooksModel parameters);
+    public Task<BookPaginationModel> GetBooksAsync(GetBooksModel parameters);
     public Task<BookModel?> GetBookAsync(int bookId);
     public Task<BookModel> CreateBookAsync(CreateBookModel model);
     public Task EditBookAsync(int bookId, EditBookModel model);

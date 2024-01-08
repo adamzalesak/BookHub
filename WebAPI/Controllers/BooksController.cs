@@ -20,7 +20,7 @@ public class BooksController : ControllerBase
     /// Get all books
     /// </summary>
     [HttpGet]
-    public async Task<ActionResult<ICollection<BookModel>>> GetBooks(
+    public async Task<ActionResult<BookPaginationModel>> GetBooks(
         [FromQuery] GetBooksModel parameters
     )
     {
