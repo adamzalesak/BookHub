@@ -12,5 +12,5 @@ public static partial class ReviewMapper
     [MapProperty(nameof(Review.User), nameof(ReviewModel.Username))]
     public static partial ReviewModel MapToReviewModel(this Review review);
     
-    private static string UserToUsername(User user) => user.Username;
+    private static string UserToUsername(User user) => user.UserName;
 }

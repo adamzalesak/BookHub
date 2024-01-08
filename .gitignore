@@ -124,3 +124,4 @@ $RECYCLE.BIN/
 
 # Personal Configuration
 appsettings.Development.json
+/WebMVC/EmailSender/EmailConfig.txt

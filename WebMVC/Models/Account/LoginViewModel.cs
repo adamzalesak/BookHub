@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace WebMVC.Models.Account
 {
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -16,5 +14,4 @@ namespace WebMVC.Models.Account
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
-
 }

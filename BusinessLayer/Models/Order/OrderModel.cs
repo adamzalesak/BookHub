@@ -12,5 +12,5 @@ public class OrderModel
     public OrderState State { get; set; }
     public DateTime Timestamp { get; set; }
     public int CartId { get; set; }
-    public int? UserId { get; set; }
+    public String? UserId { get; set; }
 }

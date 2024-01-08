@@ -14,9 +14,9 @@ namespace TestUtilities.Data
         {
             return new User()
             {
-                Id = 1,
+                Id = "1",
                 Name = "Pavel Novák",
-                Username = "bookworm",
+                UserName = "bookworm",
                 Email = "pavel.novak@seznam.cz",
                 IsAdministrator = false,
             };
@@ -26,9 +26,9 @@ namespace TestUtilities.Data
         {
             return new User()
             {
-                Id = 2,
+                Id = "2",
                 Name = "Karolína Svobodová",
-                Username = "kaja2000",
+                UserName = "kaja2000",
                 Email = "karolina.svobodova@email.cz",
                 IsAdministrator = false,
             };
@@ -38,9 +38,9 @@ namespace TestUtilities.Data
         {
             return new User()
             {
-                Id = 3,
+                Id = "3",
                 Name = "Prokop Dlouhý",
-                Username = "pageturner",
+                UserName = "pageturner",
                 Email = "prokop.dlouhy@gmail.com",
                 IsAdministrator = false,
             };
@@ -50,9 +50,9 @@ namespace TestUtilities.Data
         {
             return new UserModel()
             {
-                Id = 1,
+                Id = "1",
                 Name = "Pavel Novák",
-                Username = "bookworm",
+                UserName = "bookworm",
                 Email = "pavel.novak@seznam.cz"
             };
         }
@@ -61,9 +61,9 @@ namespace TestUtilities.Data
         {
             return new UserModel()
             {
-                Id = 2,
+                Id = "2",
                 Name = "Karolína Svobodová",
-                Username = "kaja2000",
+                UserName = "kaja2000",
                 Email = "karolina.svobodova@email.cz",
             };
         }
@@ -72,9 +72,9 @@ namespace TestUtilities.Data
         {
             return new UserModel()
             {
-                Id = 3,
+                Id = "3",
                 Name = "Prokop Dlouhý",
-                Username = "pageturner",
+                UserName = "pageturner",
                 Email = "prokop.dlouhy@gmail.com"
             };
         }
@@ -84,7 +84,7 @@ namespace TestUtilities.Data
             return new CreateUserModel()
             {
                 Name = "Pavel Novák",
-                Username = "bookworm",
+                UserName = "bookworm",
                 Email = "pavel.novak@seznam.cz",
                 IsAdministrator = false,
             };
@@ -95,7 +95,7 @@ namespace TestUtilities.Data
             return new CreateUserModel()
             {
                 Name = "Karolína Svobodová",
-                Username = "kaja2000",
+                UserName = "kaja2000",
                 Email = "karolina.svobodova@email.cz",
                 IsAdministrator = false,
             };
@@ -106,7 +106,7 @@ namespace TestUtilities.Data
             return new CreateUserModel()
             {
                 Name = "Prokop Dlouhý",
-                Username = "pageturner",
+                UserName = "pageturner",
                 Email = "prokop.dlouhy@gmail.com",
                 IsAdministrator = false,
             };

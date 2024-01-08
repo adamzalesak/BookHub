@@ -1,8 +1,10 @@
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Utilities.Middleware;
 using WebMVC;
+using WebMVC.EmailSender;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddConfiguration(builder.Configuration.GetConnectionString("SqliteConnectionString") ??
                                   throw new InvalidOperationException("SqliteConnectionString is null"));
 
-builder.Services.AddIdentity<LocalIdentityUser, IdentityRole>()
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailSettings>();
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
+builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<BookHubDbContext>()
     .AddDefaultTokenProviders();
 
@@ -22,6 +30,9 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 8;
+
+    options.User.RequireUniqueEmail = false;
+    options.SignIn.RequireConfirmedEmail = false;
 });
 
 builder.Services.ConfigureApplicationCookie(options =>

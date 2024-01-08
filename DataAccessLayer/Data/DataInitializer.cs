@@ -1,5 +1,7 @@
 ﻿using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace DataAccessLayer.Data;
 
@@ -165,48 +167,70 @@ public static class DataInitializer
 
     private static List<User> PrepareUserModels()
     {
-        return new List<User>
+        PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
+        var user1 = new User()
         {
-            new User()
-            {
-                Id = 1,
-                Name = "Pavel Novák",
-                Username = "bookworm",
-                Email = "pavel.novak@seznam.cz",
-                IsAdministrator = false,
-            },
-            new User()
-            {
-                Id = 2,
-                Name = "Karolína Svobodová",
-                Username = "kaja2000",
-                Email = "karolina.svobodova@email.cz",
-                IsAdministrator = false,
-            },
-            new User()
-            {
-                Id = 3,
-                Name = "Prokop Dlouhý",
-                Username = "pageturner",
-                Email = "prokop.dlouhy@gmail.com",
-                IsAdministrator = false,
-            },
-            new User()
-            {
-                Id = 4,
-                Name = "Tereza Jeřábková",
-                Username = "booknerd",
-                Email = "jerabkova.tereza@outlook.com",
-                IsAdministrator = false,
-            },
-            new User()
-            {
-                Id = 5,
-                Name = "Jan Jelínek",
-                Username = "honza",
-                Email = "honza.jelinek@seznam.cz",
-                IsAdministrator = true,
-            },
+            Id = "1",
+            Name = "Pavel Novák",
+            UserName = "bookworm",
+            NormalizedUserName = "bookworm".ToUpper(),
+            Email = "pavel.novak@seznam.cz",
+            NormalizedEmail = "pavel.novak@seznam.cz".ToUpper(),
+            PasswordHash = passwordHasher.HashPassword(null, "Novicek*123")
+        };
+
+        var user2 = new User()
+        {
+            Id = "2",
+            Name = "Karolína Svobodová",
+            UserName = "kaja2000",
+            NormalizedUserName = "kaja2000".ToUpper(),
+            Email = "karolina.svobodova@email.cz",
+            NormalizedEmail = "karolina.svobodova@email.cz".ToUpper(),
+            PasswordHash = passwordHasher.HashPassword(null, "Mour!c3k")
+        };
+
+        var user3 = new User()
+        {
+            Id = "3",
+            Name = "Prokop Dlouhý",
+            UserName = "pageturner",
+            NormalizedUserName = "pageturner".ToUpper(),
+            Email = "prokop.dlouhy@gmail.com",
+            NormalizedEmail = "prokop.dlouhy@gmail.com".ToUpper(),
+            PasswordHash = passwordHasher.HashPassword(null, "Kitarista.1")
+        };
+
+        var user4 = new User()
+        {
+            Id = "4",
+            Name = "Tereza Jeřábková",
+            UserName = "booknerd",
+            NormalizedUserName = "booknerd".ToUpper(),
+            Email = "jerabkova.tereza@outlook.com",
+            NormalizedEmail = "jerabkova.tereza@outlook.com".ToUpper(),
+            PasswordHash = passwordHasher.HashPassword(null, "Pt4cek-Jerab")
+        };
+
+        var user5 = new User()
+        {
+            Id = "5",
+            Name = "Jan Jelínek",
+            UserName = "honza",
+            NormalizedUserName = "honza".ToUpper(),
+            Email = "honza.jelinek@seznam.cz",
+            NormalizedEmail = "honza.jelinek@seznam.cz".ToUpper(),
+            IsAdministrator = true,
+            PasswordHash = passwordHasher.HashPassword(null, "P0p0kat3!")
+        };
+
+        return new List<User>
+        {   user1
+            ,user2
+            ,user3
+            ,user4
+            ,user5
+            ,
         };
     }
 
@@ -221,7 +245,7 @@ public static class DataInitializer
                 Text = "Kniha je opravdu praktická, každopádně se nejedná o lék na prokrastinaci. " +
                        "To už je spíše práce samotného čtenáře.",
                 BookId = 1,
-                UserId = 1,
+                UserId = "1",
             },
             new Review()
             {
@@ -231,7 +255,7 @@ public static class DataInitializer
                        "Neznalost těchto faktů nám však zásadním způsobem deformuje pohled na svět, na to, " +
                        "jak svět vnímáme a vyhodnocujeme.",
                 BookId = 2,
-                UserId = 2,
+                UserId = "2",
             },
             new Review()
             {
@@ -240,7 +264,7 @@ public static class DataInitializer
                 Text = "Nejvíce optimistická kniha, ač realistická kniha, kterou jsem v poslední době četl. " +
                        "Úchvatné! :)",
                 BookId = 2,
-                UserId = 3,
+                UserId = "3",
             },
             new Review()
             {
@@ -251,7 +275,7 @@ public static class DataInitializer
                        "že je to výborná kniha na začátek celé série. Líbí se mi drobnosti, " +
                        "které jsou důležité v pozdějších dílech.",
                 BookId = 3,
-                UserId = 2,
+                UserId = "2",
             },
             new Review()
             {
@@ -260,7 +284,7 @@ public static class DataInitializer
                 Text = "Na Harrym Potterovi jsem doslova vyrůstala, takže jsem jako dítě tuto knihu naprosto " +
                        "zbožňovala. I dnes si ji ráda přečtu, ale doporučím ji hlavně mladším.",
                 BookId = 3,
-                UserId = 4,
+                UserId = "4",
             },
             new Review()
             {
@@ -268,7 +292,7 @@ public static class DataInitializer
                 Rating = 1,
                 Text = "Pohádka o ničem, výmysl moderní doby.",
                 BookId = 3,
-                UserId = 3,
+                UserId = "3",
             },
         };
     }
@@ -458,7 +482,7 @@ public static class DataInitializer
                 State = OrderState.Delivered,
                 Timestamp = new DateTime(2023, 7, 15),
                 CartId = 3,
-                UserId = 3
+                UserId = "3" 
             },
             new Order
             {
@@ -470,7 +494,7 @@ public static class DataInitializer
                 State = OrderState.Created,
                 Timestamp = new DateTime(2023, 10, 10),
                 CartId = 4,
-                UserId = 4
+                UserId = "4"
             }
         };
     }

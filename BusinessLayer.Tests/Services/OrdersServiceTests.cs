@@ -24,7 +24,7 @@ public class OrdersServiceTests
         // Arrange
         var orderDto = new CreateOrderModel
         {
-            UserId = 1,
+            UserId = "1",
             CartId = 2,
             Address = "Test Address",
             Email = "test@email.com",
@@ -97,7 +97,7 @@ public class OrdersServiceTests
         var orderId = 1;
         var updateModel = new CreateOrderModel
         {
-            UserId = 1,
+            UserId = "1",
             CartId = 1,
             Address = "New Address",
             Email = "new.email@email.com",
@@ -173,7 +173,7 @@ public class OrdersServiceTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(orderId, result.Id);
-        Assert.Equal(1, result.UserId);
+        Assert.Equal("1", result.UserId);
         Assert.Equal(1, result.CartId);
     }
 

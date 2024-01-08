@@ -25,7 +25,7 @@ public class UserService : IUserService
         return newUser.MapToUserModel();
     }
 
-    public async Task<UserModel?> EditUserAsync(int userId, EditUserModel model)
+    public async Task<UserModel?> EditUserAsync(String userId, EditUserModel model)
     {
         var user = await _dbContext.AppUsers.FindAsync(userId);
         if (user == null)
@@ -34,7 +34,7 @@ public class UserService : IUserService
         }
 
         user.Name = model.Name ?? user.Name;
-        user.Username = model.Username ?? user.Username;
+        user.UserName = model.UserName ?? user.UserName;
         user.Email = model.Email ?? user.Email;
         user.IsAdministrator = model.IsAdministrator ?? user.IsAdministrator;
 
@@ -43,7 +43,7 @@ public class UserService : IUserService
         return user.MapToUserModel();
     }
 
-    public async Task<UserModel?> GetUserByIdAsync(int userId)
+    public async Task<UserModel?> GetUserByIdAsync(String userId)
     {
         var userModel = await _dbContext.AppUsers
             .Where(u => u.Id == userId)
@@ -64,7 +64,7 @@ public class UserService : IUserService
         return userModels;
     }
 
-    public async Task<bool> DeleteUserAsync(int userId)
+    public async Task<bool> DeleteUserAsync(String userId)
     {
         var user = await _dbContext.AppUsers.FindAsync(userId);
         if (user == null)

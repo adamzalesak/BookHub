@@ -234,10 +234,10 @@ public static class TestDataHelper
         {
             new()
             {
-                Id = 1,
+                Id = "1",
                 Name = "John Doe",
                 Email = "john.doe@email.com",
-                Username = "johndoe",
+                UserName = "johndoe",
             }
         };
     }
@@ -264,7 +264,7 @@ public static class TestDataHelper
             new()
             {
                 Id = 1,
-                UserId = 1,
+                UserId = "1",
                 CartId = 1,
                 Address = "Test Address",
                 Email = "test@email.com",

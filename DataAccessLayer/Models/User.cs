@@ -1,11 +1,14 @@
-namespace DataAccessLayer.Models;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class User : BaseEntity
+namespace DataAccessLayer.Models
 {
-    public string Name { get; set; }
-    public string Username { get; set; }
-    public string Email { get; set; }
-    public bool IsAdministrator { get; set; } = false;
-    public ICollection<Review> Reviews { get; set; } = new List<Review>();
-    public ICollection<Order> Orders { get; set; } = new List<Order>();
+    public class User : IdentityUser
+    {
+        public String Name { get; set; }
+        public bool IsAdministrator { get; set; } = false;
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
+    }
+
 }

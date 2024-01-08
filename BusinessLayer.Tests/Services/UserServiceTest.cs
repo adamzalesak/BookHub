@@ -2,12 +2,6 @@ using BusinessLayer.Models.User;
 using BusinessLayer.Services;
 using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
-using DataAccessLayer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestUtilities.Data;
 using TestUtilities.MockedObjects;
 
@@ -38,11 +32,11 @@ namespace BusinessLayer.Tests.Services
             Assert.NotNull(savedUser);
 
             Assert.Equal(createUserModel.Name, createdResult.Name);
-            Assert.Equal(createUserModel.Username, createdResult.Username);
+            Assert.Equal(createUserModel.UserName, createdResult.UserName);
             Assert.Equal(createUserModel.Email, createdResult.Email);
 
             Assert.Equal(createUserModel.Name, savedUser.Name);
-            Assert.Equal(createUserModel.Username, savedUser.Username);
+            Assert.Equal(createUserModel.UserName, savedUser.UserName);
             Assert.Equal(createUserModel.Email, savedUser.Email);
         }
 
@@ -51,7 +45,7 @@ namespace BusinessLayer.Tests.Services
         {
             var editUserModel = new EditUserModel();
 
-            var editResult = await _userService.EditUserAsync(4, editUserModel);
+            var editResult = await _userService.EditUserAsync("4", editUserModel);
 
             Assert.Null(editResult);
         }
@@ -62,7 +56,7 @@ namespace BusinessLayer.Tests.Services
             var user = TestDataHelperUser.GetUser1();
             var editUserModel = new EditUserModel()
             {
-                Username = "Palko",
+                UserName = "Palko",
                 Name = "Pavol"
             };
 
@@ -72,15 +66,15 @@ namespace BusinessLayer.Tests.Services
             Assert.NotNull(editResult);
             Assert.NotNull(editedUser);
             Assert.Equal(editUserModel.Name, editResult.Name);
-            Assert.Equal(editUserModel.Username, editResult.Username);
+            Assert.Equal(editUserModel.UserName, editResult.UserName);
             Assert.Equal(editUserModel.Name, editedUser.Name);
-            Assert.Equal(editUserModel.Username, editedUser.Username);
+            Assert.Equal(editUserModel.UserName, editedUser.UserName);
         }
 
         [Fact]
         public async Task GetUserByIdAsync_NoUser()
         {
-            var user = await _userService.GetUserByIdAsync(4);
+            var user = await _userService.GetUserByIdAsync("4");
             Assert.Null(user);
         }
 
@@ -97,7 +91,7 @@ namespace BusinessLayer.Tests.Services
 
             Assert.NotNull(foundUser);
             Assert.Equal(user.Id, foundUser.Id);
-            Assert.Equal(user.Username, foundUser.Username);
+            Assert.Equal(user.UserName, foundUser.UserName);
             Assert.Equal(user.Name, foundUser.Name);
             Assert.Equal(user.Email, foundUser.Email);
         }
@@ -125,7 +119,7 @@ namespace BusinessLayer.Tests.Services
             await _dbContext.AppUsers.AddAsync(user);
             await _dbContext.SaveChangesAsync();
 
-            var deleteResult = await _userService.DeleteUserAsync(4);
+            var deleteResult = await _userService.DeleteUserAsync("4");
             Assert.False(deleteResult);
         }
 

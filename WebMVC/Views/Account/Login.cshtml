@@ -5,9 +5,9 @@
 
 <form asp-action="Login" method="post">
     <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" />
+        <span asp-validation-for="UserName"></span>
     </div>
     <div>
         <label asp-for="Password"></label>
@@ -21,3 +21,7 @@
     <button type="submit">Login</button>
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 </form>
+
+<div>
+    <a asp-controller="Account" asp-action="ForgotPassword">Forgot Password?</a>
+</div>

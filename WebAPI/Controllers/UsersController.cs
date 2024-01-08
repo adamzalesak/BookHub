@@ -28,7 +28,7 @@ public class UsersController : ControllerBase
     /// Get user by id
     /// </summary>
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<UserModel>> GetUser([FromRoute] int id)
+    public async Task<ActionResult<UserModel>> GetUser([FromRoute] String id)
     {
         var user = await _userService.GetUserByIdAsync(id);
         if (user == null)
@@ -52,7 +52,7 @@ public class UsersController : ControllerBase
     /// Edit user
     /// </summary>
     [HttpPut("{id:int}")]
-    public async Task<ActionResult<UserModel>> EditUser([FromRoute] int id, EditUserModel model)
+    public async Task<ActionResult<UserModel>> EditUser([FromRoute] String id, EditUserModel model)
     {
         var user = await _userService.EditUserAsync(id, model);
         if (user == null)
@@ -66,7 +66,7 @@ public class UsersController : ControllerBase
     /// Delete user
     /// </summary>
     [HttpDelete("{id:int}")]
-    public async Task<ActionResult> DeleteUser([FromRoute] int id)
+    public async Task<ActionResult> DeleteUser([FromRoute] String id)
     {
         var wasDeleted = await _userService.DeleteUserAsync(id);
         if (!wasDeleted)

@@ -18,8 +18,6 @@ public class BookHubDbContext : IdentityDbContext
     public virtual DbSet<Genre> Genres { get; set; }
     public virtual DbSet<BookGenre> BookGenres { get; set; }
 
-    public virtual DbSet<LocalIdentityUser> IdentityUsers { get; set; }
-
     public BookHubDbContext(DbContextOptions<BookHubDbContext> options) : base(options)
     {
     }

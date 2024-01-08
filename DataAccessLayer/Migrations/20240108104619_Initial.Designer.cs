@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(BookHubDbContext))]
-    [Migration("20240107205607_Add-PrimaryGenre")]
-    partial class AddPrimaryGenre
+    [Migration("20240108104619_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -366,8 +366,8 @@ namespace DataAccessLayer.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -411,7 +411,7 @@ namespace DataAccessLayer.Migrations
                             State = 3,
                             Timestamp = new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TotalPrice = 17.98m,
-                            UserId = 3
+                            UserId = "3"
                         },
                         new
                         {
@@ -423,7 +423,7 @@ namespace DataAccessLayer.Migrations
                             State = 0,
                             Timestamp = new DateTime(2023, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TotalPrice = 9.99m,
-                            UserId = 4
+                            UserId = "4"
                         });
                 });
 
@@ -535,8 +535,9 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -553,7 +554,7 @@ namespace DataAccessLayer.Migrations
                             BookId = 1,
                             Rating = 4,
                             Text = "Kniha je opravdu praktická, každopádně se nejedná o lék na prokrastinaci. To už je spíše práce samotného čtenáře.",
-                            UserId = 1
+                            UserId = "1"
                         },
                         new
                         {
@@ -561,7 +562,7 @@ namespace DataAccessLayer.Migrations
                             BookId = 2,
                             Rating = 4,
                             Text = "Kniha se zabývá faktografickými údaji, které jsou ale podány velmi hezkou a čtivou formou. Neznalost těchto faktů nám však zásadním způsobem deformuje pohled na svět, na to, jak svět vnímáme a vyhodnocujeme.",
-                            UserId = 2
+                            UserId = "2"
                         },
                         new
                         {
@@ -569,7 +570,7 @@ namespace DataAccessLayer.Migrations
                             BookId = 2,
                             Rating = 5,
                             Text = "Nejvíce optimistická kniha, ač realistická kniha, kterou jsem v poslední době četl. Úchvatné! :)",
-                            UserId = 3
+                            UserId = "3"
                         },
                         new
                         {
@@ -577,7 +578,7 @@ namespace DataAccessLayer.Migrations
                             BookId = 3,
                             Rating = 5,
                             Text = "První díl působí jako dětská knížka. Myslím si, že je krásně a výstižně popsané chování hlavních postav úměrně jejich věku. V porovnání s filmem je kniha trefnější. Myslím si, že je to výborná kniha na začátek celé série. Líbí se mi drobnosti, které jsou důležité v pozdějších dílech.",
-                            UserId = 2
+                            UserId = "2"
                         },
                         new
                         {
@@ -585,7 +586,7 @@ namespace DataAccessLayer.Migrations
                             BookId = 3,
                             Rating = 4,
                             Text = "Na Harrym Potterovi jsem doslova vyrůstala, takže jsem jako dítě tuto knihu naprosto zbožňovala. I dnes si ji ráda přečtu, ale doporučím ji hlavně mladším.",
-                            UserId = 4
+                            UserId = "4"
                         },
                         new
                         {
@@ -593,75 +594,7 @@ namespace DataAccessLayer.Migrations
                             BookId = 3,
                             Rating = 1,
                             Text = "Pohádka o ničem, výmysl moderní doby.",
-                            UserId = 3
-                        });
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsAdministrator")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "pavel.novak@seznam.cz",
-                            IsAdministrator = false,
-                            Name = "Pavel Novák",
-                            Username = "bookworm"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "karolina.svobodova@email.cz",
-                            IsAdministrator = false,
-                            Name = "Karolína Svobodová",
-                            Username = "kaja2000"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "prokop.dlouhy@gmail.com",
-                            IsAdministrator = false,
-                            Name = "Prokop Dlouhý",
-                            Username = "pageturner"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Email = "jerabkova.tereza@outlook.com",
-                            IsAdministrator = false,
-                            Name = "Tereza Jeřábková",
-                            Username = "booknerd"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Email = "honza.jelinek@seznam.cz",
-                            IsAdministrator = true,
-                            Name = "Jan Jelínek",
-                            Username = "honza"
+                            UserId = "3"
                         });
                 });
 
@@ -865,16 +798,110 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.LocalIdentityUser", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<int>("UserId")
+                    b.Property<bool>("IsAdministrator")
                         .HasColumnType("INTEGER");
 
-                    b.HasIndex("UserId");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.HasDiscriminator().HasValue("LocalIdentityUser");
+                    b.HasDiscriminator().HasValue("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "22495155-e7ac-46f4-8397-6f0407136e34",
+                            Email = "pavel.novak@seznam.cz",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PAVEL.NOVAK@SEZNAM.CZ",
+                            NormalizedUserName = "BOOKWORM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPqU0xt2MusPLbL6q636f6QvSRub0OVJSeCfpvb4ICj0FLH4DkS+v0+MBjv0DJYgLg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1988014c-e6e3-4296-8a44-18fe7279b55a",
+                            TwoFactorEnabled = false,
+                            UserName = "bookworm",
+                            IsAdministrator = false,
+                            Name = "Pavel Novák"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c4df050e-cea5-4978-8212-cee60681b266",
+                            Email = "karolina.svobodova@email.cz",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "KAROLINA.SVOBODOVA@EMAIL.CZ",
+                            NormalizedUserName = "KAJA2000",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKc6St+TdRaVtq+8xpg9p/NPej1gjx3xUySKX15U52qRndplu2H6/Ac3NU0aK32g2w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "8f6eaa75-50e3-4bfa-903b-8b98b87d2eb0",
+                            TwoFactorEnabled = false,
+                            UserName = "kaja2000",
+                            IsAdministrator = false,
+                            Name = "Karolína Svobodová"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "296ddadb-1ba0-4edd-8bb1-521a80c45e8c",
+                            Email = "prokop.dlouhy@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PROKOP.DLOUHY@GMAIL.COM",
+                            NormalizedUserName = "PAGETURNER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKBC2STnKASQKO3RwqWdItsKm+xTQkEZX5PQgx8U46d4BCHnfwg2R+2RG4YDZrxGbw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "acf15264-778e-404b-8005-ecd78097630a",
+                            TwoFactorEnabled = false,
+                            UserName = "pageturner",
+                            IsAdministrator = false,
+                            Name = "Prokop Dlouhý"
+                        },
+                        new
+                        {
+                            Id = "4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d464b50e-a6cb-443f-bbe0-7f36e28f8d93",
+                            Email = "jerabkova.tereza@outlook.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JERABKOVA.TEREZA@OUTLOOK.COM",
+                            NormalizedUserName = "BOOKNERD",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGnSXAPyXnEcShDE9EA9lHgbWFP8wOHHYjEe279D2Aw4TgJTlDnIy3mcvDv3qQcwWg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1ec9825e-f6a3-4624-80a3-476c28ef0470",
+                            TwoFactorEnabled = false,
+                            UserName = "booknerd",
+                            IsAdministrator = false,
+                            Name = "Tereza Jeřábková"
+                        },
+                        new
+                        {
+                            Id = "5",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f9bb053f-8351-42b2-95ec-ef48d02c672b",
+                            Email = "honza.jelinek@seznam.cz",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "HONZA.JELINEK@SEZNAM.CZ",
+                            NormalizedUserName = "HONZA",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIHaqn1IOC9wXV0yexS4pD4uhAZ3tTNcpaRgwLjEg7BOxCM+Sitchbb+qycyrTDz9w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "cf192816-d171-4f9e-8c75-b6bb88abe3bb",
+                            TwoFactorEnabled = false,
+                            UserName = "honza",
+                            IsAdministrator = true,
+                            Name = "Jan Jelínek"
+                        });
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.AuthorBook", b =>
@@ -1038,17 +1065,6 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.LocalIdentityUser", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Book", b =>

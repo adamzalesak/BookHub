@@ -17,7 +17,7 @@ public class AuthenticationMiddleware
     {
         if (context.Request.Headers.TryGetValue("Authorization", out var header))
         {
-            var token = header.ToString().Split(" ")[1];
+            var token = header.ToString();//.Split(" ")[1];
             if (token == Token)
             {
                 await _next(context);

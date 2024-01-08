@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
 namespace WebMVC.Models.Account
 {
-    public class RegisterViewModel
+    public class ResetPasswordViewModel
     {
         [Required]
         [EmailAddress]
@@ -14,16 +13,9 @@ namespace WebMVC.Models.Account
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Password and Confirm Password must match")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
-        [DataType(DataType.Text)]
-        public string Name { get; set; }
-
-        [Required]
-        [DataType(DataType.Text)]
-        public string Username { get; set; }
+        public string Token { get; set; }
     }
-
 }
