@@ -9,5 +9,6 @@ public class EditBookModel
     public decimal? Price { get; set; }
     public ICollection<int>? AuthorIds { get; set; }
     public ICollection<int>? GenreIds { get; set; }
+    public int? PrimaryGenreId { get; set; }
     public int? PublisherId { get; set; }
 }

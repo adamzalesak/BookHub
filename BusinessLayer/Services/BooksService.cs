@@ -33,6 +33,7 @@ public class BooksService : IBooksService
             .Include(b => b.Publisher)
             .Include(b => b.Authors)
             .Include(b => b.Prices)
+            .Include(b => b.Genres)
             .Select(b => b.MapToBookModel())
             .ToListAsync();
 
@@ -142,10 +143,16 @@ public class BooksService : IBooksService
         {
             throw new NotFoundException("Genre not found.");
         }
+        
+        if (!model.GenreIds.Contains(model.PrimaryGenreId))
+        {
+            throw new ArgumentException("PrimaryGenreId must be in GenreIds.");
+        }
 
         var newBook = model.MapToBook();
         newBook.Authors = authors;
         newBook.Genres = genres;
+        newBook.PrimaryGenreId = model.PrimaryGenreId;
 
         var newPrice = new Price
         {
@@ -210,8 +217,24 @@ public class BooksService : IBooksService
             }
         }
 
-        if (model.GenreIds is not null)
+        if (model.GenreIds is not null || model.PrimaryGenreId is not null)
         {
+            if (model.GenreIds is null || model.GenreIds.Count == 0)
+            {
+                throw new ArgumentException("GenreIds cannot be empty.");
+            }
+            if (model.PrimaryGenreId is null)
+            {
+                throw new ArgumentException("PrimaryGenreId cannot be empty.");
+            }
+            
+            if (model.PrimaryGenreId.HasValue && !model.GenreIds.Contains(model.PrimaryGenreId.Value))
+            {
+                throw new ArgumentException("PrimaryGenreId must be in GenreIds.");
+            }
+
+            book.PrimaryGenreId = model.PrimaryGenreId.Value;
+
             var genres = await _dbContext.Genres.Where(g => model.GenreIds.Contains(g.Id)).ToListAsync();
             if (genres.Count != model.GenreIds.Count)
             {

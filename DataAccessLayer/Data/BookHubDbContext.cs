@@ -48,10 +48,16 @@ public class BookHubDbContext : IdentityDbContext
             .WithMany(g => g.Books)
             .UsingEntity<BookGenre>();
 
+        modelBuilder.Entity<Book>()
+            .HasOne(b => b.PrimaryGenre)
+            .WithMany()
+            .HasForeignKey(b => b.PrimaryGenreId);
+        
         modelBuilder.Entity<Cart>()
             .HasMany(c => c.Books)
             .WithMany()
             .UsingEntity<BookCart>();
+        
 
         modelBuilder.Seed();
 

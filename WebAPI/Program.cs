@@ -2,8 +2,6 @@ using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Utilities.Middleware;
 using WebAPI;
-using AuthenticationMiddleware = Microsoft.AspNetCore.Authentication.AuthenticationMiddleware;
-using LoggingMiddleware = Utilities.Middleware.LoggingMiddleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

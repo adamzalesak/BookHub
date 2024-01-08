@@ -59,6 +59,10 @@ public class BooksController : ControllerBase
         {
             return NotFound(e.Message);
         }
+        catch (ArgumentException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
     /// <summary>
@@ -77,9 +81,9 @@ public class BooksController : ControllerBase
         {
             return NotFound(e.Message);
         }
-        catch (ArgumentException)
+        catch (ArgumentException e)
         {
-            return BadRequest("Invalid model.");
+            return BadRequest(e.Message);
         }
     }
 

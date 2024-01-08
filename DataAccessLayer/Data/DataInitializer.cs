@@ -108,6 +108,7 @@ public static class DataInitializer
                 Description = "Konec prokrastinace je kniha, která vám pomůže překonat sklony k odkládání věcí na později.",
                 Isbn = "978-80-87270-51-6",
                 PublisherId = 2,
+                PrimaryGenreId = 3,
             },
             new()
             {
@@ -116,6 +117,7 @@ public static class DataInitializer
                 Description = "Faktomluva je kniha, která vás naučí, jak pracovat s fakty.",
                 Isbn = "978-80-7555-056-9",
                 PublisherId = 2,
+                PrimaryGenreId = 3,
             },
             new()
             {
@@ -124,6 +126,7 @@ public static class DataInitializer
                 Description = "Harry Potter a Kámen mudrců je první díl ze série knih o Harrym Potterovi.",
                 Isbn = "978-80-0006-758-2",
                 PublisherId = 1,
+                PrimaryGenreId = 1,
             },
         };
     }

@@ -11,6 +11,8 @@ public class Book : BaseEntity
     public Publisher Publisher { get; set; }
     public ICollection<Review> Reviews { get; set; }
     public ICollection<Genre> Genres { get; set; } = new List<Genre>();
+    public int PrimaryGenreId { get; set; }
+    public Genre PrimaryGenre { get; set; }
     public ICollection<Price> Prices { get; set; } = new List<Price>();
     public bool IsDeleted { get; set; }
 }

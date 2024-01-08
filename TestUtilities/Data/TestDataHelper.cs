@@ -123,6 +123,7 @@ public static class TestDataHelper
                 Description = "Harry Potter a Kámen mudrců",
                 Isbn = "12345",
                 PublisherId = 1,
+                PrimaryGenreId = 1,
             },
             new Book
             {
@@ -131,6 +132,7 @@ public static class TestDataHelper
                 Description = "Harry Potter a vězeň z Azkabanu",
                 Isbn = "12345",
                 PublisherId = 2,
+                PrimaryGenreId = 1,
             },
             new Book
             {
@@ -139,6 +141,7 @@ public static class TestDataHelper
                 Description = "Harry Potter a Tajemná komnata",
                 Isbn = "12345",
                 PublisherId = 1,
+                PrimaryGenreId = 1,
             },
             new Book
             {
@@ -147,6 +150,7 @@ public static class TestDataHelper
                 Description = "Dobrodružství Harryho Hola",
                 Isbn = "12345",
                 PublisherId = 2,
+                PrimaryGenreId = 1,
             },
             new Book
             {
@@ -155,6 +159,7 @@ public static class TestDataHelper
                 Description = "Dobrodružství Harryho Hola",
                 Isbn = "12345",
                 PublisherId = 3,
+                PrimaryGenreId = 1,
             }
         };
     }

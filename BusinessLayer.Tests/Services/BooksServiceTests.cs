@@ -159,6 +159,7 @@ public class BooksServiceTests
             Price = 159.99M,
             AuthorIds = new List<int>() { 1, 2 },
             GenreIds = new List<int>() { 1, 2 },
+            PrimaryGenreId = 1,
             PublisherId = 1,
         };
 

@@ -10,5 +10,6 @@ public class BookModel
     public decimal Price { get; set; }
     public List<string> Authors { get; set; }
     public List<string> Genres { get; set; }
+    public string PrimaryGenre { get; set; }
     public string Publisher { get; set; }
 }
