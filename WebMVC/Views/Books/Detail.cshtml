@@ -1,16 +1,19 @@
+@using WebMVC.Models.Books;
+@model CombinedBookReviewViewModel
 @{
-    ViewBag.Title = Model.Name;
+    var book = Model.BookViewModel;
+    ViewBag.Title = book.Name;
     Layout = "_Layout";
 }
 
-<h2>📘 @Model.Name</h2>
+<h2>📘 @book.Name</h2>
 <div class="d-flex">
     <div class="d-flex flex-column gap-3">
         <div>
             <b>Authors:</b>
             <ul>
                 @{
-                    foreach (var author in Model.Authors)
+                    foreach (var author in book.Authors)
                     {
                         <li>@author</li>
                     }
@@ -19,14 +22,14 @@
         </div>
 
         <div>
-            <b>Primary Genre:</b> @Model.PrimaryGenre
+            <b>Primary Genre:</b> @book.PrimaryGenre
         </div>
 
         <div>
             <b>Genres:</b>
             <ul>
                 @{
-                    foreach (var genre in Model.Genres)
+                    foreach (var genre in book.Genres)
                     {
                         <li>@genre</li>
                     }
@@ -36,31 +39,73 @@
 
 
         <div>
-            <b>Publisher:</b> @Model.Publisher
+            <b>Publisher:</b> @book.Publisher
         </div>
 
         <div>
-            <b>ISBN:</b> @Model.Isbn
+            <b>ISBN:</b> @book.Isbn
         </div>
 
         <div>
             <b>Description:</b>
             <p>
-                @Model.Description
+                @book.Description
             </p>
         </div>
     </div>
 
     <div class="d-flex flex-column gap-3">
         <div>
-            <b>Price:</b> @Model.Price €
+            <b>Price:</b> @book.Price €
         </div>
 
 
         <div>
-            <b>In Stock:</b> @Model.Count
+            <b>In Stock:</b> @book.Count
         </div>
 
         <button class="btn btn-primary">Add to Cart</button>
     </div>
 </div>
+<div class="d-flex">
+    <b>Reviews:</b>
+    <ul>
+        @{
+            foreach (var review in book.Reviews)
+            {
+                <li>
+                    <div>
+                        <b>Rating:</b> @review.Rating
+                    </div>
+
+                    <div>
+                        <b>Text:</b> @review.Text
+                    </div>
+                </li>
+                @if ((User.Identity?.IsAuthenticated ?? false) && review.Username.Equals(User.Identity.Name))
+                {
+                    <a href="/reviews/@review.Id/edit" class="btn btn-primary">Edit</a>
+                }
+            }
+        }
+    </ul>
+</div>
+
+@if (User.Identity?.IsAuthenticated ?? false)
+{
+    <form method="post" asp-action="CreateReview" asp-controller="Reviews" >
+        <div class="d-flex flex-column gap-3">
+            <input type="hidden" asp-for="@Model.CreateReviewViewModel.BookId">
+            <input type="hidden" asp-for="@Model.CreateReviewViewModel.UserId">
+        <div class="form-group">
+            <label asp-for="@Model.CreateReviewViewModel.Rating">Rating in range(0, 5):</label>
+            <input asp-for="@Model.CreateReviewViewModel.Rating"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.CreateReviewViewModel.Text">Review text:</label>
+            <input asp-for="@Model.CreateReviewViewModel.Text" class="form-control"/>
+        </div>
+        <button type="submit" class="mt-3 btn btn-primary">Add review</button>
+        </div>
+    </form>
+}

@@ -1,4 +1,7 @@
-﻿namespace WebMVC.Models;
+﻿using DataAccessLayer.Models;
+using WebMVC.Models.Review;
+
+namespace WebMVC.Models;
 
 public class BookViewModel
 {
@@ -12,4 +15,5 @@ public class BookViewModel
     public List<string> Genres { get; set; }
     public string PrimaryGenre { get; set; }
     public string Publisher { get; set; }
+    public List<ReviewViewModel> Reviews { get; set; }
 }

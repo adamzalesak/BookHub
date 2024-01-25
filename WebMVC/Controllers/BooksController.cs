@@ -2,10 +2,13 @@ using System;
 using System.Diagnostics;
 using BusinessLayer.Models.Book;
 using BusinessLayer.Services.Abstraction;
+using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebMVC.Mappers;
 using WebMVC.Models;
 using WebMVC.Models.Books;
+using WebMVC.Models.Review;
 using BookMapper = WebMVC.Mappers.BookMapper;
 
 namespace WebMVC.Controllers;
@@ -15,14 +18,21 @@ public class BooksController : Controller
     private readonly IBooksService _booksService;
     private readonly IGenreService _genresService;
     private readonly IPublishersService _publishersService;
+    private readonly IReviewService _reviewService;
+    private readonly UserManager<User> _userManager;
+
 
     public BooksController(IBooksService booksService,
         IGenreService genresService,
-        IPublishersService publishersService)
+        IPublishersService publishersService,
+        IReviewService reviewService,
+        UserManager<User> userManager)
     {
         _booksService = booksService;
         _genresService = genresService;
         _publishersService = publishersService;
+        _reviewService = reviewService;
+        _userManager = userManager;
     }
 
 
@@ -75,9 +85,24 @@ public class BooksController : Controller
             return NotFound();
         }
 
-        var model = BookMapper.MapToBookViewModel(book);
-
-        return View(model);
+        var bookModel = book.MapToBookViewModel();
+        var reviews = await _reviewService.GetReviewsOfBookAsync(bookId);
+        if (reviews.Count > 0)
+        {
+            bookModel.Reviews = reviews.MapToReviewViewModelList();
+        }
+        var combinedModel = new CombinedBookReviewViewModel();
+        combinedModel.BookViewModel = bookModel;
+        if (User.Identity?.IsAuthenticated ?? false)
+        {
+            var createReviewModel = new CreateReviewViewModel();
+            createReviewModel.BookId = bookId;
+            var user = await _userManager.FindByNameAsync(User.Identity?.Name);
+            createReviewModel.UserId = user.Id;
+            combinedModel.CreateReviewViewModel = createReviewModel;
+        }         
+        
+        return View(combinedModel);
     }
     
     [HttpGet("books/{bookId:int}/edit")]
