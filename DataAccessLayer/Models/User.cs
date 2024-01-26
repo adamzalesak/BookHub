@@ -9,6 +9,7 @@ namespace DataAccessLayer.Models
         public bool IsAdministrator { get; set; } = false;
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public int CartId { get; set; }
+        public Cart Cart { get; set; }
     }
-
 }

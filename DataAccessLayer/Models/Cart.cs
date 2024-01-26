@@ -2,6 +2,6 @@
 
 public class Cart : BaseEntity
 {
-    public ICollection<Book> Books { get; set; } = new List<Book>();
+    public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
     public Order? Order { get; set; }
 }

@@ -19,7 +19,7 @@ public static class DataInitializer
         var bookGenres = PrepareBookGenreModels();
         var prices = PreparePriceModels();
         var carts = PrepareCartModel();
-        var bookCarts = PrepareBookCartModel();
+        var cartItems = PrepareCartItemModels();
         var orders = PrepareOrderModel();
 
         modelBuilder.Entity<Author>()
@@ -44,8 +44,8 @@ public static class DataInitializer
             .HasData(carts);
         modelBuilder.Entity<Order>()
             .HasData(orders);
-        modelBuilder.Entity<BookCart>()
-            .HasData(bookCarts);
+        modelBuilder.Entity<CartItem>()
+            .HasData(cartItems);
     }
 
     private static List<Author> PrepareAuthorModels()
@@ -176,7 +176,8 @@ public static class DataInitializer
             NormalizedUserName = "bookworm".ToUpper(),
             Email = "pavel.novak@seznam.cz",
             NormalizedEmail = "pavel.novak@seznam.cz".ToUpper(),
-            PasswordHash = passwordHasher.HashPassword(null, "Novicek*123")
+            PasswordHash = passwordHasher.HashPassword(null, "Novicek*123"),
+            CartId = 6
         };
 
         var user2 = new User()
@@ -187,7 +188,8 @@ public static class DataInitializer
             NormalizedUserName = "kaja2000".ToUpper(),
             Email = "karolina.svobodova@email.cz",
             NormalizedEmail = "karolina.svobodova@email.cz".ToUpper(),
-            PasswordHash = passwordHasher.HashPassword(null, "Mour!c3k")
+            PasswordHash = passwordHasher.HashPassword(null, "Mour!c3k"),
+            CartId = 7
         };
 
         var user3 = new User()
@@ -198,7 +200,8 @@ public static class DataInitializer
             NormalizedUserName = "pageturner".ToUpper(),
             Email = "prokop.dlouhy@gmail.com",
             NormalizedEmail = "prokop.dlouhy@gmail.com".ToUpper(),
-            PasswordHash = passwordHasher.HashPassword(null, "Kitarista.1")
+            PasswordHash = passwordHasher.HashPassword(null, "Kitarista.1"),
+            CartId = 8
         };
 
         var user4 = new User()
@@ -209,7 +212,8 @@ public static class DataInitializer
             NormalizedUserName = "booknerd".ToUpper(),
             Email = "jerabkova.tereza@outlook.com",
             NormalizedEmail = "jerabkova.tereza@outlook.com".ToUpper(),
-            PasswordHash = passwordHasher.HashPassword(null, "Pt4cek-Jerab")
+            PasswordHash = passwordHasher.HashPassword(null, "Pt4cek-Jerab"),
+            CartId = 9
         };
 
         var user5 = new User()
@@ -221,7 +225,8 @@ public static class DataInitializer
             Email = "honza.jelinek@seznam.cz",
             NormalizedEmail = "honza.jelinek@seznam.cz".ToUpper(),
             IsAdministrator = true,
-            PasswordHash = passwordHasher.HashPassword(null, "P0p0kat3!")
+            PasswordHash = passwordHasher.HashPassword(null, "P0p0kat3!"),
+            CartId = 10
         };
 
         return new List<User>
@@ -230,7 +235,6 @@ public static class DataInitializer
             ,user3
             ,user4
             ,user5
-            ,
         };
     }
 
@@ -402,46 +406,65 @@ public static class DataInitializer
             new Cart { Id = 3,},
             new Cart { Id = 4,},
             new Cart { Id = 5,},
+            new Cart { Id = 6,},
+            new Cart { Id = 7,},
+            new Cart { Id = 8,},
+            new Cart { Id = 9,},
+            new Cart { Id = 10,}
         };
     }
     
-    private static List<BookCart> PrepareBookCartModel()
+    private static List<CartItem> PrepareCartItemModels()
     {
-        return new List<BookCart>
+        return new List<CartItem>
         {
-            new BookCart {
+            new CartItem {
+                Id = 1,
                 CartId = 1,
                 BookId = 2,
+                Count = 1
             },
-            new BookCart
+            new CartItem
             {
+                Id = 2,
                 CartId = 2,
                 BookId = 3,
+                Count = 1
             },
-            new BookCart
+            new CartItem
             {
+                Id = 3,
                 CartId = 2,
                 BookId = 1,
+                Count = 1
             },
-            new BookCart
+            new CartItem
             {
+                Id = 4,
                 CartId  = 3,
                 BookId = 1,
+                Count = 1
             },
-            new BookCart
+            new CartItem
             {
+                Id = 5,
                 CartId = 3,
                 BookId = 3,
+                Count = 1
             },
-            new BookCart
+            new CartItem
             {
+                Id = 6,
                 CartId = 4,
                 BookId = 1,
+                Count = 1
             },
-            new BookCart
+            new CartItem
             {
+                Id = 7,
                 CartId = 5,
                 BookId = 3,
+                Count = 1
             }
         };
     }
