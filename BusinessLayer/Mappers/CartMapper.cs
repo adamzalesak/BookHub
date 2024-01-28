@@ -9,5 +9,7 @@ namespace BusinessLayer.Mappers
     {
         public static partial CartModel MapToCartModel(this Cart cart);
         public static partial List<CartModel> MapToCartModelList(this ICollection<Cart> carts);
+        public static partial CartItemModel MapToCartItemModel(this CartItem cartItem);
+        public static partial List<CartItemModel> CartItemsToCartItemModels(this List<CartItem> cartItems);
     }
 }

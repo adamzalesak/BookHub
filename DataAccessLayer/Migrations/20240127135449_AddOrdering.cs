@@ -7,7 +7,7 @@
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class RefactorCart : Migration
+    public partial class AddOrdering : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,48 +53,60 @@ namespace DataAccessLayer.Migrations
                 keyColumn: "Id",
                 keyValue: "1",
                 columns: new[] { "CartId", "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { 6, "8ef1d3ae-95dc-46b3-8437-bc1f1e770d16", "AQAAAAIAAYagAAAAEDlZk2Darl5lHuWnbDeuT78WR7ztP2FXU+UJfUbzwB77DasVXtpOTPLZpqxYkN4wCw==", "3672efb2-302e-4f34-90f6-d8151dc32c35" });
+                values: new object[] { 5, "3061122c-1377-47fa-bef5-0ed284a1f5be", "AQAAAAIAAYagAAAAEGQ2pIdgZVvDtsxE80fQhjxgL+gONs7iq7FxqSNRuDCb6SE9dVms7oOWlzYrpApwow==", "ff0a8d8b-5078-4728-83c1-3457147a0804" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "2",
                 columns: new[] { "CartId", "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { 7, "a0ab4d16-75fb-49c2-8de6-fe657b9c8bcf", "AQAAAAIAAYagAAAAEKkWJNL7OcpnAE7r+iP4JJrXEwKUKXJLK+b8Yd7s33ZPt/4Tpk5y2fRFzw9VDbzcPw==", "5d4ac658-3165-4bce-8804-a36ad286419e" });
+                values: new object[] { 6, "5731d883-fdaf-42d2-9560-57109d939495", "AQAAAAIAAYagAAAAENHFX6NcZs2VJQX782KEyrV+DFMUQHd0/nHyTTH+96A/Aop+pZJW/BYKbNiyjskzZg==", "eeedfa04-f296-477e-b997-89488e94ef41" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "3",
                 columns: new[] { "CartId", "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { 8, "8d8337f1-e80d-423a-aba6-ebfe3277a9f3", "AQAAAAIAAYagAAAAEPy754XV/w+uDOkiloIepxoKyetWdGMhT0bTvkiYk648rTKcI57whzxqjF/N37O67A==", "954ec450-dfe5-4f11-b3f5-86882f44e02c" });
+                values: new object[] { 7, "1dc914a3-2c04-4424-8643-5201963293ce", "AQAAAAIAAYagAAAAENc6hTx1vuykDf1t7R4Ofhi0e64Lvjo705JihORkZYv0Hra5TuqAhBNOMFNRy3PBXg==", "5dcefa59-c6ef-462c-a434-395f2e495838" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "4",
                 columns: new[] { "CartId", "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { 9, "97bfdde7-de5c-4c32-8ee7-aa0ae7187af2", "AQAAAAIAAYagAAAAEOQmieBnAgOoFw/wE2R4Ev04e1HPGG9u3Q52jBkAIs6hHefNi2p879VGm+qbM0S20A==", "9d5a89e8-e831-448e-9e02-03b8adb36e64" });
+                values: new object[] { 8, "7e2838ce-73fc-4bd8-b042-588418d785d7", "AQAAAAIAAYagAAAAENrSoRWAP83IH77h9yaT8BDYOxZZ4TyGyufg0BQBsaO8COD3dbXdWaQPRaRq5NKIsg==", "2fa01d7c-2232-45f0-b3e8-238201c8836d" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "5",
                 columns: new[] { "CartId", "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { 10, "17d143be-7ac6-466f-9031-1489603fa7ed", "AQAAAAIAAYagAAAAEDa7A+rsfpQfEXitKX7ceP6znJapNuVXVE7Rqekzm5z7FiqRSe69yY754su7lEwx3w==", "4be8fe71-8716-491a-a9ee-8b35805291cd" });
+                values: new object[] { 9, "81b74af1-4f12-4101-99cc-834b5be2045b", "AQAAAAIAAYagAAAAEMqzAE4soxFyQJ71q0JN2uTpCl9ylFqUQ+Y7dhv/kbbkiJbFNZuoATkXDT0RE/4qsQ==", "aa89f46d-47dd-44c1-a3f7-bad4a0fda0de" });
+
+            migrationBuilder.UpdateData(
+                table: "Books",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "Count",
+                value: 1);
+
+            migrationBuilder.UpdateData(
+                table: "Books",
+                keyColumn: "Id",
+                keyValue: 3,
+                column: "Count",
+                value: 10);
 
             migrationBuilder.InsertData(
                 table: "CartItems",
                 columns: new[] { "Id", "BookId", "CartId", "Count" },
                 values: new object[,]
                 {
-                    { 1, 2, 1, 1 },
-                    { 2, 3, 2, 1 },
-                    { 3, 1, 2, 1 },
+                    { 1, 1, 1, 1 },
+                    { 2, 2, 2, 1 },
+                    { 3, 3, 3, 2 },
                     { 4, 1, 3, 1 },
-                    { 5, 3, 3, 1 },
-                    { 6, 1, 4, 1 },
-                    { 7, 3, 5, 1 }
+                    { 5, 1, 4, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -105,9 +117,29 @@ namespace DataAccessLayer.Migrations
                     6,
                     7,
                     8,
-                    9,
-                    10
+                    9
                 });
+
+            migrationBuilder.UpdateData(
+                table: "Orders",
+                keyColumn: "Id",
+                keyValue: 1,
+                columns: new[] { "Email", "UserId" },
+                values: new object[] { "pavel.novak@seznam.cz", "1" });
+
+            migrationBuilder.UpdateData(
+                table: "Orders",
+                keyColumn: "Id",
+                keyValue: 2,
+                columns: new[] { "Email", "TotalPrice", "UserId" },
+                values: new object[] { "karolina.svobodova@email.cz", 9.99m, "2" });
+
+            migrationBuilder.UpdateData(
+                table: "Orders",
+                keyColumn: "Id",
+                keyValue: 3,
+                column: "TotalPrice",
+                value: 29.97m);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_CartId",
@@ -166,11 +198,6 @@ namespace DataAccessLayer.Migrations
                 table: "Carts",
                 keyColumn: "Id",
                 keyValue: 9);
-
-            migrationBuilder.DeleteData(
-                table: "Carts",
-                keyColumn: "Id",
-                keyValue: 10);
 
             migrationBuilder.DropColumn(
                 name: "CartId",
@@ -248,6 +275,41 @@ namespace DataAccessLayer.Migrations
                     { 3, 3 },
                     { 3, 5 }
                 });
+
+            migrationBuilder.UpdateData(
+                table: "Books",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "Count",
+                value: 0);
+
+            migrationBuilder.UpdateData(
+                table: "Books",
+                keyColumn: "Id",
+                keyValue: 3,
+                column: "Count",
+                value: 0);
+
+            migrationBuilder.UpdateData(
+                table: "Orders",
+                keyColumn: "Id",
+                keyValue: 1,
+                columns: new[] { "Email", "UserId" },
+                values: new object[] { "poppar12@gmail.com", null });
+
+            migrationBuilder.UpdateData(
+                table: "Orders",
+                keyColumn: "Id",
+                keyValue: 2,
+                columns: new[] { "Email", "TotalPrice", "UserId" },
+                values: new object[] { "emmisek@zoznam.sk", 34.97m, null });
+
+            migrationBuilder.UpdateData(
+                table: "Orders",
+                keyColumn: "Id",
+                keyValue: 3,
+                column: "TotalPrice",
+                value: 17.98m);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookCart_CartId",

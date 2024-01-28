@@ -50,20 +50,6 @@ namespace WebAPI.Controllers
         }
 
         /// <summary>
-        /// Edit cart
-        /// </summary>
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult<CartModel>> EditCart([FromRoute] int id, ICollection<int> bookIds, int? orderId)
-        {
-            if ((await _cartService.EditCart(id, bookIds, orderId)).Equals(false))
-            {
-                return NotFound($"Cart with id {id} not found");
-            }
-            return Ok();
-        }
-
-
-        /// <summary>
         /// Delete cart
         /// </summary>
         [HttpDelete("{id:int}")]

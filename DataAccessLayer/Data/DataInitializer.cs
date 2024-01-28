@@ -111,6 +111,7 @@ public static class DataInitializer
                 Isbn = "978-80-87270-51-6",
                 PublisherId = 2,
                 PrimaryGenreId = 3,
+                Count = 0
             },
             new()
             {
@@ -120,6 +121,7 @@ public static class DataInitializer
                 Isbn = "978-80-7555-056-9",
                 PublisherId = 2,
                 PrimaryGenreId = 3,
+                Count = 1
             },
             new()
             {
@@ -129,6 +131,7 @@ public static class DataInitializer
                 Isbn = "978-80-0006-758-2",
                 PublisherId = 1,
                 PrimaryGenreId = 1,
+                Count = 10
             },
         };
     }
@@ -164,80 +167,7 @@ public static class DataInitializer
             },
         };
     }
-
-    private static List<User> PrepareUserModels()
-    {
-        PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
-        var user1 = new User()
-        {
-            Id = "1",
-            Name = "Pavel Novák",
-            UserName = "bookworm",
-            NormalizedUserName = "bookworm".ToUpper(),
-            Email = "pavel.novak@seznam.cz",
-            NormalizedEmail = "pavel.novak@seznam.cz".ToUpper(),
-            PasswordHash = passwordHasher.HashPassword(null, "Novicek*123"),
-            CartId = 6
-        };
-
-        var user2 = new User()
-        {
-            Id = "2",
-            Name = "Karolína Svobodová",
-            UserName = "kaja2000",
-            NormalizedUserName = "kaja2000".ToUpper(),
-            Email = "karolina.svobodova@email.cz",
-            NormalizedEmail = "karolina.svobodova@email.cz".ToUpper(),
-            PasswordHash = passwordHasher.HashPassword(null, "Mour!c3k"),
-            CartId = 7
-        };
-
-        var user3 = new User()
-        {
-            Id = "3",
-            Name = "Prokop Dlouhý",
-            UserName = "pageturner",
-            NormalizedUserName = "pageturner".ToUpper(),
-            Email = "prokop.dlouhy@gmail.com",
-            NormalizedEmail = "prokop.dlouhy@gmail.com".ToUpper(),
-            PasswordHash = passwordHasher.HashPassword(null, "Kitarista.1"),
-            CartId = 8
-        };
-
-        var user4 = new User()
-        {
-            Id = "4",
-            Name = "Tereza Jeřábková",
-            UserName = "booknerd",
-            NormalizedUserName = "booknerd".ToUpper(),
-            Email = "jerabkova.tereza@outlook.com",
-            NormalizedEmail = "jerabkova.tereza@outlook.com".ToUpper(),
-            PasswordHash = passwordHasher.HashPassword(null, "Pt4cek-Jerab"),
-            CartId = 9
-        };
-
-        var user5 = new User()
-        {
-            Id = "5",
-            Name = "Jan Jelínek",
-            UserName = "honza",
-            NormalizedUserName = "honza".ToUpper(),
-            Email = "honza.jelinek@seznam.cz",
-            NormalizedEmail = "honza.jelinek@seznam.cz".ToUpper(),
-            IsAdministrator = true,
-            PasswordHash = passwordHasher.HashPassword(null, "P0p0kat3!"),
-            CartId = 10
-        };
-
-        return new List<User>
-        {   user1
-            ,user2
-            ,user3
-            ,user4
-            ,user5
-        };
-    }
-
+    
     private static List<Review> PrepareReviewModels()
     {
         return new List<Review>
@@ -409,8 +339,7 @@ public static class DataInitializer
             new Cart { Id = 6,},
             new Cart { Id = 7,},
             new Cart { Id = 8,},
-            new Cart { Id = 9,},
-            new Cart { Id = 10,}
+            new Cart { Id = 9,}
         };
     }
     
@@ -421,22 +350,22 @@ public static class DataInitializer
             new CartItem {
                 Id = 1,
                 CartId = 1,
-                BookId = 2,
+                BookId = 1,
                 Count = 1
             },
             new CartItem
             {
                 Id = 2,
                 CartId = 2,
-                BookId = 3,
+                BookId = 2,
                 Count = 1
             },
             new CartItem
             {
                 Id = 3,
-                CartId = 2,
-                BookId = 1,
-                Count = 1
+                CartId = 3,
+                BookId = 3,
+                Count = 2
             },
             new CartItem
             {
@@ -448,24 +377,83 @@ public static class DataInitializer
             new CartItem
             {
                 Id = 5,
-                CartId = 3,
-                BookId = 3,
-                Count = 1
-            },
-            new CartItem
-            {
-                Id = 6,
-                CartId = 4,
+                CartId  = 4,
                 BookId = 1,
                 Count = 1
             },
-            new CartItem
-            {
-                Id = 7,
-                CartId = 5,
-                BookId = 3,
-                Count = 1
-            }
+        };
+    }
+    
+    private static List<User> PrepareUserModels()
+    {
+        PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
+        var user1 = new User()
+        {
+            Id = "1",
+            Name = "Pavel Novák",
+            UserName = "bookworm",
+            NormalizedUserName = "bookworm".ToUpper(),
+            Email = "pavel.novak@seznam.cz",
+            NormalizedEmail = "pavel.novak@seznam.cz".ToUpper(),
+            PasswordHash = passwordHasher.HashPassword(null, "Novicek*123"),
+            CartId = 5
+        };
+
+        var user2 = new User()
+        {
+            Id = "2",
+            Name = "Karolína Svobodová",
+            UserName = "kaja2000",
+            NormalizedUserName = "kaja2000".ToUpper(),
+            Email = "karolina.svobodova@email.cz",
+            NormalizedEmail = "karolina.svobodova@email.cz".ToUpper(),
+            PasswordHash = passwordHasher.HashPassword(null, "Mour!c3k"),
+            CartId = 6
+        };
+
+        var user3 = new User()
+        {
+            Id = "3",
+            Name = "Prokop Dlouhý",
+            UserName = "pageturner",
+            NormalizedUserName = "pageturner".ToUpper(),
+            Email = "prokop.dlouhy@gmail.com",
+            NormalizedEmail = "prokop.dlouhy@gmail.com".ToUpper(),
+            PasswordHash = passwordHasher.HashPassword(null, "Kitarista.1"),
+            CartId = 7
+        };
+
+        var user4 = new User()
+        {
+            Id = "4",
+            Name = "Tereza Jeřábková",
+            UserName = "booknerd",
+            NormalizedUserName = "booknerd".ToUpper(),
+            Email = "jerabkova.tereza@outlook.com",
+            NormalizedEmail = "jerabkova.tereza@outlook.com".ToUpper(),
+            PasswordHash = passwordHasher.HashPassword(null, "Pt4cek-Jerab"),
+            CartId = 8
+        };
+
+        var user5 = new User()
+        {
+            Id = "5",
+            Name = "Jan Jelínek",
+            UserName = "honza",
+            NormalizedUserName = "honza".ToUpper(),
+            Email = "honza.jelinek@seznam.cz",
+            NormalizedEmail = "honza.jelinek@seznam.cz".ToUpper(),
+            IsAdministrator = true,
+            PasswordHash = passwordHasher.HashPassword(null, "P0p0kat3!"),
+            CartId = 9
+        };
+
+        return new List<User>
+        {   user1
+            ,user2
+            ,user3
+            ,user4
+            ,user5
         };
     }
 
@@ -476,24 +464,26 @@ public static class DataInitializer
             new Order
             {
                 Id = 1,
-                Email = "poppar12@gmail.com",
+                Email = "pavel.novak@seznam.cz",
                 Address = "Hlavná 132, 84545, Bratislava",
                 Phone = 421958655988,
                 TotalPrice = 9.99m,
                 State = OrderState.Created,
                 Timestamp = new DateTime(2023, 1, 5),
-                CartId = 1
+                CartId = 1,
+                UserId = "1"
             },
             new Order
             {
                 Id = 2,
-                Email = "emmisek@zoznam.sk",
+                Email = "karolina.svobodova@email.cz",
                 Address = "Bukov 72, 02201, Cadca",
                 Phone = 421942333659,
-                TotalPrice = 34.97m,
+                TotalPrice = 9.99m,
                 State = OrderState.Payed,
                 Timestamp = new DateTime(2022, 1, 10),
-                CartId = 2
+                CartId = 2,
+                UserId = "2"
             },
             new Order
             {
@@ -501,7 +491,7 @@ public static class DataInitializer
                 Email = "prokop.dlouhy@gmail.com",
                 Address = "Botanická 68a, 60200, Brno",
                 Phone = 420856999824,
-                TotalPrice = 17.98m,
+                TotalPrice = 29.97m,
                 State = OrderState.Delivered,
                 Timestamp = new DateTime(2023, 7, 15),
                 CartId = 3,

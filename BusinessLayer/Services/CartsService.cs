@@ -24,6 +24,7 @@ namespace BusinessLayer.Services
             {
                 return null;
             }
+
             return cart.MapToCartModel();
         }
         
@@ -53,41 +54,49 @@ namespace BusinessLayer.Services
             var cart = await GetCartObject(id);
             if (cart == null)
             {
-                throw new NotFoundException($"Cart with cartId {id} not found");
+                throw new NotFoundException($"Cart not found");
             }
             _dbContext.Carts.Remove(cart);
             await SaveAsync();
             return true;
         }
 
-        public async Task<int> GetBookInCartCount(int cartId, int bookId)
+        public async Task<CartItemModel> GetCartItem(int cartItemId)
         {
-            var cartItem = await GetCartItem(cartId, bookId);
+            var cartItem = await _dbContext.CartItems.FirstOrDefaultAsync(ci => ci.Id == cartItemId);
             if (cartItem == null)
             {
-                throw new NotFoundException($"Book with bookId {bookId} not found in cart with cartId ${cartId} or the cart does not exist.");
+                throw new NotFoundException($"Cart item not found.");
             }
 
-            return cartItem.Count;
+            return cartItem.MapToCartItemModel();
         }
-
+        
         public async Task AddBookToCart(int cartId, int bookId)
         {
             // check to avoid putting inconsistent data into database
-            await CheckBookExistence(bookId);
+            var book = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == bookId);
+            if (book == null)
+            {
+                throw new NotFoundException($"Book not found.");
+            }
+            if (book.IsDeleted)
+            {
+                throw new InvalidOperationException($"Book is deleted.");
+            }
             
             var cart = await GetCartObject(cartId);
             if (cart == null)
             {
-                throw new NotFoundException($"Cart with cartId {cartId} not found.");
+                throw new NotFoundException($"Cart not found.");
             }
 
-            var cartItemWithBookId = cart.CartItems.FirstOrDefault(ci => ci.BookId == bookId);
+            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.BookId == bookId);
             
             // if cartItem with given bookId already exists
-            if (cartItemWithBookId != null)
+            if (cartItem != null)
             {
-                throw new InvalidOperationException($"Book with bookId {bookId} is already in cart with cartId {cartId}");
+                throw new BookAlreadyInCartException("Book is already in cart.");
             }
 
             // else create new cart item
@@ -98,42 +107,36 @@ namespace BusinessLayer.Services
                 Count = 1
             };
 
-            cart.CartItems.Add(newCartItem);
+            _dbContext.CartItems.Add(newCartItem);
             await SaveAsync();
         }
 
-        public async Task ChangeCartBookCount(int cartId, int bookId, int newCount)
+        public async Task ChangeCartItemCount(int cartItemId, int newCount)
         {
             if (newCount < 1)
             {
-                throw new ArgumentException("New book count cannot be negative or zero.");
+                throw new ArgumentException("New cart item count cannot be negative or zero.");
             }
             
-            var cartItem = await GetCartItem(cartId, bookId);
+            var cartItem = await _dbContext.CartItems.FirstOrDefaultAsync(ci => ci.Id == cartItemId);
             if (cartItem == null)
             {
-                throw new NotFoundException($"Book with bookId {bookId} not found in cart with cartId ${cartId} or the cart does not exist.");
+                throw new NotFoundException($"Cart item not found.");
             }
 
             cartItem.Count = newCount;
             await SaveAsync();
         }
-        
-        public async Task RemoveBookFromCart(int cartId, int bookId)
+
+        public async Task RemoveCartItem(int cartItemId)
         {
-            var cart = await GetCartObject(cartId);
-            if (cart == null)
+            var cartItem = await _dbContext.CartItems.FirstOrDefaultAsync(ci => ci.Id == cartItemId);
+            if (cartItem == null)
             {
-                throw new NotFoundException($"Cart with cartId {cartId} not found.");
+                throw new NotFoundException($"Cart item not found.");
             }
-
-            var cartItemWithBookId = cart.CartItems.FirstOrDefault(ci => ci.BookId == bookId);
-            if (cartItemWithBookId == null)
-            {
-                throw new NotFoundException($"Book with bookId {bookId} not found in cart with cartId ${cartId}");
-            }
-
-            cart.CartItems.Remove(cartItemWithBookId);
+            
+            _dbContext.CartItems.Remove(cartItem);
             await SaveAsync();
         }
 
@@ -149,27 +152,6 @@ namespace BusinessLayer.Services
                 .Include(c => c.CartItems)
                 .Include(c => c.Order)
                 .FirstOrDefaultAsync();
-        }
-
-        private async Task CheckBookExistence(int bookId)
-        {
-            var book = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == bookId);
-            if (book == null)
-            {
-                throw new NotFoundException($"Book with bookId {bookId} not found.");
-            }
-            if (book.IsDeleted)
-            {
-                throw new InvalidOperationException($"Book with bookId {bookId} is deleted.");
-            }
-        }
-
-        private async Task<CartItem?> GetCartItem(int cartId, int bookId)
-        {
-            return await _dbContext.Carts
-                .Where(c => c.Id == cartId)
-                .SelectMany(c => c.CartItems)
-                .FirstOrDefaultAsync(ci => ci.BookId == bookId);
         }
     }
 }

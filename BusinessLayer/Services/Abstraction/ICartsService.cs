@@ -9,9 +9,9 @@ namespace BusinessLayer.Services.Abstraction
         public Task<List<CartModel>> GetAllCarts();
         public Task<CartModel?> CreateCart(CreateCartModel createCartModel);
         public Task<bool> DeleteCart(int id);
-        public Task<int> GetBookInCartCount(int cartId, int bookId);
+        public Task<CartItemModel> GetCartItem(int cartItemId);
         public Task AddBookToCart(int cartId, int bookId);
-        public Task ChangeCartBookCount(int cartId, int bookId, int newCount);
-        public Task RemoveBookFromCart(int cartId, int bookId);
+        public Task ChangeCartItemCount(int cartItemId, int newCount);
+        public Task RemoveCartItem(int cartItemId);
     }
 }

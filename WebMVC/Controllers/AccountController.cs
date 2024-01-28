@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using WebMVC.Models.Account;
 
 namespace WebMVC.Controllers
@@ -37,7 +35,8 @@ namespace WebMVC.Controllers
                 var identityUser = new User { 
                     UserName = model.Username, 
                     Email = model.Email,
-                    Name = model.Name
+                    Name = model.Name,
+                    Cart = new Cart()
                 };
                 var result = await _userManager.CreateAsync(identityUser, model.Password);
 

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(BookHubDbContext))]
-    [Migration("20240125190239_RefactorCart")]
-    partial class RefactorCart
+    [Migration("20240127135449_AddOrdering")]
+    partial class AddOrdering
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -157,7 +157,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 2,
-                            Count = 0,
+                            Count = 1,
                             Description = "Faktomluva je kniha, která vás naučí, jak pracovat s fakty.",
                             IsDeleted = false,
                             Isbn = "978-80-7555-056-9",
@@ -168,7 +168,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 3,
-                            Count = 0,
+                            Count = 10,
                             Description = "Harry Potter a Kámen mudrců je první díl ze série knih o Harrym Potterovi.",
                             IsDeleted = false,
                             Isbn = "978-80-0006-758-2",
@@ -256,10 +256,6 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 9
-                        },
-                        new
-                        {
-                            Id = 10
                         });
                 });
 
@@ -290,23 +286,23 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            BookId = 2,
+                            BookId = 1,
                             CartId = 1,
                             Count = 1
                         },
                         new
                         {
                             Id = 2,
-                            BookId = 3,
+                            BookId = 2,
                             CartId = 2,
                             Count = 1
                         },
                         new
                         {
                             Id = 3,
-                            BookId = 1,
-                            CartId = 2,
-                            Count = 1
+                            BookId = 3,
+                            CartId = 3,
+                            Count = 2
                         },
                         new
                         {
@@ -318,22 +314,8 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 5,
-                            BookId = 3,
-                            CartId = 3,
-                            Count = 1
-                        },
-                        new
-                        {
-                            Id = 6,
                             BookId = 1,
                             CartId = 4,
-                            Count = 1
-                        },
-                        new
-                        {
-                            Id = 7,
-                            BookId = 3,
-                            CartId = 5,
                             Count = 1
                         });
                 });
@@ -427,22 +409,24 @@ namespace DataAccessLayer.Migrations
                             Id = 1,
                             Address = "Hlavná 132, 84545, Bratislava",
                             CartId = 1,
-                            Email = "poppar12@gmail.com",
+                            Email = "pavel.novak@seznam.cz",
                             Phone = 421958655988L,
                             State = 0,
                             Timestamp = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TotalPrice = 9.99m
+                            TotalPrice = 9.99m,
+                            UserId = "1"
                         },
                         new
                         {
                             Id = 2,
                             Address = "Bukov 72, 02201, Cadca",
                             CartId = 2,
-                            Email = "emmisek@zoznam.sk",
+                            Email = "karolina.svobodova@email.cz",
                             Phone = 421942333659L,
                             State = 2,
                             Timestamp = new DateTime(2022, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TotalPrice = 34.97m
+                            TotalPrice = 9.99m,
+                            UserId = "2"
                         },
                         new
                         {
@@ -453,7 +437,7 @@ namespace DataAccessLayer.Migrations
                             Phone = 420856999824L,
                             State = 3,
                             Timestamp = new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TotalPrice = 17.98m,
+                            TotalPrice = 29.97m,
                             UserId = "3"
                         },
                         new
@@ -864,18 +848,18 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8ef1d3ae-95dc-46b3-8437-bc1f1e770d16",
+                            ConcurrencyStamp = "3061122c-1377-47fa-bef5-0ed284a1f5be",
                             Email = "pavel.novak@seznam.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "PAVEL.NOVAK@SEZNAM.CZ",
                             NormalizedUserName = "BOOKWORM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDlZk2Darl5lHuWnbDeuT78WR7ztP2FXU+UJfUbzwB77DasVXtpOTPLZpqxYkN4wCw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGQ2pIdgZVvDtsxE80fQhjxgL+gONs7iq7FxqSNRuDCb6SE9dVms7oOWlzYrpApwow==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3672efb2-302e-4f34-90f6-d8151dc32c35",
+                            SecurityStamp = "ff0a8d8b-5078-4728-83c1-3457147a0804",
                             TwoFactorEnabled = false,
                             UserName = "bookworm",
-                            CartId = 6,
+                            CartId = 5,
                             IsAdministrator = false,
                             Name = "Pavel Novák"
                         },
@@ -883,18 +867,18 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a0ab4d16-75fb-49c2-8de6-fe657b9c8bcf",
+                            ConcurrencyStamp = "5731d883-fdaf-42d2-9560-57109d939495",
                             Email = "karolina.svobodova@email.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "KAROLINA.SVOBODOVA@EMAIL.CZ",
                             NormalizedUserName = "KAJA2000",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKkWJNL7OcpnAE7r+iP4JJrXEwKUKXJLK+b8Yd7s33ZPt/4Tpk5y2fRFzw9VDbzcPw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENHFX6NcZs2VJQX782KEyrV+DFMUQHd0/nHyTTH+96A/Aop+pZJW/BYKbNiyjskzZg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5d4ac658-3165-4bce-8804-a36ad286419e",
+                            SecurityStamp = "eeedfa04-f296-477e-b997-89488e94ef41",
                             TwoFactorEnabled = false,
                             UserName = "kaja2000",
-                            CartId = 7,
+                            CartId = 6,
                             IsAdministrator = false,
                             Name = "Karolína Svobodová"
                         },
@@ -902,18 +886,18 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = "3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8d8337f1-e80d-423a-aba6-ebfe3277a9f3",
+                            ConcurrencyStamp = "1dc914a3-2c04-4424-8643-5201963293ce",
                             Email = "prokop.dlouhy@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "PROKOP.DLOUHY@GMAIL.COM",
                             NormalizedUserName = "PAGETURNER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPy754XV/w+uDOkiloIepxoKyetWdGMhT0bTvkiYk648rTKcI57whzxqjF/N37O67A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENc6hTx1vuykDf1t7R4Ofhi0e64Lvjo705JihORkZYv0Hra5TuqAhBNOMFNRy3PBXg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "954ec450-dfe5-4f11-b3f5-86882f44e02c",
+                            SecurityStamp = "5dcefa59-c6ef-462c-a434-395f2e495838",
                             TwoFactorEnabled = false,
                             UserName = "pageturner",
-                            CartId = 8,
+                            CartId = 7,
                             IsAdministrator = false,
                             Name = "Prokop Dlouhý"
                         },
@@ -921,18 +905,18 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = "4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "97bfdde7-de5c-4c32-8ee7-aa0ae7187af2",
+                            ConcurrencyStamp = "7e2838ce-73fc-4bd8-b042-588418d785d7",
                             Email = "jerabkova.tereza@outlook.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "JERABKOVA.TEREZA@OUTLOOK.COM",
                             NormalizedUserName = "BOOKNERD",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOQmieBnAgOoFw/wE2R4Ev04e1HPGG9u3Q52jBkAIs6hHefNi2p879VGm+qbM0S20A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENrSoRWAP83IH77h9yaT8BDYOxZZ4TyGyufg0BQBsaO8COD3dbXdWaQPRaRq5NKIsg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9d5a89e8-e831-448e-9e02-03b8adb36e64",
+                            SecurityStamp = "2fa01d7c-2232-45f0-b3e8-238201c8836d",
                             TwoFactorEnabled = false,
                             UserName = "booknerd",
-                            CartId = 9,
+                            CartId = 8,
                             IsAdministrator = false,
                             Name = "Tereza Jeřábková"
                         },
@@ -940,18 +924,18 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = "5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "17d143be-7ac6-466f-9031-1489603fa7ed",
+                            ConcurrencyStamp = "81b74af1-4f12-4101-99cc-834b5be2045b",
                             Email = "honza.jelinek@seznam.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "HONZA.JELINEK@SEZNAM.CZ",
                             NormalizedUserName = "HONZA",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDa7A+rsfpQfEXitKX7ceP6znJapNuVXVE7Rqekzm5z7FiqRSe69yY754su7lEwx3w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMqzAE4soxFyQJ71q0JN2uTpCl9ylFqUQ+Y7dhv/kbbkiJbFNZuoATkXDT0RE/4qsQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4be8fe71-8716-491a-a9ee-8b35805291cd",
+                            SecurityStamp = "aa89f46d-47dd-44c1-a3f7-bad4a0fda0de",
                             TwoFactorEnabled = false,
                             UserName = "honza",
-                            CartId = 10,
+                            CartId = 9,
                             IsAdministrator = true,
                             Name = "Jan Jelínek"
                         });

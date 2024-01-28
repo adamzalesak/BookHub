@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Services;
+﻿using BusinessLayer.Facades;
+using BusinessLayer.Services;
 using BusinessLayer.Services.Abstraction;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ namespace WebMVC
             services.AddScoped<ICartsService, CartsService>();
             services.AddScoped<IPricesService, PricesService>();
             services.AddScoped<IOrdersService, OrdersService>();
+            services.AddScoped<IOrderFacade, OrderFacade>();
 
             return services;
         }

@@ -63,8 +63,20 @@
         <div>
             <b>In Stock:</b> @book.Count
         </div>
-
-        <button class="btn btn-primary">Add to Cart</button>
+        
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            @if (Model.Count > 0)
+            {
+                <form method="post" action="@Url.Action("AddBookToCart", "Cart", new { bookId = Model.Id })">
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
+            }
+        }
+        else
+        {
+            <span>Sign in to be able to add this book to cart.</span>
+        }
     </div>
 </div>
 <div class="d-flex">
