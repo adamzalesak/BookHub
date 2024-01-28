@@ -20,7 +20,7 @@ public static class MockedDbContext
 
     public static BookHubDbContext CreateFromOptions(DbContextOptions<BookHubDbContext> options)
     {
-        var dbContextToMock = new BookHubDbContext(options);
+        var dbContextToMock = new BookHubDbContext(options, true);
 
         var dbContext = new MockedDbContextBuilder<BookHubDbContext>()
             .UseDbContext(dbContextToMock)

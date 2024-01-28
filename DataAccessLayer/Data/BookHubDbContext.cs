@@ -18,8 +18,13 @@ public sealed class BookHubDbContext : IdentityDbContext
     public DbSet<Genre> Genres { get; set; }
     public DbSet<BookGenre> BookGenres { get; set; }
 
-    public BookHubDbContext(DbContextOptions<BookHubDbContext> options) : base(options)
+    public BookHubDbContext(DbContextOptions<BookHubDbContext> options, bool inMemory = false) : base(options)
     {
+        if (inMemory)
+        {
+            return;
+        }
+
         Database.Migrate();
     }
     
