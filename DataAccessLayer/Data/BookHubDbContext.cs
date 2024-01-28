@@ -18,16 +18,16 @@ public sealed class BookHubDbContext : IdentityDbContext
     public DbSet<Genre> Genres { get; set; }
     public DbSet<BookGenre> BookGenres { get; set; }
 
-    public BookHubDbContext(DbContextOptions<BookHubDbContext> options, bool inMemory = false) : base(options)
+    public BookHubDbContext(DbContextOptions<BookHubDbContext> options) : base(options)
     {
-        if (inMemory)
-        {
-            return;
-        }
+    }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
         Database.Migrate();
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
