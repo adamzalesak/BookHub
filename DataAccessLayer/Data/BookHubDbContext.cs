@@ -4,28 +4,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Data;
 
-public sealed class BookHubDbContext : IdentityDbContext
+public class BookHubDbContext : IdentityDbContext
 {
-    public DbSet<Book> Books { get; set; }
-    public DbSet<Author> Authors { get; set; }
-    public DbSet<AuthorBook> AuthorBooks { get; set; }
-    public DbSet<Publisher> Publishers { get; set; }
-    public DbSet<Order> Orders { get; set; }
-    public DbSet<Price> Prices { get; set; }
-    public DbSet<Cart> Carts { get; set; }
-    public DbSet<User> AppUsers { get; set; }
-    public DbSet<Review> Reviews { get; set; }
-    public DbSet<Genre> Genres { get; set; }
-    public DbSet<BookGenre> BookGenres { get; set; }
+    public virtual DbSet<Book> Books { get; set; }
+    public virtual DbSet<Author> Authors { get; set; }
+    public virtual DbSet<AuthorBook> AuthorBooks { get; set; }
+    public virtual DbSet<Publisher> Publishers { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<Price> Prices { get; set; }
+    public virtual DbSet<Cart> Carts { get; set; }
+    public virtual DbSet<User> AppUsers { get; set; }
+    public virtual DbSet<Review> Reviews { get; set; }
+    public virtual DbSet<Genre> Genres { get; set; }
+    public virtual DbSet<BookGenre> BookGenres { get; set; }
 
     public BookHubDbContext(DbContextOptions<BookHubDbContext> options) : base(options)
     {
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-        Database.Migrate();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
