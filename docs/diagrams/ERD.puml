@@ -52,9 +52,11 @@ Entity Cart {
  * id : integer <<generated>>
 }
 
-Entity BookCart {
+Entity CartItem {
+ * id: integer <<generated>>
  * bookId : integer <<FK>>
  * cartId : integer <<FK>>
+ * count: integer
 }
 
 Entity Order {
@@ -67,7 +69,7 @@ Entity Order {
  * state : enum
  * timeStamp : timestamp
  * cartId : integer <<FK>>
- userId : number <<FK>>
+ * userId : number <<FK>>
 }
 
 Entity User {
@@ -77,6 +79,7 @@ Entity User {
  * email : text
  * name : text
  * isAdministrator : boolean
+ * cartId: integer <<FK>>
 }
 
 Entity Review {
@@ -94,10 +97,11 @@ Publisher ||..o{ Book
 Author ||..o{ BookAuthor
 Book ||..|{ BookAuthor
 Book ||..|{ Price
-Book ||..o{ BookCart
-Cart ||..o{ BookCart
+Book ||..o{ CartItem
+Cart ||..o{ CartItem
 Order |o..|| Cart
-User |o..o{ Order
+User ||..o{ Order
 User ||..o{ Review
 Book ||..o{ Review
+User |o..|| Cart
 @enduml

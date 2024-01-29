@@ -1,25 +1,19 @@
 @startuml use_case_diagram
 left to right direction
 
-actor "User" as user
 actor "Guest user" as guest_user
 actor "Logged in user" as logged_user
 
-user <|-- guest_user
-user <|-- logged_user
+guest_user <|-- logged_user
 
 rectangle BookHub {
     usecase "Browse books" as browse_books
     usecase "Search for books" as search_books
-    usecase "Search by name" as by_name
+    usecase "Search for genres" as search_genres
+    usecase "Search for publishers" as search_publishers
     usecase "Filter books" as filter_books
-    usecase "Filter by author" as by_author
     usecase "Filter by publisher" as by_publisher
     usecase "Filter by genre" as by_genre
-    usecase "Sort books" as sort_books
-    usecase "Sort by price" as by_price
-    usecase "Sort by rating" as by_rating
-    usecase "Sort by date of publication" as by_date
     usecase "Add book to cart" as add_to_cart
     usecase "Change quantity" as change_quantity
     usecase "Remove book from cart" as remove_from_cart
@@ -30,48 +24,41 @@ rectangle BookHub {
     usecase "Create account" as create_account
 
     usecase "Logout" as logout
-    usecase "Change account details" as change_account_details
     usecase "View purchase history" as view_history
     usecase "Rate books" as rate_books
-    usecase "CRUD wishlist" as crud_wishlist
-    usecase "Add books to wishlist" as add_to_wishlist
+    
+    usecase "Edit books" as edit_books
+    usecase "Edit genres" as edit_genres
+    usecase "Edit publishers" as edit_publishers
+    usecase "Edit orders" as edit_orders
+
 }
 
-user --> browse_books
+guest_user --> browse_books
 browse_books <|-- search_books
+browse_books <|-- search_genres
+browse_books <|-- search_publishers
 browse_books <|-- filter_books
-browse_books <|-- sort_books
-search_books <|-- by_name
-filter_books <|-- by_author
 filter_books <|-- by_publisher
 filter_books <|-- by_genre
-sort_books <|-- by_price
-sort_books <|-- by_rating
-sort_books <|-- by_date
 
-user --> add_to_cart
+logged_user --> add_to_cart
 add_to_cart <|-- change_quantity
-user --> remove_from_cart
-user --> purchase_cart
+logged_user --> remove_from_cart
+logged_user --> purchase_cart
 purchase_cart <|-- fill_order_details
 
 guest_user --> login
 guest_user --> create_account
 
 logged_user --> logout
-logged_user --> change_account_details
 logged_user --> view_history
 logged_user --> rate_books
-logged_user --> crud_wishlist
-logged_user --> add_to_wishlist
 
 actor "Administrator" as admin
 
-rectangle AdminPanel {
-    usecase "CRUD books" as crud_books
-    usecase "CRUD users" as crud_users
-}
-
-admin --> crud_books
-admin --> crud_users
+admin --> edit_books
+admin --> edit_genres
+admin --> edit_publishers
+admin --> edit_orders
 @enduml
