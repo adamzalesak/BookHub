@@ -20,6 +20,10 @@ public class BookHubDbContext : IdentityDbContext
 
     public BookHubDbContext(DbContextOptions<BookHubDbContext> options) : base(options)
     {
+        if (Database?.IsRelational() ?? false)
+        {
+            Database.Migrate();
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
