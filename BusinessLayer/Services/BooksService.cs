@@ -39,10 +39,6 @@ public class BooksService : IBooksService
 
         var totalCount = await booksQuery
             .Where(x => x.IsDeleted == false)
-            .Include(b => b.Publisher)
-            .Include(b => b.Authors)
-            .Include(b => b.Prices)
-            .Include(b => b.Genres)
             .CountAsync();
 
         return new BookPaginationModel()
