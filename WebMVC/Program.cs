@@ -40,10 +40,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Account/Login";
 });
 
-
-
-
-
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

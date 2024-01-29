@@ -8,8 +8,8 @@ namespace BusinessLayer.Models.Order
         public string Address { get; set; }
         public long Phone { get; set; }
         public OrderState State { get; set; }
-        public decimal TotalPrice { get; set; }
+        public decimal? TotalPrice { get; set; }
         public int CartId { get; set; }
-        public String? UserId { get; set; }
+        public String UserId { get; set; }
     }
 }

@@ -13,6 +13,7 @@ public class BookHubDbContext : IdentityDbContext
     public virtual DbSet<Order> Orders { get; set; }
     public virtual DbSet<Price> Prices { get; set; }
     public virtual DbSet<Cart> Carts { get; set; }
+    public virtual DbSet<CartItem> CartItems { get; set; } 
     public virtual DbSet<User> AppUsers { get; set; }
     public virtual DbSet<Review> Reviews { get; set; }
     public virtual DbSet<Genre> Genres { get; set; }
@@ -39,6 +40,8 @@ public class BookHubDbContext : IdentityDbContext
             .HasQueryFilter(p => !p.Book.IsDeleted);
         modelBuilder.Entity<Review>()
             .HasQueryFilter(r => !r.Book.IsDeleted);
+        modelBuilder.Entity<CartItem>()
+            .HasQueryFilter(ci => !ci.Book.IsDeleted);
 
         modelBuilder.Entity<Book>()
             .HasMany(b => b.Authors)
@@ -55,11 +58,15 @@ public class BookHubDbContext : IdentityDbContext
             .WithMany()
             .HasForeignKey(b => b.PrimaryGenreId);
         
-        modelBuilder.Entity<Cart>()
-            .HasMany(c => c.Books)
+        modelBuilder.Entity<CartItem>()
+            .HasOne(ci => ci.Cart)
+            .WithMany(c => c.CartItems)
+            .HasForeignKey(ci => ci.CartId);
+
+        modelBuilder.Entity<CartItem>()
+            .HasOne(ci => ci.Book)
             .WithMany()
-            .UsingEntity<BookCart>();
-        
+            .HasForeignKey(ci => ci.BookId);
 
         modelBuilder.Seed();
 

@@ -1,19 +1,18 @@
 @using WebMVC.Models.Books;
 @model CombinedBookReviewViewModel
 @{
-    var book = Model.BookViewModel;
-    ViewBag.Title = book.Name;
+    ViewBag.Title = Model.BookViewModel.Name;
     Layout = "_Layout";
 }
 
-<h2>📘 @book.Name</h2>
+<h2>📘 @Model.BookViewModel.Name</h2>
 <div class="d-flex">
     <div class="d-flex flex-column gap-3">
         <div>
             <b>Authors:</b>
             <ul>
                 @{
-                    foreach (var author in book.Authors)
+                    foreach (var author in Model.BookViewModel.Authors)
                     {
                         <li>@author</li>
                     }
@@ -22,14 +21,14 @@
         </div>
 
         <div>
-            <b>Primary Genre:</b> @book.PrimaryGenre
+            <b>Primary Genre:</b> @Model.BookViewModel.PrimaryGenre
         </div>
 
         <div>
             <b>Genres:</b>
             <ul>
                 @{
-                    foreach (var genre in book.Genres)
+                    foreach (var genre in Model.BookViewModel.Genres)
                     {
                         <li>@genre</li>
                     }
@@ -39,39 +38,51 @@
 
 
         <div>
-            <b>Publisher:</b> @book.Publisher
+            <b>Publisher:</b> @Model.BookViewModel.Publisher
         </div>
 
         <div>
-            <b>ISBN:</b> @book.Isbn
+            <b>ISBN:</b> @Model.BookViewModel.Isbn
         </div>
 
         <div>
             <b>Description:</b>
             <p>
-                @book.Description
+                @Model.BookViewModel.Description
             </p>
         </div>
     </div>
 
     <div class="d-flex flex-column gap-3">
         <div>
-            <b>Price:</b> @book.Price €
+            <b>Price:</b> @Model.BookViewModel.Price €
         </div>
 
 
         <div>
-            <b>In Stock:</b> @book.Count
+            <b>In Stock:</b> @Model.BookViewModel.Count
         </div>
-
-        <button class="btn btn-primary">Add to Cart</button>
+        
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            if (Model.BookViewModel.Count > 0)
+            {
+                <form method="post" action="@Url.Action("AddBookToCart", "Cart", new { bookId = Model.BookViewModel.Id })">
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
+            }
+        }
+        else
+        {
+            <span>Sign in to be able to add this book to cart.</span>
+        }
     </div>
 </div>
 <div class="d-flex">
     <b>Reviews:</b>
     <ul>
         @{
-            foreach (var review in book.Reviews)
+            foreach (var review in Model.BookViewModel.Reviews)
             {
                 <li>
                     <div>

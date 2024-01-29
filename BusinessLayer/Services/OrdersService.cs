@@ -117,7 +117,9 @@ namespace BusinessLayer.Services
         {
             var orders = await _dbContext.Orders
                 .Where(o => o.UserId == userId)
-                .Include(o => o.Cart.Books)
+                .Include(o => o.Cart)
+                .ThenInclude(c => c.CartItems)
+                .ThenInclude(ci => ci.Book)
                 .ToListAsync();
             var models = orders.Select(order => new UserOrdersModel()
             {
@@ -125,7 +127,7 @@ namespace BusinessLayer.Services
                 TotalPrice = order.TotalPrice,
                 Timestamp = order.Timestamp,
                 State = order.State,
-                Books = order.Cart.Books.Select(book => book.Name).ToList()
+                Books = order.Cart.CartItems.Select(ci => ci.Book.Name).ToList()
             }).ToList();
             return models;
         }
