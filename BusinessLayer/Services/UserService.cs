@@ -37,7 +37,7 @@ public class UserService : IUserService
         user.UserName = model.UserName ?? user.UserName;
         user.Email = model.Email ?? user.Email;
         user.IsAdministrator = model.IsAdministrator ?? user.IsAdministrator;
-        user.CartId = model.cartId ?? user.CartId;
+        user.CartId = model.CartId ?? user.CartId;
 
         await SaveAsync();
         

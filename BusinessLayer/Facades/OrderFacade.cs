@@ -4,7 +4,6 @@ using BusinessLayer.Models.Cart;
 using BusinessLayer.Models.Order;
 using BusinessLayer.Models.User;
 using BusinessLayer.Services.Abstraction;
-using DataAccessLayer.Models;
 
 namespace BusinessLayer.Facades;
 
@@ -177,7 +176,7 @@ public class OrderFacade : IOrderFacade
         
         var editUserModel = new EditUserModel()
         {
-            cartId = newCart.Id
+            CartId = newCart.Id
         };
         var editResult = await _userService.EditUserAsync(model.UserId, editUserModel);
         if (editResult == null)
