@@ -43,6 +43,9 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddConfiguration(builder.Configuration.GetConnectionString("SqliteConnectionString") ??
                                   throw new InvalidOperationException("SqliteConnectionString is null"));
+
+builder.Services.AddMemoryCache();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
